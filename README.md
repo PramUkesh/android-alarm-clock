@@ -1,2 +1,2 @@
-example-android-clock
+Example application - Clock with gamification mechanisms
 =====================
