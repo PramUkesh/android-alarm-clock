@@ -1046,21 +1046,26 @@ containing a value of this type.
         public static final int abs__title=0x7f06001b;
         public static final int abs__up=0x7f06000b;
         public static final int button_login=0x7f060035;
+        public static final int button_new_user=0x7f060037;
+        public static final int checkbox=0x7f06003b;
         public static final int disableHome=0x7f060009;
         public static final int edit_query=0x7f060026;
-        public static final int fragment_container=0x7f060036;
+        public static final int fragment_container=0x7f060038;
         public static final int homeAsUp=0x7f060006;
         public static final int listMode=0x7f060002;
         public static final int normal=0x7f060001;
-        public static final int pager=0x7f060037;
+        public static final int pager=0x7f060039;
         public static final int showCustom=0x7f060008;
         public static final int showHome=0x7f060005;
         public static final int showTitle=0x7f060007;
         public static final int tabMode=0x7f060003;
+        public static final int text_day=0x7f06003c;
         public static final int text_edit_name=0x7f060033;
         public static final int text_edit_password=0x7f060034;
-        public static final int text_view_fragment_name=0x7f060038;
+        public static final int text_time=0x7f06003d;
+        public static final int text_view_fragment_name=0x7f06003a;
         public static final int text_view_login_prompt=0x7f060032;
+        public static final int text_view_no_account_prompt=0x7f060036;
         public static final int useLogo=0x7f060004;
         public static final int wrap_content=0x7f060000;
     }
@@ -1094,11 +1099,12 @@ containing a value of this type.
         public static final int activity_user=0x7f030017;
         public static final int fragment_achievements=0x7f030018;
         public static final int fragment_alarms=0x7f030019;
-        public static final int fragment_general=0x7f03001a;
-        public static final int fragment_leaderboard=0x7f03001b;
-        public static final int fragment_notifications=0x7f03001c;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001d;
-        public static final int sherlock_spinner_item=0x7f03001e;
+        public static final int fragment_alarms_item=0x7f03001a;
+        public static final int fragment_general=0x7f03001b;
+        public static final int fragment_leaderboard=0x7f03001c;
+        public static final int fragment_notifications=0x7f03001d;
+        public static final int sherlock_spinner_dropdown_item=0x7f03001e;
+        public static final int sherlock_spinner_item=0x7f03001f;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1141,19 +1147,21 @@ containing a value of this type.
          */
         public static final int abs__shareactionprovider_share_with_application=0x7f04000b;
         public static final int activity_login_button_login=0x7f040013;
+        public static final int activity_login_button_new_user=0x7f040014;
         /**  LoginActivity 
          */
         public static final int activity_login_text_hint_name=0x7f040011;
         public static final int activity_login_text_hint_password=0x7f040012;
-        public static final int activity_login_text_login_prompt=0x7f040014;
-        public static final int activity_user_menu_user_profile=0x7f04001a;
-        public static final int activity_user_tab_name_achievements=0x7f040017;
-        public static final int activity_user_tab_name_alarms=0x7f040016;
+        public static final int activity_login_text_login_prompt=0x7f040015;
+        public static final int activity_login_text_no_account_prompt=0x7f040016;
+        public static final int activity_user_menu_logout=0x7f04001c;
+        public static final int activity_user_tab_name_achievements=0x7f040019;
+        public static final int activity_user_tab_name_alarms=0x7f040018;
         /**  UserActivity 
          */
-        public static final int activity_user_tab_name_general=0x7f040015;
-        public static final int activity_user_tab_name_leaderboard=0x7f040018;
-        public static final int activity_user_tab_name_notifications=0x7f040019;
+        public static final int activity_user_tab_name_general=0x7f040017;
+        public static final int activity_user_tab_name_leaderboard=0x7f04001a;
+        public static final int activity_user_tab_name_notifications=0x7f04001b;
         public static final int alert_dialog_ok=0x7f040003;
         public static final int alert_dialog_text=0x7f040002;
         /**  alert dialog 
@@ -1162,19 +1170,23 @@ containing a value of this type.
         public static final int app_name=0x7f040000;
         /**  AchievementsFragment 
          */
-        public static final int fragment_achievements_fragment_name=0x7f04001d;
+        public static final int fragment_achievements_fragment_name=0x7f040023;
+        public static final int fragment_alarms_button_add=0x7f040022;
         /**  AlarmsFragment 
          */
-        public static final int fragment_alarms_fragment_name=0x7f04001c;
+        public static final int fragment_alarms_fragment_name=0x7f04001e;
+        public static final int fragment_alarms_image_desc=0x7f040021;
+        public static final int fragment_alarms_item_default_day=0x7f04001f;
+        public static final int fragment_alarms_item_default_time=0x7f040020;
         /**  GeneralFragment 
          */
-        public static final int fragment_general_fragment_name=0x7f04001b;
+        public static final int fragment_general_fragment_name=0x7f04001d;
         /**  LeaderboardFragment 
          */
-        public static final int fragment_leaderboard_fragment_name=0x7f04001e;
+        public static final int fragment_leaderboard_fragment_name=0x7f040024;
         /**  NotificationsFragment 
          */
-        public static final int fragment_notifications_fragment_name=0x7f04001f;
+        public static final int fragment_notifications_fragment_name=0x7f040025;
     }
     public static final class style {
         /** 

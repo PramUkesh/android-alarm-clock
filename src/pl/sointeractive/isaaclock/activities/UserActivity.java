@@ -3,8 +3,10 @@ package pl.sointeractive.isaaclock.activities;
 import java.util.ArrayList;
 
 import pl.sointeractive.isaaclock.R;
+import pl.sointeractive.isaaclock.data.UserData;
 import pl.sointeractive.isaaclock.fragments.AchievementsFragment;
 import pl.sointeractive.isaaclock.fragments.AlarmsFragment;
+import pl.sointeractive.isaaclock.fragments.GeneralFragment;
 import pl.sointeractive.isaaclock.fragments.LeaderboardFragment;
 import pl.sointeractive.isaaclock.fragments.NotificationsFragment;
 import android.content.Context;
@@ -21,21 +23,25 @@ import android.widget.TabWidget;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.SubMenu;
 
 /**
- * Demonstrates combining a TabHost with a ViewPager to implement a tab UI that
+ * Demonstrates combining a TabHost with a ViewPager to implement a tab UI that,
  * switches between tabs and also allows the user to perform horizontal flicks
  * to move between the tabs.
  */
+
 public class UserActivity extends SherlockFragmentActivity {
-	TabHost mTabHost;
-	ViewPager mViewPager;
-	TabsAdapter mTabsAdapter;
+	private TabHost mTabHost;
+	private ViewPager mViewPager;
+	private TabsAdapter mTabsAdapter;
+	
+	private UserData userData;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		userData = new UserData();
 
 		setContentView(R.layout.activity_user);
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
@@ -48,7 +54,7 @@ public class UserActivity extends SherlockFragmentActivity {
 		mTabsAdapter.addTab(
 				mTabHost.newTabSpec("general").setIndicator(null,
 						getResources().getDrawable(R.drawable.ic_menu_cc_am)),
-				AlarmsFragment.class, null);
+				GeneralFragment.class, null);
 		mTabsAdapter.addTab(
 				mTabHost.newTabSpec("alarms").setIndicator(
 						null,
@@ -80,6 +86,7 @@ public class UserActivity extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(R.string.activity_user_menu_logout);
 		return true;
 	}
 
@@ -92,6 +99,15 @@ public class UserActivity extends SherlockFragmentActivity {
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString("tab", mTabHost.getCurrentTabTag());
+	}
+	
+	@Override
+	public void onBackPressed() {
+	   finish();
+	}
+
+	public UserData getUserData() {
+		return userData;
 	}
 
 	/**

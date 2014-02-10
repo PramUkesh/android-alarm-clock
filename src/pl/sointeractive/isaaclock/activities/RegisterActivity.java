@@ -10,10 +10,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class LoginActivity extends Activity {
+public class RegisterActivity  extends Activity {
 
 	Button buttonLogin;
-	Button buttonNewUser;
 	EditText textName, textPassword;
 	Context context;
 
@@ -27,33 +26,15 @@ public class LoginActivity extends Activity {
 		buttonLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				login();
-			}
-		});
-		
-		buttonNewUser = (Button) findViewById(R.id.button_new_user);
-		buttonNewUser.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				newUser();
+				Intent intent = new Intent(context, UserActivity.class);
+				startActivity(intent);
 			}
 		});
 
 	}
 	
 	private void login(){
-		// login process
-		startUserActivity();
-	}
-	
-	private void newUser(){
-		// register process
-		startUserActivity();
-	}
-	
-	private void startUserActivity(){
-		Intent intent = new Intent(context, UserActivity.class);
-		startActivity(intent);
+		
 	}
 	
 	@Override
