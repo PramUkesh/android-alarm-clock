@@ -1148,7 +1148,18 @@ containing a value of this type.
         public static final int abs__shareactionprovider_share_with_application=0x7f04000b;
         public static final int activity_login_button_login=0x7f040013;
         public static final int activity_login_button_new_user=0x7f040014;
-        /**  LoginActivity 
+        /**  Random data 
+ 
+    <string name="day_monday">Mon</string>
+    <string name="day_tueasday">Tue</string>
+    <string name="day_wednesday">Wed</string>
+    <string name="day_thursday">Thu</string>
+    <string name="day_friday">Fri</string>
+    <string name="day_saturday">Sat</string>
+    <string name="day_sunday">Sun</string>
+    <string name="time_not_set">No alarm</string>
+     
+ LoginActivity 
          */
         public static final int activity_login_text_hint_name=0x7f040011;
         public static final int activity_login_text_hint_password=0x7f040012;

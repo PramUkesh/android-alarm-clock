@@ -1,6 +1,10 @@
 package pl.sointeractive.isaaclock.data;
 
-public class Alarm {
+import java.io.Serializable;
+
+public class Alarm implements Serializable{
+	
+	private static final long serialVersionUID = 3779821744568481486L;
 	private String day;
 	private String time;
 	private boolean active;
@@ -33,5 +37,9 @@ public class Alarm {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	
+	public String print(){
+		return "Alarm: "+day+" "+time + " " + active;
 	}
 }

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,7 +122,7 @@ public class UserActivity extends SherlockFragmentActivity {
 	 * switch to the correct paged in the ViewPager whenever the selected tab
 	 * changes.
 	 */
-	public static class TabsAdapter extends FragmentPagerAdapter implements
+	public static class TabsAdapter extends FragmentStatePagerAdapter implements
 			TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
 		private final Context mContext;
 		private final TabHost mTabHost;

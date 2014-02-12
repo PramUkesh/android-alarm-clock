@@ -6,6 +6,7 @@ import java.util.Calendar;
 import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.activities.UserActivity;
 import pl.sointeractive.isaaclock.data.Alarm;
+import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.UserData;
 import android.app.Activity;
 import android.app.TimePickerDialog;
@@ -17,6 +18,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,52 +32,63 @@ public class AlarmsFragment extends SherlockListFragment {
 
 	UserActivity context;
 	AlarmAdapter alarmAdapter;
-
-	// ListView listView;
-	// ImageButton addButton;
+	ArrayList<Alarm> alarmList;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		context = (UserActivity) getSherlockActivity();
-		// listView = (ListView)
-		// context.findViewById(R.id.fragment_alarms_listview);
 
-		// temporary alarmlist creation, will be replaced later
-		ArrayList<Alarm> alarmList = new ArrayList<Alarm>();
-		alarmList.add(new Alarm("Mon", "07:00", false));
-		alarmList.add(new Alarm("Tue", "07:00", false));
-		alarmList.add(new Alarm("Wed", "07:00", false));
-		alarmList.add(new Alarm("Thu", "07:00", false));
-		alarmList.add(new Alarm("Fri", "07:00", false));
-		alarmList.add(new Alarm("Sat", "07:00", false));
-		alarmList.add(new Alarm("Sun", "07:00", false));
-		
-		new UserData();
+		alarmList = App.loadUserData().getAlarms();
+		alarmAdapter = new AlarmAdapter(alarmList);
 
-		alarmAdapter = new AlarmAdapter(UserData.getAlarms());
-
-		// listView.setAdapter(alarmAdapter);
 		setListAdapter(alarmAdapter);
 		return inflater.inflate(R.layout.fragment_alarms, container, false);
 	}
-	
-	public void setTime(final int dayIndex){
+
+	public void onAlarmStateChanged(int dayIndex, boolean active) {
+		Log.d("onAlarmStateChanged", "1");
+		final UserData userData = App.loadUserData();
+		Log.d("onAlarmStateChanged", "2");
+		userData.setAlarm(dayIndex, active);
+		Log.d("onAlarmStateChanged", "3");
+		alarmList = userData.getAlarms();
+		Log.d("onAlarmStateChanged", "4");
+		getActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Log.d("onAlarmStateChanged", "5");
+				alarmAdapter.notifyDataSetChanged();
+			}
+		});
+		Log.d("onAlarmStateChanged", "6");
+		App.saveUserData(userData);
+	}
+
+	public void setTime(final int dayIndex) {
 		Log.d("TEST", "touch");
-		TimePickerDialog.OnTimeSetListener timePickerListener= 
-	            new TimePickerDialog.OnTimeSetListener() {
+		final UserData userData = App.loadUserData();
+		TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
 			public void onTimeSet(TimePicker view, int selectedHour,
 					int selectedMinute) {
-				UserData.setAlarm(dayIndex, ""+selectedHour+":"+selectedMinute, true);
-				// set current time into textview
-				
-	 
+				userData.setAlarm(dayIndex, "" + selectedHour + ":"
+						+ selectedMinute, false);
+				alarmList = userData.getAlarms();
+				getActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						alarmAdapter.notifyDataSetChanged();
+					}
+				});
+				App.saveUserData(userData);
 			}
 		};
-		
+
 		Calendar c = Calendar.getInstance();
-		
-		new TimePickerDialog(context, timePickerListener, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),true).show();
+
+		new TimePickerDialog(context, timePickerListener,
+				c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true)
+				.show();
 	}
 
 	private class AlarmAdapter extends BaseAdapter {
@@ -109,7 +123,8 @@ public class AlarmsFragment extends SherlockListFragment {
 		}
 
 		@Override
-		public View getView(final int position, View convertView, ViewGroup parent) {
+		public View getView(final int position, View convertView,
+				ViewGroup parent) {
 			ViewHolder holder = null;
 
 			LayoutInflater mInflater = (LayoutInflater) context
@@ -131,12 +146,23 @@ public class AlarmsFragment extends SherlockListFragment {
 			}
 
 			Alarm alarm = (Alarm) getItem(position);
+			Log.d("AlarmAdapter.getView()", alarm.print());
 
 			holder.textTime.setText(alarm.getTime());
 			holder.textDay.setText(alarm.getDay());
 			holder.checkbox.setChecked(alarm.isActive());
-			
-			convertView.setOnClickListener(new OnClickListener(){
+
+			holder.checkbox
+					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+						@Override
+						public void onCheckedChanged(CompoundButton buttonView,
+								boolean isChecked) {
+							Log.d("onCheckedChanged",""+isChecked);
+							onAlarmStateChanged(position, isChecked);
+						}
+					});
+
+			convertView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					setTime(position);
