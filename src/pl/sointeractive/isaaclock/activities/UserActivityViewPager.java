@@ -31,7 +31,7 @@ import com.actionbarsherlock.view.MenuItem;
  * to move between the tabs.
  */
 
-public class UserActivity extends SherlockFragmentActivity {
+public class UserActivityViewPager extends SherlockFragmentActivity {
 	private TabHost mTabHost;
 	private ViewPager mViewPager;
 	private TabsAdapter mTabsAdapter;
@@ -44,7 +44,7 @@ public class UserActivity extends SherlockFragmentActivity {
 		
 		userData = new UserData();
 
-		setContentView(R.layout.activity_user);
+		setContentView(R.layout.activity_user_viewpager);
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();
 

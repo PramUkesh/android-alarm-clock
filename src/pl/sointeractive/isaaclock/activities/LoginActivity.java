@@ -52,7 +52,7 @@ public class LoginActivity extends Activity {
 	}
 	
 	private void startUserActivity(){
-		Intent intent = new Intent(context, UserActivity.class);
+		Intent intent = new Intent(context, UserActivityTabs.class);
 		startActivity(intent);
 	}
 	

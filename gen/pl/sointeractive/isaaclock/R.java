@@ -1055,6 +1055,7 @@ containing a value of this type.
         public static final int listMode=0x7f060002;
         public static final int normal=0x7f060001;
         public static final int pager=0x7f060039;
+        public static final int realtabcontent=0x01010000;
         public static final int showCustom=0x7f060008;
         public static final int showHome=0x7f060005;
         public static final int showTitle=0x7f060007;
@@ -1096,15 +1097,16 @@ containing a value of this type.
         public static final int abs__simple_dropdown_hint=0x7f030014;
         public static final int activity_login=0x7f030015;
         public static final int activity_old_user=0x7f030016;
-        public static final int activity_user=0x7f030017;
-        public static final int fragment_achievements=0x7f030018;
-        public static final int fragment_alarms=0x7f030019;
-        public static final int fragment_alarms_item=0x7f03001a;
-        public static final int fragment_general=0x7f03001b;
-        public static final int fragment_leaderboard=0x7f03001c;
-        public static final int fragment_notifications=0x7f03001d;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001e;
-        public static final int sherlock_spinner_item=0x7f03001f;
+        public static final int activity_user_tabs=0x7f030017;
+        public static final int activity_user_viewpager=0x7f030018;
+        public static final int fragment_achievements=0x7f030019;
+        public static final int fragment_alarms=0x7f03001a;
+        public static final int fragment_alarms_item=0x7f03001b;
+        public static final int fragment_general=0x7f03001c;
+        public static final int fragment_leaderboard=0x7f03001d;
+        public static final int fragment_notifications=0x7f03001e;
+        public static final int sherlock_spinner_dropdown_item=0x7f03001f;
+        public static final int sherlock_spinner_item=0x7f030020;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 

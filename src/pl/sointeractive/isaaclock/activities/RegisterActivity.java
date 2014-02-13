@@ -26,7 +26,7 @@ public class RegisterActivity  extends Activity {
 		buttonLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(context, UserActivity.class);
+				Intent intent = new Intent(context, UserActivityViewPager.class);
 				startActivity(intent);
 			}
 		});

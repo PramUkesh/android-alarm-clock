@@ -10,9 +10,9 @@ public class Alarm implements Serializable{
 	private boolean active;
 	
 	public Alarm(String day, String time, boolean active){
-		this.day = day;
-		this.time = time;
-		this.active = active;
+		setDay(day);
+		setTime(time);
+		setActive(active);
 	}
 
 	public String getDay() {
