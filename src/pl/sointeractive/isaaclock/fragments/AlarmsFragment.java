@@ -6,12 +6,14 @@ import java.util.Calendar;
 import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.activities.UserActivityTabs;
 import pl.sointeractive.isaaclock.activities.UserActivityTabs.TabManager;
+import pl.sointeractive.isaaclock.activities.UserActivityViewPager;
 import pl.sointeractive.isaaclock.data.Alarm;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.UserData;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +23,13 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockListFragment;
 
 public class AlarmsFragment extends SherlockListFragment {
@@ -56,6 +61,7 @@ public class AlarmsFragment extends SherlockListFragment {
 	}
 
 	public void onTimeTextClick(final int dayIndex) {
+		Log.d("TEST", "touch");
 		final UserData userData = App.loadUserData();
 		TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
 			public void onTimeSet(TimePicker view, int selectedHour,
@@ -73,7 +79,9 @@ public class AlarmsFragment extends SherlockListFragment {
 				refreshCurrentFragment();
 			}
 		};
+
 		Calendar c = Calendar.getInstance();
+
 		new TimePickerDialog(context, timePickerListener,
 				c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true)
 				.show();
@@ -88,8 +96,9 @@ public class AlarmsFragment extends SherlockListFragment {
 	}
 
 	private class AlarmAdapter extends BaseAdapter {
+
 		ArrayList<Alarm> alarmList;
-		
+
 		/* private view holder class */
 		private class ViewHolder {
 			CheckBox checkbox;
