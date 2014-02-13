@@ -1,11 +1,6 @@
 package pl.sointeractive.isaaclock.data;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-
 import android.app.Application;
-import android.content.Context;
 
 public class App extends Application {
 
@@ -33,5 +28,9 @@ public class App extends Application {
 	
 	public static LoginData loadLoginData(){
 		return fileManager.loadLoginData(obj);
+	}
+	
+	public static App getInstance(){
+		return obj;
 	}
 }

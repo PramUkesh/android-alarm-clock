@@ -3,6 +3,8 @@ package pl.sointeractive.isaaclock.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import pl.sointeractive.isaaclock.R;
+
 public class UserData implements Serializable {
 
 	private static final long serialVersionUID = 7298108357152407887L;
@@ -14,13 +16,14 @@ public class UserData implements Serializable {
 
 	public UserData() {
 		alarmList = new ArrayList<Alarm>();
-		alarmList.add(new Alarm(dayArray[0], "7:00", false));
-		alarmList.add(new Alarm(dayArray[1], "7:00", false));
-		alarmList.add(new Alarm(dayArray[2], "7:00", false));
-		alarmList.add(new Alarm(dayArray[3], "7:00", false));
-		alarmList.add(new Alarm(dayArray[4], "7:00", false));
-		alarmList.add(new Alarm(dayArray[5], "7:00", false));
-		alarmList.add(new Alarm(dayArray[6], "7:00", false));
+		String default_time = App.getInstance().getString(R.string.time_not_set);
+		alarmList.add(new Alarm(dayArray[0], default_time, false));
+		alarmList.add(new Alarm(dayArray[1], default_time, false));
+		alarmList.add(new Alarm(dayArray[2], default_time, false));
+		alarmList.add(new Alarm(dayArray[3], default_time, false));
+		alarmList.add(new Alarm(dayArray[4], default_time, false));
+		alarmList.add(new Alarm(dayArray[5], default_time, false));
+		alarmList.add(new Alarm(dayArray[6], default_time, false));
 	}
 
 	public ArrayList<Alarm> getAlarms() {
@@ -53,6 +56,10 @@ public class UserData implements Serializable {
 			result += alarmList.get(i).print() + "\n";
 		}
 		return result;
+	}
+	
+	boolean isActive(int dayIndex){
+		return alarmList.get(dayIndex).isActive();
 	}
 
 }

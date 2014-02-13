@@ -11,7 +11,9 @@ import pl.sointeractive.isaaclock.data.Alarm;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.UserData;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -57,7 +59,18 @@ public class AlarmsFragment extends SherlockListFragment {
 		App.saveUserData(userData);
 		final UserData testUserData = App.loadUserData();
 		Log.d("onCheckBoxClick", testUserData.print());
-		//refreshCurrentFragment();
+		// refreshCurrentFragment();
+	}
+
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		Log.d("", "ON LIST ITEM CLICK");
+		if (alarmList.get(position).isActive()) {
+			openOptionsDialog();
+		} else {
+			onTimeTextClick(position);
+		}
 	}
 
 	public void onTimeTextClick(final int dayIndex) {
@@ -73,7 +86,7 @@ public class AlarmsFragment extends SherlockListFragment {
 				} else {
 					minute = "" + selectedMinute;
 				}
-				userData.setAlarm(dayIndex, "" + hour + ":" + minute);
+				userData.setAlarm(dayIndex, "" + hour + ":" + minute, true);
 				alarmList = userData.getAlarms();
 				App.saveUserData(userData);
 				refreshCurrentFragment();
@@ -83,7 +96,7 @@ public class AlarmsFragment extends SherlockListFragment {
 		Calendar c = Calendar.getInstance();
 
 		new TimePickerDialog(context, timePickerListener,
-				c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true)
+				c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), false)
 				.show();
 	}
 
@@ -95,13 +108,46 @@ public class AlarmsFragment extends SherlockListFragment {
 		tm.refreshTab(th.getCurrentTabTag());
 	}
 
+	public void openOptionsDialog() {
+		AlertDialog dialog;
+		String[] options = {
+				getString(R.string.fragment_alarms_dialog_option_change_time),
+				getString(R.string.fragment_alarms_dialog_option_deactivate) };
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle(R.string.fragment_alarms_dialog_title);
+		builder.setNeutralButton(R.string.fragment_alarms_dialog_button_cancel,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+		builder.setItems(options, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				switch (which) {
+				case 0:
+
+					dialog.dismiss();
+					break;
+				case 1:
+
+					dialog.dismiss();
+					break;
+				}
+			}
+		});
+		dialog = builder.create();
+		dialog.show();
+
+	}
+
 	private class AlarmAdapter extends BaseAdapter {
 
 		ArrayList<Alarm> alarmList;
 
 		/* private view holder class */
 		private class ViewHolder {
-			CheckBox checkbox;
 			TextView textDay;
 			TextView textTime;
 		}
@@ -138,8 +184,6 @@ public class AlarmsFragment extends SherlockListFragment {
 				convertView = mInflater.inflate(R.layout.fragment_alarms_item,
 						null);
 				holder = new ViewHolder();
-				holder.checkbox = (CheckBox) convertView
-						.findViewById(R.id.checkbox);
 				holder.textDay = (TextView) convertView
 						.findViewById(R.id.text_day);
 				holder.textTime = (TextView) convertView
@@ -154,23 +198,6 @@ public class AlarmsFragment extends SherlockListFragment {
 
 			holder.textTime.setText(alarm.getTime());
 			holder.textDay.setText(alarm.getDay());
-			holder.checkbox.setChecked(alarm.isActive());
-
-			holder.textTime.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					onTimeTextClick(position);
-				}
-			});
-
-			holder.checkbox
-					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-						@Override
-						public void onCheckedChanged(CompoundButton buttonView,
-								boolean isChecked) {
-							onCheckBoxClick(position, isChecked);
-						}
-					});
 
 			return convertView;
 		}

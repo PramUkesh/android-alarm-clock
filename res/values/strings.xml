@@ -4,7 +4,6 @@
     <string name="app_name">IsaaClock</string>
     
     <!-- Random data -->
-    <!-- 
     <string name="day_monday">Mon</string>
     <string name="day_tueasday">Tue</string>
     <string name="day_wednesday">Wed</string>
@@ -12,8 +11,7 @@
     <string name="day_friday">Fri</string>
     <string name="day_saturday">Sat</string>
     <string name="day_sunday">Sun</string>
-    <string name="time_not_set">No alarm</string>
-     -->
+    <string name="time_not_set">Not set</string>
     
     <!-- LoginActivity -->
     <string name="activity_login_text_hint_email">Email</string>
@@ -47,6 +45,10 @@
     <string name="fragment_alarms_item_default_time">default_time</string>
     <string name="fragment_alarms_image_desc">image_desc</string>
     <string name="fragment_alarms_button_add">Add alarm</string>
+    <string name="fragment_alarms_dialog_title">Alarm options</string>
+    <string name="fragment_alarms_dialog_button_cancel">Cancel</string>
+    <string name="fragment_alarms_dialog_option_change_time">Change alarm time</string>
+    <string name="fragment_alarms_dialog_option_deactivate">Deactivate alarm</string>
     
     <!-- AchievementsFragment -->
     <string name="fragment_achievements_fragment_name">Achievements Fragment</string>

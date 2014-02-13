@@ -6,17 +6,10 @@
     android:gravity="center_vertical"
     android:minHeight="60dp" >
 
-    <CheckBox
-        android:id="@+id/checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp" />
-
     <TextView
         android:id="@+id/text_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/checkbox"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="30dp"
         android:text="@string/fragment_alarms_item_default_day"
