@@ -47,8 +47,8 @@ public class LoginActivity extends Activity {
 	}
 	
 	private void newUser(){
-		// register process
-		startUserActivity();
+		Intent intent = new Intent(context, RegisterActivity.class);
+		startActivity(intent);
 	}
 	
 	private void startUserActivity(){

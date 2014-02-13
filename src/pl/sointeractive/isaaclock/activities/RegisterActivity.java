@@ -12,29 +12,33 @@ import android.widget.EditText;
 
 public class RegisterActivity  extends Activity {
 
-	Button buttonLogin;
-	EditText textName, textPassword;
+	Button buttonRegister;
+	EditText textName, textPassword, textPasswordRepeat;
 	Context context;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);
+		setContentView(R.layout.activity_register);
 		context = this;
 
-		buttonLogin = (Button) findViewById(R.id.button_login);
-		buttonLogin.setOnClickListener(new OnClickListener() {
+		buttonRegister = (Button) findViewById(R.id.button_login);
+		buttonRegister.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(context, UserActivityViewPager.class);
-				startActivity(intent);
+				register();
 			}
 		});
 
 	}
 	
-	private void login(){
-		
+	private void register(){
+		startUserActivity();
+	}
+	
+	private void startUserActivity(){
+		Intent intent = new Intent(context, UserActivityTabs.class);
+		startActivity(intent);
 	}
 	
 	@Override
