@@ -22,7 +22,7 @@ public class RegisterActivity  extends Activity {
 		setContentView(R.layout.activity_register);
 		context = this;
 
-		buttonRegister = (Button) findViewById(R.id.button_login);
+		buttonRegister = (Button) findViewById(R.id.button_register);
 		buttonRegister.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
