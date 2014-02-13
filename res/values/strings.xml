@@ -16,12 +16,19 @@
      -->
     
     <!-- LoginActivity -->
-    <string name="activity_login_text_hint_name">Login</string>
+    <string name="activity_login_text_hint_email">Email</string>
     <string name="activity_login_text_hint_password">Password</string>
     <string name="activity_login_button_login">Login</string>
     <string name="activity_login_button_new_user">Create new account</string>
     <string name="activity_login_text_login_prompt">Welcome to IsaaClock! Please log in.</string>
     <string name="activity_login_text_no_account_prompt">Don\'t have an account yet? Feel free to create one!</string>
+    
+    <!-- RegisterActivity -->
+    <string name="activity_register_text_hint_email">Email</string>
+    <string name="activity_register_text_hint_password">Password</string>
+    <string name="activity_register_text_hint_password_repeat">Repeat password</string>
+    <string name="activity_register_button_register">Register new account</string>
+    <string name="activity_register_text_register_prompt">Please fill in the form below.</string>
     
     <!-- UserActivity -->
     <string name="activity_user_tab_name_general">General</string>

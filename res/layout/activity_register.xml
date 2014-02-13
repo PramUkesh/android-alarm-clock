@@ -9,45 +9,40 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".LoginActivity" >
+    tools:context=".RegisterActivity" >
 
-    <TextView 
-        android:id="@+id/text_view_login_prompt"
+    <TextView
+        android:id="@+id/text_view_register_prompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:hint="@string/activity_login_text_login_prompt" />
-    
+        android:hint="@string/activity_register_text_register_prompt" />
+
     <EditText
         android:id="@+id/text_edit_email"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/activity_login_text_hint_email"
+        android:hint="@string/activity_register_text_hint_email"
         android:inputType="textEmailAddress" />
+
     <EditText
         android:id="@+id/text_edit_password"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/activity_login_text_hint_password"
+        android:hint="@string/activity_register_text_hint_password"
+        android:inputType="textPassword" />
+    
+    <EditText
+        android:id="@+id/text_edit_password_repeat"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/activity_register_text_hint_password_repeat"
         android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/button_login"
+        android:id="@+id/button_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/activity_login_button_login" />
-    
-    <TextView 
-        android:id="@+id/text_view_no_account_prompt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:hint="@string/activity_login_text_no_account_prompt" />
-    
-    <Button
-        android:id="@+id/button_new_user"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/activity_login_button_new_user" />
+        android:text="@string/activity_register_button_register" />
 
 </LinearLayout>

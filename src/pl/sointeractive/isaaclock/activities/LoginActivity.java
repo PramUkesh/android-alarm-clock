@@ -14,7 +14,7 @@ public class LoginActivity extends Activity {
 
 	Button buttonLogin;
 	Button buttonNewUser;
-	EditText textName, textPassword;
+	EditText textEmail, textPassword;
 	Context context;
 
 	@Override
@@ -42,13 +42,12 @@ public class LoginActivity extends Activity {
 	}
 	
 	private void login(){
-		// login process
 		startUserActivity();
 	}
 	
 	private void newUser(){
-		// register process
-		startUserActivity();
+		Intent intent = new Intent(context, RegisterActivity.class);
+		startActivity(intent);
 	}
 	
 	private void startUserActivity(){
