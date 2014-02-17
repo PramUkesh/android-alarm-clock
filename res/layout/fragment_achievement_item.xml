@@ -27,14 +27,12 @@
             android:id="@+id/fragment_achievement_text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fragment_achievements_default_name"
             android:textSize="20sp" />
 
         <TextView
             android:id="@+id/fragment_achievement_text_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fragment_achievements_default_desc"
             android:textSize="12sp" />
     </LinearLayout>
 

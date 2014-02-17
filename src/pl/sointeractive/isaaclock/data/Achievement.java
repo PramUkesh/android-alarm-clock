@@ -4,8 +4,8 @@ public class Achievement {
 
 	private String name, desc, imageUrl;
 	private boolean isGained;
-	
-	public Achievement(String name, String desc, boolean isGained){
+
+	public Achievement(String name, String desc, boolean isGained) {
 		this.setName(name);
 		this.setDesc(desc);
 		this.setGained(isGained);
@@ -42,5 +42,8 @@ public class Achievement {
 	public void setGained(boolean isGained) {
 		this.isGained = isGained;
 	}
-	
+
+	public String print() {
+		return "Achievement: " + name + " " + desc + " " + isGained;
+	}
 }
