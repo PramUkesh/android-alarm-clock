@@ -3,10 +3,11 @@ package pl.sointeractive.isaaclock.fragments;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import com.actionbarsherlock.app.SherlockListFragment;
+
 import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.activities.UserActivityTabs;
 import pl.sointeractive.isaaclock.activities.UserActivityTabs.TabManager;
-import pl.sointeractive.isaaclock.activities.UserActivityViewPager;
 import pl.sointeractive.isaaclock.data.Alarm;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.UserData;
@@ -14,46 +15,40 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockListFragment;
 
 public class AlarmsFragment extends SherlockListFragment {
 
 	UserActivityTabs context;
 	AlarmAdapter alarmAdapter;
 	ArrayList<Alarm> alarmList;
+	UserData userData;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		context = (UserActivityTabs) getSherlockActivity();
 
-		alarmList = App.loadUserData().getAlarms();
+		userData = App.loadUserData();
+		alarmList = userData.getAlarms();
 		alarmAdapter = new AlarmAdapter(alarmList);
 
 		setListAdapter(alarmAdapter);
-		return inflater.inflate(R.layout.fragment_alarms, container, false);
+		return inflater.inflate(R.layout.fragment_basic_listview, container, false);
 	}
 
 	public void onCheckBoxClick(int dayIndex, boolean active) {
-		final UserData userData = App.loadUserData();
 		userData.setAlarm(dayIndex, active);
 		alarmList = userData.getAlarms();
 		App.saveUserData(userData);
@@ -67,15 +62,22 @@ public class AlarmsFragment extends SherlockListFragment {
 		super.onListItemClick(l, v, position, id);
 		Log.d("", "ON LIST ITEM CLICK");
 		if (alarmList.get(position).isActive()) {
-			openOptionsDialog();
+			openOptionsDialog(position);
 		} else {
-			onTimeTextClick(position);
+			setTime(position);
 		}
 	}
+	
+	public void deactivateAlarm(final int dayIndex){
+		alarmList.get(dayIndex).setActive(false);
+		alarmList.get(dayIndex).setTime(getString(R.string.time_not_set));
+		App.saveUserData(userData);
+		refreshCurrentFragment();
+		Log.d("setTime",userData.print());
+	}
 
-	public void onTimeTextClick(final int dayIndex) {
+	public void setTime(final int dayIndex) {
 		Log.d("TEST", "touch");
-		final UserData userData = App.loadUserData();
 		TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
 			public void onTimeSet(TimePicker view, int selectedHour,
 					int selectedMinute) {
@@ -90,6 +92,7 @@ public class AlarmsFragment extends SherlockListFragment {
 				alarmList = userData.getAlarms();
 				App.saveUserData(userData);
 				refreshCurrentFragment();
+				Log.d("setTime",userData.print());
 			}
 		};
 
@@ -108,7 +111,7 @@ public class AlarmsFragment extends SherlockListFragment {
 		tm.refreshTab(th.getCurrentTabTag());
 	}
 
-	public void openOptionsDialog() {
+	public void openOptionsDialog(final int dayIndex) {
 		AlertDialog dialog;
 		String[] options = {
 				getString(R.string.fragment_alarms_dialog_option_change_time),
@@ -127,11 +130,11 @@ public class AlarmsFragment extends SherlockListFragment {
 			public void onClick(DialogInterface dialog, int which) {
 				switch (which) {
 				case 0:
-
+					setTime(dayIndex);
 					dialog.dismiss();
 					break;
 				case 1:
-
+					deactivateAlarm(dayIndex);
 					dialog.dismiss();
 					break;
 				}
@@ -176,6 +179,8 @@ public class AlarmsFragment extends SherlockListFragment {
 		public View getView(final int position, View convertView,
 				ViewGroup parent) {
 			ViewHolder holder = null;
+			
+			boolean isActive = alarmList.get(position).isActive();
 
 			LayoutInflater mInflater = (LayoutInflater) context
 					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
@@ -189,16 +194,22 @@ public class AlarmsFragment extends SherlockListFragment {
 				holder.textTime = (TextView) convertView
 						.findViewById(R.id.text_time);
 				convertView.setTag(holder);
+				if(!isActive){
+					Log.e("TAG","INACTIVE - COLOR GRAY");
+					if(position==0){
+						Log.e("TAG","COLOR MONDAY GRAY");
+					}
+					convertView.setBackgroundColor(Color.GRAY);
+				}
+				Alarm alarm = (Alarm) getItem(position);
+				holder.textTime.setText(alarm.getTime());
+				holder.textDay.setText(alarm.getDay());
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
-
-			Alarm alarm = (Alarm) getItem(position);
-			// Log.d("AlarmAdapter.getView()", alarm.print());
-
-			holder.textTime.setText(alarm.getTime());
-			holder.textDay.setText(alarm.getDay());
-
+			if(position==0){
+				Log.e("TAG","MONDAY SHOWED");
+			}
 			return convertView;
 		}
 	}

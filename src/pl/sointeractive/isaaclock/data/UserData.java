@@ -16,7 +16,8 @@ public class UserData implements Serializable {
 
 	public UserData() {
 		alarmList = new ArrayList<Alarm>();
-		String default_time = App.getInstance().getString(R.string.time_not_set);
+		String default_time = App.getInstance()
+				.getString(R.string.time_not_set);
 		alarmList.add(new Alarm(dayArray[0], default_time, false));
 		alarmList.add(new Alarm(dayArray[1], default_time, false));
 		alarmList.add(new Alarm(dayArray[2], default_time, false));
@@ -34,20 +35,13 @@ public class UserData implements Serializable {
 		String time = alarmList.get(dayIndex).getTime();
 		alarmList.set(dayIndex, new Alarm(dayArray[dayIndex], time, active));
 	}
-	
+
 	public void setAlarm(int dayIndex, String time) {
-		boolean active = alarmList.get(dayIndex).isActive();
-		alarmList.set(dayIndex, new Alarm(dayArray[dayIndex], time, active));
+		alarmList.set(dayIndex, new Alarm(dayArray[dayIndex], time, true));
 	}
 
 	public void setAlarm(int dayIndex, String time, boolean active) {
-		if (dayIndex < 0 || dayIndex > 6) {
-			System.out.println("WRONG DAY INDEX");
-			return;
-		} else {
-			alarmList
-					.set(dayIndex, new Alarm(dayArray[dayIndex], time, active));
-		}
+		alarmList.set(dayIndex, new Alarm(dayArray[dayIndex], time, active));
 	}
 
 	public String print() {
@@ -57,8 +51,8 @@ public class UserData implements Serializable {
 		}
 		return result;
 	}
-	
-	boolean isActive(int dayIndex){
+
+	boolean isActive(int dayIndex) {
 		return alarmList.get(dayIndex).isActive();
 	}
 

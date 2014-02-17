@@ -10,6 +10,7 @@ import pl.sointeractive.isaaclock.fragments.GeneralFragment;
 import pl.sointeractive.isaaclock.fragments.LeaderboardFragment;
 import pl.sointeractive.isaaclock.fragments.NotificationsFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -19,6 +20,8 @@ import android.view.View;
 import android.widget.TabHost;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 public class UserActivityTabs extends SherlockFragmentActivity {
 	TabHost mTabHost;
@@ -66,6 +69,35 @@ public class UserActivityTabs extends SherlockFragmentActivity {
 		}
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(R.string.menu_logout);
+		menu.add(R.string.menu_settings);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case 0:
+			logout();
+			return true;
+		case 1:
+			openSettings();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	public void logout(){
+		this.finish();
+	}
+	
+	public void openSettings(){
+		
+	}
+	
 	public TabHost getTabHost() {
 		return mTabHost;
 	}
