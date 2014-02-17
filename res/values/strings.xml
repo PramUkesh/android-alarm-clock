@@ -11,7 +11,7 @@
     <string name="day_friday">Fri</string>
     <string name="day_saturday">Sat</string>
     <string name="day_sunday">Sun</string>
-    <string name="time_not_set">Not set</string>
+    <string name="time_not_set">---</string>
     <string name="image_desc">Image desc</string>
     
     <!-- Menus -->
@@ -59,6 +59,8 @@
     
     <!-- AchievementsFragment -->
     <string name="fragment_achievements_fragment_name">Achievements Fragment</string>
+    <string name="fragment_achievements_default_name">Achievement name</string>
+    <string name="fragment_achievements_default_desc">Achievement description</string>
     
     <!-- LeaderboardFragment -->
     <string name="fragment_leaderboard_fragment_name">Leaderboard Fragment</string>

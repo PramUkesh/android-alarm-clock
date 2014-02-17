@@ -27,7 +27,6 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-
 public class AlarmsFragment extends SherlockListFragment {
 
 	UserActivityTabs context;
@@ -45,16 +44,8 @@ public class AlarmsFragment extends SherlockListFragment {
 		alarmAdapter = new AlarmAdapter(alarmList);
 
 		setListAdapter(alarmAdapter);
-		return inflater.inflate(R.layout.fragment_basic_listview, container, false);
-	}
-
-	public void onCheckBoxClick(int dayIndex, boolean active) {
-		userData.setAlarm(dayIndex, active);
-		alarmList = userData.getAlarms();
-		App.saveUserData(userData);
-		final UserData testUserData = App.loadUserData();
-		Log.d("onCheckBoxClick", testUserData.print());
-		// refreshCurrentFragment();
+		return inflater.inflate(R.layout.fragment_basic_listview, container,
+				false);
 	}
 
 	@Override
@@ -67,13 +58,13 @@ public class AlarmsFragment extends SherlockListFragment {
 			setTime(position);
 		}
 	}
-	
-	public void deactivateAlarm(final int dayIndex){
+
+	public void deactivateAlarm(final int dayIndex) {
 		alarmList.get(dayIndex).setActive(false);
 		alarmList.get(dayIndex).setTime(getString(R.string.time_not_set));
 		App.saveUserData(userData);
 		refreshCurrentFragment();
-		Log.d("setTime",userData.print());
+		Log.d("setTime", userData.print());
 	}
 
 	public void setTime(final int dayIndex) {
@@ -88,18 +79,18 @@ public class AlarmsFragment extends SherlockListFragment {
 				} else {
 					minute = "" + selectedMinute;
 				}
-				userData.setAlarm(dayIndex, "" + hour + ":" + minute, false);
+				userData.setAlarm(dayIndex, "" + hour + ":" + minute, true);
 				alarmList = userData.getAlarms();
 				App.saveUserData(userData);
 				refreshCurrentFragment();
-				Log.d("setTime",userData.print());
+				Log.d("setTime", userData.print());
 			}
 		};
 
 		Calendar c = Calendar.getInstance();
 
 		new TimePickerDialog(context, timePickerListener,
-				c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), false)
+				c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true)
 				.show();
 	}
 
@@ -179,7 +170,7 @@ public class AlarmsFragment extends SherlockListFragment {
 		public View getView(final int position, View convertView,
 				ViewGroup parent) {
 			ViewHolder holder = null;
-			
+
 			boolean isActive = alarmList.get(position).isActive();
 
 			LayoutInflater mInflater = (LayoutInflater) context
@@ -194,21 +185,14 @@ public class AlarmsFragment extends SherlockListFragment {
 				holder.textTime = (TextView) convertView
 						.findViewById(R.id.text_time);
 				convertView.setTag(holder);
-				if(!isActive){
-					Log.e("TAG","INACTIVE - COLOR GRAY");
-					if(position==0){
-						Log.e("TAG","COLOR MONDAY GRAY");
-					}
-					convertView.setBackgroundColor(Color.GRAY);
-				}
 				Alarm alarm = (Alarm) getItem(position);
 				holder.textTime.setText(alarm.getTime());
 				holder.textDay.setText(alarm.getDay());
+				if (!isActive) {
+					convertView.setBackgroundColor(Color.GRAY);
+				}
 			} else {
 				holder = (ViewHolder) convertView.getTag();
-			}
-			if(position==0){
-				Log.e("TAG","MONDAY SHOWED");
 			}
 			return convertView;
 		}

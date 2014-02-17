@@ -201,7 +201,6 @@ public class UserActivityTabs extends SherlockFragmentActivity {
 		}
 
 		public void refreshTab(String tabId) {
-			printTabInfo();
 			Log.d("UserActivityTabs", " refreshTab, tabId: " + tabId);
 			TabInfo newTab = mTabs.get(tabId);
 			Log.d("UserActivityTabs", "newTab.tag: " + newTab.tag);
@@ -234,7 +233,7 @@ public class UserActivityTabs extends SherlockFragmentActivity {
 
 		@Override
 		public void onTabChanged(String tabId) {
-			printTabInfo();
+			//printTabInfo();
 			Log.d("UserActivityTabs", "onTabChanged, tabId: " + tabId);
 			TabInfo newTab = mTabs.get(tabId);
 			Log.d("UserActivityTabs", "newTab.tag: " + newTab.tag);
