@@ -88,7 +88,7 @@ public class AlarmsFragment extends SherlockListFragment {
 				} else {
 					minute = "" + selectedMinute;
 				}
-				userData.setAlarm(dayIndex, "" + hour + ":" + minute, true);
+				userData.setAlarm(dayIndex, "" + hour + ":" + minute, false);
 				alarmList = userData.getAlarms();
 				App.saveUserData(userData);
 				refreshCurrentFragment();

@@ -24,6 +24,7 @@
     <string name="activity_login_text_hint_password">Password</string>
     <string name="activity_login_button_login">Login</string>
     <string name="activity_login_button_new_user">Create new account</string>
+    <string name="activity_login_button_exit">Exit</string>
     <string name="activity_login_text_login_prompt">Welcome to IsaaClock! Please log in.</string>
     <string name="activity_login_text_no_account_prompt">Don\'t have an account yet? Feel free to create one!</string>
     

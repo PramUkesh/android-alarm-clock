@@ -12,8 +12,7 @@ import android.widget.EditText;
 
 public class LoginActivity extends Activity {
 
-	Button buttonLogin;
-	Button buttonNewUser;
+	Button buttonLogin, buttonNewUser, buttonExit;
 	EditText textName, textPassword;
 	Context context;
 
@@ -38,17 +37,28 @@ public class LoginActivity extends Activity {
 				newUser();
 			}
 		});
+		
+		buttonExit = (Button) findViewById(R.id.button_exit);
+		buttonExit.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				exit();
+			}
+		});
 
 	}
 	
 	private void login(){
-		// login process
 		startUserActivity();
 	}
 	
 	private void newUser(){
 		Intent intent = new Intent(context, RegisterActivity.class);
 		startActivity(intent);
+	}
+	
+	private void exit(){
+		finish();
 	}
 	
 	private void startUserActivity(){

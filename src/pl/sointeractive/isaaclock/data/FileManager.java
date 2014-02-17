@@ -89,4 +89,8 @@ public class FileManager {
 			e.printStackTrace();
 		}
 	}
+	
+	public void resetUserData(App app){
+		saveUserData(new UserData(), app);
+	}
 }

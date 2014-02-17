@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import pl.sointeractive.isaaclock.R;
+import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.fragments.AchievementsFragment;
 import pl.sointeractive.isaaclock.fragments.AlarmsFragment;
 import pl.sointeractive.isaaclock.fragments.GeneralFragment;
@@ -19,8 +20,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TabHost;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public class UserActivityTabs extends SherlockFragmentActivity {
@@ -67,22 +70,23 @@ public class UserActivityTabs extends SherlockFragmentActivity {
 		if (savedInstanceState != null) {
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
 		}
+		getMenuInflater();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(R.string.menu_logout);
-		menu.add(R.string.menu_settings);
-		return super.onCreateOptionsMenu(menu);
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.menu, menu);
+		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case 0:
+		case R.id.logout:
 			logout();
 			return true;
-		case 1:
+		case R.id.settings:
 			openSettings();
 			return true;
 		default:
@@ -90,14 +94,15 @@ public class UserActivityTabs extends SherlockFragmentActivity {
 		}
 	}
 
-	public void logout(){
+	public void logout() {
+		App.resetUserData();
 		this.finish();
 	}
-	
-	public void openSettings(){
-		
+
+	public void openSettings() {
+
 	}
-	
+
 	public TabHost getTabHost() {
 		return mTabHost;
 	}
