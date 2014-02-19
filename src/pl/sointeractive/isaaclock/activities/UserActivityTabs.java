@@ -11,7 +11,6 @@ import pl.sointeractive.isaaclock.fragments.GeneralFragment;
 import pl.sointeractive.isaaclock.fragments.LeaderboardFragment;
 import pl.sointeractive.isaaclock.fragments.NotificationsFragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -20,15 +19,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TabHost;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public class UserActivityTabs extends SherlockFragmentActivity {
-	TabHost mTabHost;
-	TabManager mTabManager;
+	private TabHost mTabHost;
+	private TabManager mTabManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

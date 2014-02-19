@@ -117,7 +117,7 @@ public class AchievementsFragment extends SherlockListFragment implements
 			entries.add(new Achievement("Achievement 15", "Desc 15", false));
 
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(1500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

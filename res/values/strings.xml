@@ -12,6 +12,7 @@
     <string name="day_saturday">Sat</string>
     <string name="day_sunday">Sun</string>
     <string name="time_not_set">---</string>
+    <string name="alarm_not_set">No alarm set</string>
     <string name="image_desc">Image desc</string>
     
     <!-- Menus -->
@@ -44,7 +45,10 @@
     <string name="activity_user_menu_logout">Logout</string>
     
     <!-- GeneralFragment -->
-    <string name="fragment_general_fragment_name">General Fragment</string>
+    <string name="fragment_general_user_score_prompt">Score:</string>
+    <string name="fragment_general_next_alarm_prompt">Next alarm:</string>
+    <string name="fragment_general_button_show_score">Show more</string>
+    <string name="fragment_general_button_show_alarms">Show more</string>
     
     <!-- AlarmsFragment -->
     <string name="fragment_alarms_fragment_name">Alarms Fragment</string>
