@@ -22,8 +22,8 @@ public class App extends Application {
 		return fileManager.loadUserData(obj);
 	}
 	
-	public void saveLoginData(LoginData data) {
-		fileManager.saveLoginData(data, this);
+	public static void saveLoginData(LoginData data) {
+		fileManager.saveLoginData(data, obj);
 	}
 	
 	public static LoginData loadLoginData(){

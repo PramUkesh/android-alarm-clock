@@ -2,21 +2,19 @@ package pl.sointeractive.isaaclock.data;
 
 import java.io.Serializable;
 
-public class Alarm implements Serializable{
-	
+public class Alarm implements Serializable {
+
 	private static final long serialVersionUID = 3779821744568481486L;
 	private String day;
-	private String time;
 	private int hour;
 	private int minutes;
 	private boolean active;
-	
-	public Alarm(String day, String time, boolean active){
+
+	public Alarm(String day, int hour, int minutes, boolean active) {
 		setDay(day);
-		setTime(time);
+		this.setHour(hour);
+		this.setMinutes(minutes);
 		setActive(active);
-		hour = Integer.parseInt(time.substring(0, 1));
-		minutes = Integer.parseInt(time.substring(0, 1));
 	}
 
 	public String getDay() {
@@ -28,11 +26,39 @@ public class Alarm implements Serializable{
 	}
 
 	public String getTime() {
+		String time = "";
+		if (hour < 10) {
+			time += "0" + hour;
+		} else {
+			time += "" + hour;
+		}
+		time += ":";
+		if(minutes<10){
+			time += "0" + minutes;
+		} else {
+			time += "" + minutes;
+		}
 		return time;
 	}
-
-	public void setTime(String time) {
-		this.time = time;
+	
+	public int getDayOfWeekInt(){
+		if (day.equals("Mon")) {
+			return 1;
+		} else if (day.equals("Tue")) {
+			return 2;
+		} else if (day.equals("Wed")) {
+			return 3;
+		} else if (day.equals("Thu")) {
+			return 4;
+		} else if (day.equals("Fri")) {
+			return 5;
+		} else if (day.equals("Sat")) {
+			return 6;
+		} else if (day.equals("Sun")) {
+			return 7;
+		} else {
+			return 0;
+		}
 	}
 
 	public boolean isActive() {
@@ -42,12 +68,28 @@ public class Alarm implements Serializable{
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
-	public String print(){
-		return "Alarm: "+day+" "+time + " " + active;
+
+	public String print() {
+		return "Alarm: " + day + " " + getTime() + " " + active;
 	}
-	
-	public String getString(){
-		return day + " " + time;
+
+	public String getString() {
+		return day + " " + getTime();
+	}
+
+	public int getHour() {
+		return hour;
+	}
+
+	public void setHour(int hour) {
+		this.hour = hour;
+	}
+
+	public int getMinutes() {
+		return minutes;
+	}
+
+	public void setMinutes(int minutes) {
+		this.minutes = minutes;
 	}
 }

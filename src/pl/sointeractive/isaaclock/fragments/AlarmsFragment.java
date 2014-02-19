@@ -61,7 +61,6 @@ public class AlarmsFragment extends SherlockListFragment {
 
 	public void deactivateAlarm(final int dayIndex) {
 		alarmList.get(dayIndex).setActive(false);
-		alarmList.get(dayIndex).setTime(getString(R.string.time_not_set));
 		App.saveUserData(userData);
 		refreshCurrentFragment();
 		Log.d("setTime", userData.print());
@@ -72,14 +71,7 @@ public class AlarmsFragment extends SherlockListFragment {
 		TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
 			public void onTimeSet(TimePicker view, int selectedHour,
 					int selectedMinute) {
-				String hour = "" + selectedHour;
-				String minute;
-				if (selectedMinute < 10) {
-					minute = "0" + selectedMinute;
-				} else {
-					minute = "" + selectedMinute;
-				}
-				userData.setAlarm(dayIndex, "" + hour + ":" + minute, true);
+				userData.setAlarm(dayIndex, selectedHour, selectedMinute, true);
 				alarmList = userData.getAlarms();
 				App.saveUserData(userData);
 				refreshCurrentFragment();
@@ -190,6 +182,9 @@ public class AlarmsFragment extends SherlockListFragment {
 				holder.textDay.setText(alarm.getDay());
 				if (!isActive) {
 					convertView.setBackgroundColor(Color.GRAY);
+					holder.textTime.setText(R.string.time_not_set);
+				} else {
+					holder.textTime.setText(alarm.getTime());
 				}
 			} else {
 				holder = (ViewHolder) convertView.getTag();

@@ -23,28 +23,27 @@ public class GeneralFragment extends SherlockFragment implements
 		LoaderManager.LoaderCallbacks<UserData> {
 
 	static UserData userData;
-	UserActivityTabs context; 
-	
+	UserActivityTabs context;
+	View view;
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+
 		userData = App.loadUserData();
 		context = (UserActivityTabs) getActivity();
-
-		// Start out with a progress indicator.
-		//setListShown(false);
-
-		// Prepare the loader. Either re-connect with an existing one,
-		// or start a new one.
+		
+		view.findViewById(R.id.fragment_general_scroll).setVisibility(View.GONE);
+		view.findViewById(R.id.fragment_general_progress_bar).setVisibility(View.VISIBLE);
+		
 		getLoaderManager().initLoader(0, null, this);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_general, container,
-				false);
+		view = inflater.inflate(R.layout.fragment_general, container, false);
+		return view;
 	}
 
 	@Override
@@ -55,36 +54,46 @@ public class GeneralFragment extends SherlockFragment implements
 
 	@Override
 	public void onLoadFinished(Loader<UserData> arg0, UserData arg1) {
-		TextView textName = (TextView) getActivity().findViewById(R.id.fragment_general_user_name);
-		TextView textEmail = (TextView) getActivity().findViewById(R.id.fragment_general_user_email);
-		TextView textScore = (TextView) getActivity().findViewById(R.id.fragment_general_user_score);
-		TextView textAlarm = (TextView) getActivity().findViewById(R.id.fragment_general_next_alarm);
-		
+		TextView textName = (TextView) getActivity().findViewById(
+				R.id.fragment_general_user_name);
+		TextView textEmail = (TextView) getActivity().findViewById(
+				R.id.fragment_general_user_email);
+		TextView textScore = (TextView) getActivity().findViewById(
+				R.id.fragment_general_user_score);
+		TextView textAlarm = (TextView) getActivity().findViewById(
+				R.id.fragment_general_next_alarm);
+
 		textName.setText(userData.getName());
 		textEmail.setText(userData.getEmail());
-		textScore.setText(""+userData.getScore());
-		textAlarm.setText(userData.getNextAlarm());
-		
-		Button buttonScore = (Button) getActivity().findViewById(R.id.fragment_general_button_show_score);
-		Button buttonAlarm = (Button) getActivity().findViewById(R.id.fragment_general_button_show_alarms);
-		
-		buttonScore.setOnClickListener(new OnClickListener(){
+		textScore.setText("" + userData.getScore());
+		textAlarm.setText(userData.getNextAlarmTime());
+
+		Button buttonScore = (Button) getActivity().findViewById(
+				R.id.fragment_general_button_show_score);
+		Button buttonAlarm = (Button) getActivity().findViewById(
+				R.id.fragment_general_button_show_alarms);
+
+		buttonScore.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				context.getTabHost().setCurrentTabByTag("leaderboard");
 			}
 		});
-		
-		buttonAlarm.setOnClickListener(new OnClickListener(){
+
+		buttonAlarm.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				context.getTabHost().setCurrentTabByTag("alarms");
 			}
 		});
-		
-		ImageView imageUser = (ImageView) getActivity().findViewById(R.id.fragment_general_image);
+
+		ImageView imageUser = (ImageView) getActivity().findViewById(
+				R.id.fragment_general_image);
 		imageUser.setImageDrawable(getResources().getDrawable(
 				R.drawable.ic_menu_friendslist));
+		
+		view.findViewById(R.id.fragment_general_scroll).setVisibility(View.VISIBLE);
+		view.findViewById(R.id.fragment_general_progress_bar).setVisibility(View.GONE);
 	}
 
 	@Override
@@ -93,8 +102,7 @@ public class GeneralFragment extends SherlockFragment implements
 
 	}
 
-	public static class DataListLoader extends
-			AsyncTaskLoader<UserData> {
+	public static class DataListLoader extends AsyncTaskLoader<UserData> {
 
 		UserData mModel;
 
@@ -111,11 +119,11 @@ public class GeneralFragment extends SherlockFragment implements
 			// Here, we are generating some Sample data
 
 			// load user data here
-			userData.setName("SomeUserNameExample");
-			userData.setEmail("SomeEmailExample@Example.com");
-			userData.setScore(666);
+			userData.setName("UserNameExample");
+			userData.setEmail("EmailExample@Example.com");
+			userData.setScore(1000);
 			App.saveUserData(userData);
-			
+
 			try {
 				Thread.sleep(1500);
 			} catch (InterruptedException e) {

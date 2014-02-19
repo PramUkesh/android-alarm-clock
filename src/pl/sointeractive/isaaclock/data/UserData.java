@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import android.util.Log;
 import pl.sointeractive.isaaclock.R;
 
 public class UserData implements Serializable {
@@ -13,23 +14,20 @@ public class UserData implements Serializable {
 	private ArrayList<Alarm> alarmList;
 	private int score;
 	private String name, email;
-	
-	
+
 	private static final String[] dayArray = { "Mon", "Tue", "Wed", "Thu",
 			"Fri", "Sat", "Sun" };
 
 	public UserData() {
 		alarmList = new ArrayList<Alarm>();
-		String default_time = App.getInstance()
-				.getString(R.string.time_not_set);
-		alarmList.add(new Alarm(dayArray[0], default_time, false));
-		alarmList.add(new Alarm(dayArray[1], default_time, false));
-		alarmList.add(new Alarm(dayArray[2], default_time, false));
-		alarmList.add(new Alarm(dayArray[3], default_time, false));
-		alarmList.add(new Alarm(dayArray[4], default_time, false));
-		alarmList.add(new Alarm(dayArray[5], default_time, false));
-		alarmList.add(new Alarm(dayArray[6], default_time, false));
-		
+		alarmList.add(new Alarm(dayArray[0], 0, 0, false));
+		alarmList.add(new Alarm(dayArray[1], 0, 0, false));
+		alarmList.add(new Alarm(dayArray[2], 0, 0, false));
+		alarmList.add(new Alarm(dayArray[3], 0, 0, false));
+		alarmList.add(new Alarm(dayArray[4], 0, 0, false));
+		alarmList.add(new Alarm(dayArray[5], 0, 0, false));
+		alarmList.add(new Alarm(dayArray[6], 0, 0, false));
+
 		name = "user name";
 		email = "user email";
 	}
@@ -39,19 +37,16 @@ public class UserData implements Serializable {
 	}
 
 	public void setAlarm(int dayIndex, boolean active) {
-		String time = alarmList.get(dayIndex).getTime();
-		alarmList.set(dayIndex, new Alarm(dayArray[dayIndex], time, active));
+		int hour = alarmList.get(dayIndex).getHour();
+		int minutes = alarmList.get(dayIndex).getMinutes();
+		alarmList.set(dayIndex, new Alarm(dayArray[dayIndex], hour, minutes,
+				active));
 	}
 
-	public void setAlarm(int dayIndex, String time) {
-		alarmList.set(dayIndex, new Alarm(dayArray[dayIndex], time, true));
+	public void setAlarm(int dayIndex, int hour, int minutes, boolean active) {
+		alarmList.set(dayIndex, new Alarm(dayArray[dayIndex], hour, minutes,
+				active));
 	}
-
-	public void setAlarm(int dayIndex, String time, boolean active) {
-		alarmList.set(dayIndex, new Alarm(dayArray[dayIndex], time, active));
-	}
-	
-	
 
 	public String print() {
 		String result = "Alarms: \n";
@@ -88,18 +83,54 @@ public class UserData implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	public String getNextAlarm(){
-		String nextAlarm = App.getInstance()
-				.getString(R.string.alarm_not_set);
+
+	public String getNextAlarmTime() {
+		String nextAlarmTime = App.getInstance().getString(
+				R.string.alarm_not_set);
 		Calendar c = Calendar.getInstance();
-		int counter=0;
-		while(counter<7){
-		//	c.compareTo(anotherCalendar)
-			counter++;
-		}
+		c.setFirstDayOfWeek(Calendar.MONDAY);
+		Alarm firstActiveAlarm = null;
+
+		int currentDayOfWeek = c.get(Calendar.DAY_OF_WEEK)-1;
+		int currentHour = c.get(Calendar.HOUR_OF_DAY);
+		int currentMinute = c.get(Calendar.MINUTE);
 		
-		return nextAlarm;
+		for (Alarm a : alarmList) {
+			if (a.isActive()) {
+				if (firstActiveAlarm == null) {
+					firstActiveAlarm = a;
+					nextAlarmTime = firstActiveAlarm.getString();
+				}
+
+				int alarmDayOfWeek = a.getDayOfWeekInt();
+				int alarmHour = a.getHour();
+				int alarmMinute = a.getMinutes();
+
+				if (alarmDayOfWeek > currentDayOfWeek) {
+					Log.d("AlarmCompare", "Compare day" + alarmDayOfWeek + ">"
+							+ currentDayOfWeek + " result true");
+					return a.getString();
+				} else if (alarmDayOfWeek == currentDayOfWeek) {
+					Log.d("AlarmCompare", "Compare day" + alarmDayOfWeek + "=="
+							+ currentDayOfWeek + " result true");
+					if (alarmHour > currentHour) {
+						Log.d("AlarmCompare", "Compare hour" + alarmHour + ">"
+								+ currentHour + " result true");
+						return a.getString();
+					} else if (alarmHour == currentHour) {
+						Log.d("AlarmCompare", "Compare hour" + alarmHour + "=="
+								+ currentHour + " result true");
+						if (alarmMinute > currentMinute) {
+							Log.d("AlarmCompare", "Compare minute" + alarmMinute + ">"
+									+ currentMinute + " result true");
+							return a.getString();
+						}
+					}
+				}
+			}
+
+		}
+		return nextAlarmTime;
 	}
 
 }

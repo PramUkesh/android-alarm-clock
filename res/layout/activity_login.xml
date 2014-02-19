@@ -13,24 +13,41 @@
 
     <TextView
         android:id="@+id/text_view_login_prompt"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:hint="@string/activity_login_text_login_prompt" />
 
     <EditText
         android:id="@+id/text_edit_name"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/activity_login_text_hint_email"
         android:inputType="text" />
 
     <EditText
         android:id="@+id/text_edit_password"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/activity_login_text_hint_password"
         android:inputType="textPassword" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+    	android:gravity="left" >
+    	
+        <CheckBox
+            android:id="@+id/activity_login_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+       		android:text="@string/activity_login_checkbox_prompt" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/button_login"
@@ -40,7 +57,7 @@
 
     <TextView
         android:id="@+id/text_view_no_account_prompt"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:hint="@string/activity_login_text_no_account_prompt" />

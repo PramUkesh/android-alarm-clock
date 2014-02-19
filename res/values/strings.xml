@@ -28,6 +28,7 @@
     <string name="activity_login_button_exit">Exit</string>
     <string name="activity_login_text_login_prompt">Welcome to IsaaClock! Please log in.</string>
     <string name="activity_login_text_no_account_prompt">Don\'t have an account yet? Feel free to create one!</string>
+    <string name="activity_login_checkbox_prompt">Remember user.</string>
     
     <!-- RegisterActivity -->
     <string name="activity_register_text_hint_email">Email</string>
