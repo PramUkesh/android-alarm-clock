@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">IsaaClock</string>
-    
+
     <!-- Random data -->
     <string name="day_monday">Mon</string>
     <string name="day_tueasday">Tue</string>
@@ -15,11 +15,20 @@
     <string name="alarm_not_set">No alarm set</string>
     <string name="image_desc">Image desc</string>
     
+    <!-- AlarmService -->
+    <string name="service_note_title">IsaaClock</string>
+    <string name="service_note_message">Next alarm set for: </string>
+
     <!-- Menus -->
     <string name="menu_settings">Settings</string>
     <string name="menu_logout">Logout</string>
-    
-    
+
+    <!-- AlarmReceiver -->
+    <string name="alarm_dialog_title">IsaaClock</string>
+    <string name="alarm_dialog_message">Time to wake up!</string>
+    <string name="alarm_dialog_button_positive">Yes, I\'m awake and full of energy!</string>
+    <string name="alarm_dialog_button_negative">Naaahh, lemme sleep sum moar&#8230;</string>
+
     <!-- LoginActivity -->
     <string name="activity_login_text_hint_email">Email</string>
     <string name="activity_login_text_hint_password">Password</string>
@@ -29,14 +38,14 @@
     <string name="activity_login_text_login_prompt">Welcome to IsaaClock! Please log in.</string>
     <string name="activity_login_text_no_account_prompt">Don\'t have an account yet? Feel free to create one!</string>
     <string name="activity_login_checkbox_prompt">Remember user.</string>
-    
+
     <!-- RegisterActivity -->
     <string name="activity_register_text_hint_email">Email</string>
     <string name="activity_register_text_hint_password">Password</string>
     <string name="activity_register_text_hint_password_repeat">Repeat password</string>
     <string name="activity_register_button_register">Register user</string>
     <string name="activity_register_text_register_prompt">Please fill in the form below.</string>
-    
+
     <!-- UserActivity -->
     <string name="activity_user_tab_name_general">General</string>
     <string name="activity_user_tab_name_alarms">Alarms</string>
@@ -44,13 +53,13 @@
     <string name="activity_user_tab_name_leaderboard">Leaderboard</string>
     <string name="activity_user_tab_name_notifications">Notifications</string>
     <string name="activity_user_menu_logout">Logout</string>
-    
+
     <!-- GeneralFragment -->
     <string name="fragment_general_user_score_prompt">Score:</string>
     <string name="fragment_general_next_alarm_prompt">Next alarm:</string>
     <string name="fragment_general_button_show_score">Show more</string>
     <string name="fragment_general_button_show_alarms">Show more</string>
-    
+
     <!-- AlarmsFragment -->
     <string name="fragment_alarms_fragment_name">Alarms Fragment</string>
     <string name="fragment_alarms_item_default_day">default_day</string>
@@ -61,19 +70,16 @@
     <string name="fragment_alarms_dialog_button_cancel">Cancel</string>
     <string name="fragment_alarms_dialog_option_change_time">Change alarm time</string>
     <string name="fragment_alarms_dialog_option_deactivate">Deactivate alarm</string>
-    
+
     <!-- AchievementsFragment -->
     <string name="fragment_achievements_fragment_name">Achievements Fragment</string>
     <string name="fragment_achievements_default_name">Achievement name</string>
     <string name="fragment_achievements_default_desc">Achievement description</string>
-    
+
     <!-- LeaderboardFragment -->
     <string name="fragment_leaderboard_fragment_name">Leaderboard Fragment</string>
-    
+
     <!-- NotificationsFragment -->
     <string name="fragment_notifications_fragment_name">Notifications Fragment</string>
-    
-    
-    
 
 </resources>

@@ -3,8 +3,6 @@ package pl.sointeractive.isaaclock.fragments;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import com.actionbarsherlock.app.SherlockListFragment;
-
 import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.activities.UserActivityTabs;
 import pl.sointeractive.isaaclock.activities.UserActivityTabs.TabManager;
@@ -26,6 +24,8 @@ import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.actionbarsherlock.app.SherlockListFragment;
 
 public class AlarmsFragment extends SherlockListFragment {
 
@@ -64,6 +64,7 @@ public class AlarmsFragment extends SherlockListFragment {
 		App.saveUserData(userData);
 		refreshCurrentFragment();
 		Log.d("setTime", userData.print());
+		App.setAlarm(userData.getNextAlarmInfo());
 	}
 
 	public void setTime(final int dayIndex) {
@@ -76,6 +77,7 @@ public class AlarmsFragment extends SherlockListFragment {
 				App.saveUserData(userData);
 				refreshCurrentFragment();
 				Log.d("setTime", userData.print());
+				App.setAlarm(userData.getNextAlarmInfo());
 			}
 		};
 

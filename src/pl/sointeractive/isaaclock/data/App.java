@@ -5,6 +5,7 @@ import android.app.Application;
 public class App extends Application {
 
 	private static FileManager fileManager;
+	private static AlarmClockManager alarmClockManager;
 	private static App obj;
 	
 	@Override
@@ -12,6 +13,7 @@ public class App extends Application {
         super.onCreate();
         obj = this;
         fileManager = new FileManager();
+        alarmClockManager = new AlarmClockManager();
     }
 
 	public static void saveUserData(UserData data) {
@@ -37,4 +39,9 @@ public class App extends Application {
 	public static void resetUserData(){
 		fileManager.resetUserData(obj);
 	}
+	
+	public static void setAlarm(UserData.AlarmInfo alarmInfo){
+		alarmClockManager.setAlarm(alarmInfo, obj);
+	}
+	
 }

@@ -11,13 +11,13 @@ public final class R {
 		public static final int ic_launcher = 0x7f020070;
 	}
 	public static final class string {
-		public static final int alert_dialog_ok = 0x7f040003;
-		public static final int alert_dialog_text = 0x7f040002;
-		public static final int alert_dialog_title = 0x7f040001;
-		public static final int app_name = 0x7f040000;
+		public static final int alert_dialog_ok = 0x7f050003;
+		public static final int alert_dialog_text = 0x7f050002;
+		public static final int alert_dialog_title = 0x7f050001;
+		public static final int app_name = 0x7f050000;
 	}
 	public static final class style {
-		public static final int AppBaseTheme = 0x7f050000;
-		public static final int AppTheme = 0x7f050001;
+		public static final int AppBaseTheme = 0x7f060000;
+		public static final int AppTheme = 0x7f060001;
 	}
 }

@@ -91,10 +91,10 @@ public class UserData implements Serializable {
 		c.setFirstDayOfWeek(Calendar.MONDAY);
 		Alarm firstActiveAlarm = null;
 
-		int currentDayOfWeek = c.get(Calendar.DAY_OF_WEEK)-1;
+		int currentDayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 1;
 		int currentHour = c.get(Calendar.HOUR_OF_DAY);
 		int currentMinute = c.get(Calendar.MINUTE);
-		
+
 		for (Alarm a : alarmList) {
 			if (a.isActive()) {
 				if (firstActiveAlarm == null) {
@@ -107,22 +107,12 @@ public class UserData implements Serializable {
 				int alarmMinute = a.getMinutes();
 
 				if (alarmDayOfWeek > currentDayOfWeek) {
-					Log.d("AlarmCompare", "Compare day" + alarmDayOfWeek + ">"
-							+ currentDayOfWeek + " result true");
 					return a.getString();
 				} else if (alarmDayOfWeek == currentDayOfWeek) {
-					Log.d("AlarmCompare", "Compare day" + alarmDayOfWeek + "=="
-							+ currentDayOfWeek + " result true");
 					if (alarmHour > currentHour) {
-						Log.d("AlarmCompare", "Compare hour" + alarmHour + ">"
-								+ currentHour + " result true");
 						return a.getString();
 					} else if (alarmHour == currentHour) {
-						Log.d("AlarmCompare", "Compare hour" + alarmHour + "=="
-								+ currentHour + " result true");
 						if (alarmMinute > currentMinute) {
-							Log.d("AlarmCompare", "Compare minute" + alarmMinute + ">"
-									+ currentMinute + " result true");
 							return a.getString();
 						}
 					}
@@ -131,6 +121,91 @@ public class UserData implements Serializable {
 
 		}
 		return nextAlarmTime;
+	}
+
+	public AlarmInfo getNextAlarmInfo() {
+		AlarmInfo nextAlarmInfo = new AlarmInfo();
+		Calendar c = Calendar.getInstance();
+		c.setFirstDayOfWeek(Calendar.MONDAY);
+		Alarm firstActiveAlarm = null;
+
+		int currentDayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 1;
+		int currentHour = c.get(Calendar.HOUR_OF_DAY);
+		int currentMinute = c.get(Calendar.MINUTE);
+
+		for (Alarm a : alarmList) {
+			if (a.isActive()) {
+
+				int alarmDayOfWeek = a.getDayOfWeekInt();
+				int alarmHour = a.getHour();
+				int alarmMinute = a.getMinutes();
+
+				if (firstActiveAlarm == null) {
+					firstActiveAlarm = a;
+					nextAlarmInfo =  new AlarmInfo(alarmHour, alarmMinute,
+							getDaysBetween(currentDayOfWeek, alarmDayOfWeek));
+				}
+
+				if (alarmDayOfWeek > currentDayOfWeek) {
+					return new AlarmInfo(alarmHour, alarmMinute,
+							getDaysBetween(currentDayOfWeek, alarmDayOfWeek));
+				} else if (alarmDayOfWeek == currentDayOfWeek) {
+					if (alarmHour > currentHour) {
+						return new AlarmInfo(
+								alarmHour,
+								alarmMinute,
+								getDaysBetween(currentDayOfWeek, alarmDayOfWeek));
+					} else if (alarmHour == currentHour) {
+						if (alarmMinute > currentMinute) {
+							return new AlarmInfo(alarmHour, alarmMinute,
+									getDaysBetween(currentDayOfWeek,
+											alarmDayOfWeek));
+						}
+					}
+				}
+			}
+
+		}
+		return nextAlarmInfo;
+
+	}
+
+	public int getDaysBetween(int day1, int day2) {
+		int counter = 0;
+		while (true) {
+			if (day1 == day2) {
+				return counter;
+			} else {
+				day1++;
+				if (day1 == 8) {
+					day1 = 1;
+				}
+				counter++;
+			}
+		}
+	}
+
+	public class AlarmInfo {
+		public boolean ACTIVE;
+		public int HOUR;
+		public int MINUTE;
+		public int DAYS_FROM_NOW;
+		
+		public AlarmInfo(){
+			this.ACTIVE = false;
+		}
+
+		public AlarmInfo(int hour, int minute, int days) {
+			this.HOUR = hour;
+			this.MINUTE = minute;
+			this.DAYS_FROM_NOW = days;
+			this.ACTIVE = true;
+		}
+
+		public void print() {
+			Log.d("AlarmInfo", "Hour: " + HOUR + "Minute: " + MINUTE
+					+ "DaysFromNow: " + DAYS_FROM_NOW);
+		}
 	}
 
 }
