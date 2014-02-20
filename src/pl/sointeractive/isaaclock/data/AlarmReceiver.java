@@ -28,6 +28,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 		new AsyncTask<Object, Object, Object>() {
 			@Override
 			protected Object doInBackground(Object... params) {
+				
+				//showAlarmDialog();
 
 				AudioManager audioManager = (AudioManager) App.getInstance()
 						.getSystemService(Context.AUDIO_SERVICE);
@@ -47,13 +49,15 @@ public class AlarmReceiver extends BroadcastReceiver {
 				Log.d("AsyncTask", "IsPlaying: " + mp.isPlaying());
 				return null;
 			}
+			
+			
 		}.execute();
 
 		Log.e("AlarmReceiver", "ALARM RECEIVED!!!");
 		UserData userData = App.loadUserData();
 		App.setAlarm(userData.getNextAlarmInfo());
 		
-		showAlarmDialog();
+		
 	}
 
 	public void showAlarmDialog() {

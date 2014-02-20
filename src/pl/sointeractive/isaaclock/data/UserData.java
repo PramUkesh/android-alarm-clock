@@ -203,8 +203,8 @@ public class UserData implements Serializable {
 		}
 
 		public void print() {
-			Log.d("AlarmInfo", "Hour: " + HOUR + "Minute: " + MINUTE
-					+ "DaysFromNow: " + DAYS_FROM_NOW);
+			Log.d("AlarmInfo", "Hour: " + HOUR + " Minute: " + MINUTE
+					+ " DaysFromNow: " + DAYS_FROM_NOW);
 		}
 	}
 
