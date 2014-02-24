@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -46,7 +47,7 @@ public class AlarmsFragment extends SherlockListFragment {
 
 		userData = App.loadUserData();
 		alarmList = userData.getAlarms();
-		alarmAdapter = new AlarmAdapter(alarmList);
+		alarmAdapter = new AlarmAdapter(context);
 
 		setListAdapter(alarmAdapter);
 		return inflater.inflate(R.layout.fragment_basic_listview, container,
@@ -70,7 +71,7 @@ public class AlarmsFragment extends SherlockListFragment {
 		refreshCurrentFragment();
 		Log.d("setTime", userData.print());
 		App.setAlarm(userData.getNextAlarmInfo());
-		
+
 		startAlarmService();
 	}
 
@@ -84,8 +85,8 @@ public class AlarmsFragment extends SherlockListFragment {
 				App.saveUserData(userData);
 				refreshCurrentFragment();
 				Log.d("setTime", userData.print());
-				//App.setAlarm(userData.getNextAlarmInfo());
-				//App.startAlarmService();
+				// App.setAlarm(userData.getNextAlarmInfo());
+				// App.startAlarmService();
 				startAlarmService();
 			}
 		};
@@ -139,95 +140,77 @@ public class AlarmsFragment extends SherlockListFragment {
 		dialog.show();
 
 	}
-	
-	public void startAlarmService(){
-		if(isServiceRunning()){
+
+	public void startAlarmService() {
+		if (isServiceRunning()) {
 			Log.d("AlarmClockManager", "startAlarmService() - restart");
 			Intent intent = new Intent(context.getApplicationContext(),
 					AlarmService.class);
 			context.getApplicationContext().stopService(intent);
 			context.getApplicationContext().startService(intent);
-		} else{
+		} else {
 			Log.d("AlarmClockManager", "startAlarmService() - new service");
-			Intent intent = new Intent(context,
-					AlarmService.class);
+			Intent intent = new Intent(context, AlarmService.class);
 			context.getApplicationContext().startService(intent);
 		}
 	}
-	
+
 	private boolean isServiceRunning() {
-		ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		ActivityManager manager = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
 		for (RunningServiceInfo service : manager
 				.getRunningServices(Integer.MAX_VALUE)) {
-			if (AlarmService.class.getName().equals(service.service.getClassName())) {
+			if (AlarmService.class.getName().equals(
+					service.service.getClassName())) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private class AlarmAdapter extends BaseAdapter {
+	private class AlarmAdapter extends ArrayAdapter<Alarm> {
+		private final LayoutInflater mInflater;
 
-		ArrayList<Alarm> alarmList;
+		public AlarmAdapter(Context context) {
+			super(context, R.layout.fragment_alarms_item);
+			mInflater = (LayoutInflater) context
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			UserData userData = App.loadUserData();
+			for (Alarm alarm : userData.getAlarms()) {
+				add(alarm);
+			}
 
-		/* private view holder class */
-		private class ViewHolder {
-			TextView textDay;
-			TextView textTime;
-		}
-
-		public AlarmAdapter(ArrayList<Alarm> list) {
-			alarmList = list;
-		}
-
-		@Override
-		public int getCount() {
-			return alarmList.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return alarmList.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			alarmList.indexOf(getItem(position));
-			return 0;
 		}
 
 		@Override
 		public View getView(final int position, View convertView,
 				ViewGroup parent) {
-			ViewHolder holder = null;
 
-			boolean isActive = alarmList.get(position).isActive();
-
-			LayoutInflater mInflater = (LayoutInflater) context
-					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-
+			View view;
 			if (convertView == null) {
-				convertView = mInflater.inflate(R.layout.fragment_alarms_item,
-						null);
-				holder = new ViewHolder();
-				holder.textDay = (TextView) convertView
-						.findViewById(R.id.text_day);
-				holder.textTime = (TextView) convertView
-						.findViewById(R.id.text_time);
-				convertView.setTag(holder);
-				Alarm alarm = (Alarm) getItem(position);
-				holder.textTime.setText(alarm.getTime());
-				holder.textDay.setText(alarm.getDay());
-				if (!isActive) {
-					convertView.setBackgroundColor(Color.GRAY);
-					holder.textTime.setText(R.string.time_not_set);
-				} else {
-					holder.textTime.setText(alarm.getTime());
-				}
+				view = mInflater.inflate(R.layout.fragment_alarms_item,
+						parent, false);
 			} else {
-				holder = (ViewHolder) convertView.getTag();
+				view = convertView;
 			}
-			return convertView;
+			boolean isActive = getItem(position).isActive();
+
+			Alarm alarm = (Alarm) getItem(position);
+			TextView textDay = (TextView) view
+					.findViewById(R.id.text_day);
+			TextView textTime = (TextView) view
+					.findViewById(R.id.text_time);
+			textTime.setText(alarm.getTime());
+			textDay.setText(alarm.getDay());
+			if (!isActive) {
+				view.setBackgroundColor(Color.GRAY);
+				textTime.setText(R.string.time_not_set);
+			} else {
+				view.setBackgroundColor(Color.TRANSPARENT);
+				textTime.setText(alarm.getTime());
+			}
+
+			return view;
 		}
 	}
 
