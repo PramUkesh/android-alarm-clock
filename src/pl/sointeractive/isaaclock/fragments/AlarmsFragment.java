@@ -7,12 +7,17 @@ import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.activities.UserActivityTabs;
 import pl.sointeractive.isaaclock.activities.UserActivityTabs.TabManager;
 import pl.sointeractive.isaaclock.data.Alarm;
+import pl.sointeractive.isaaclock.data.AlarmService;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.UserData;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.app.ActivityManager.RunningServiceInfo;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -65,6 +70,8 @@ public class AlarmsFragment extends SherlockListFragment {
 		refreshCurrentFragment();
 		Log.d("setTime", userData.print());
 		App.setAlarm(userData.getNextAlarmInfo());
+		
+		startAlarmService();
 	}
 
 	public void setTime(final int dayIndex) {
@@ -77,11 +84,14 @@ public class AlarmsFragment extends SherlockListFragment {
 				App.saveUserData(userData);
 				refreshCurrentFragment();
 				Log.d("setTime", userData.print());
-				App.setAlarm(userData.getNextAlarmInfo());
+				//App.setAlarm(userData.getNextAlarmInfo());
+				//App.startAlarmService();
+				startAlarmService();
 			}
 		};
 
 		Calendar c = Calendar.getInstance();
+		c.add(Calendar.MINUTE, 1);
 
 		new TimePickerDialog(context, timePickerListener,
 				c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true)
@@ -128,6 +138,32 @@ public class AlarmsFragment extends SherlockListFragment {
 		dialog = builder.create();
 		dialog.show();
 
+	}
+	
+	public void startAlarmService(){
+		if(isServiceRunning()){
+			Log.d("AlarmClockManager", "startAlarmService() - restart");
+			Intent intent = new Intent(context.getApplicationContext(),
+					AlarmService.class);
+			context.getApplicationContext().stopService(intent);
+			context.getApplicationContext().startService(intent);
+		} else{
+			Log.d("AlarmClockManager", "startAlarmService() - new service");
+			Intent intent = new Intent(context,
+					AlarmService.class);
+			context.getApplicationContext().startService(intent);
+		}
+	}
+	
+	private boolean isServiceRunning() {
+		ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		for (RunningServiceInfo service : manager
+				.getRunningServices(Integer.MAX_VALUE)) {
+			if (AlarmService.class.getName().equals(service.service.getClassName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private class AlarmAdapter extends BaseAdapter {

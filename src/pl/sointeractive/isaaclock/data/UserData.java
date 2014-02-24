@@ -142,7 +142,7 @@ public class UserData implements Serializable {
 
 				if (firstActiveAlarm == null) {
 					firstActiveAlarm = a;
-					nextAlarmInfo =  new AlarmInfo(alarmHour, alarmMinute,
+					nextAlarmInfo = new AlarmInfo(alarmHour, alarmMinute,
 							getDaysBetween(currentDayOfWeek, alarmDayOfWeek));
 				}
 
@@ -190,8 +190,8 @@ public class UserData implements Serializable {
 		public int HOUR;
 		public int MINUTE;
 		public int DAYS_FROM_NOW;
-		
-		public AlarmInfo(){
+
+		public AlarmInfo() {
 			this.ACTIVE = false;
 		}
 
@@ -200,6 +200,16 @@ public class UserData implements Serializable {
 			this.MINUTE = minute;
 			this.DAYS_FROM_NOW = days;
 			this.ACTIVE = true;
+		}
+
+		public boolean isShowingCurrentTime() {
+			Calendar c = Calendar.getInstance();
+			if (c.get(Calendar.HOUR_OF_DAY) == HOUR
+					&& c.get(Calendar.MINUTE) == MINUTE && DAYS_FROM_NOW == 0) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		public void print() {

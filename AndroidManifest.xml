@@ -33,10 +33,16 @@
         <activity
             android:name="pl.sointeractive.isaaclock.activities.UserActivityTabs"
             android:label="@string/app_name" />
+        <activity
+            android:name="pl.sointeractive.isaaclock.activities.AlarmActivity"
+            android:label="@string/app_name" />
 
         <receiver
             android:name="pl.sointeractive.isaaclock.data.AlarmReceiver"
             android:process=":remote" />
+
+        <service android:name="pl.sointeractive.isaaclock.data.AlarmService" >
+        </service>
     </application>
 
 </manifest>

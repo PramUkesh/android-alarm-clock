@@ -23,11 +23,7 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_logout">Logout</string>
 
-    <!-- AlarmReceiver -->
-    <string name="alarm_dialog_title">IsaaClock</string>
-    <string name="alarm_dialog_message">Time to wake up!</string>
-    <string name="alarm_dialog_button_positive">Yes, I\'m awake and full of energy!</string>
-    <string name="alarm_dialog_button_negative">Naaahh, lemme sleep sum moar&#8230;</string>
+    
 
     <!-- LoginActivity -->
     <string name="activity_login_text_hint_email">Email</string>
@@ -53,6 +49,11 @@
     <string name="activity_user_tab_name_leaderboard">Leaderboard</string>
     <string name="activity_user_tab_name_notifications">Notifications</string>
     <string name="activity_user_menu_logout">Logout</string>
+    
+    <!-- AlarmActivity -->
+    <string name="activity_alarm_prompt">Rise and shine! Ready to wake up?</string>
+    <string name="activity_alarm_button_off">Yes, I\'m awake and full of energy!</string>
+    <string name="activity_alarm_button_snooze">Naaahh, lemme sleep sum moar&#8230;</string>
 
     <!-- GeneralFragment -->
     <string name="fragment_general_user_score_prompt">Score:</string>

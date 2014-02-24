@@ -13,6 +13,7 @@ public class AlarmClockManager {
 	final static int RequestCode = 999;
 
 	public void setAlarm(UserData.AlarmInfo alarmInfo, Context context) {
+		Log.d("AlarmClockManager", "setAlarm");
 		alarmInfo.print();
 		if(alarmInfo.ACTIVE){
 			Calendar c = Calendar.getInstance();
@@ -34,4 +35,6 @@ public class AlarmClockManager {
 			alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
 		}
 	}
+	
+	
 }

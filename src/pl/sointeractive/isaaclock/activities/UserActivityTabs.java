@@ -31,7 +31,6 @@ public class UserActivityTabs extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_user_tabs);
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();
@@ -69,6 +68,7 @@ public class UserActivityTabs extends SherlockFragmentActivity {
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
 		}
 		getMenuInflater();
+		
 	}
 
 	@Override

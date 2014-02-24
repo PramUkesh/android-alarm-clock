@@ -302,7 +302,7 @@ public class LeaderboardFragment extends SherlockListFragment implements
 					R.drawable.ic_menu_info_details));
 
 			if (p.isUserPosition()) {
-				view.setBackgroundColor(Color.GREEN);
+				view.setBackgroundColor(Color.rgb(0, 150, 150));
 			} else {
 				view.setBackgroundColor(Color.TRANSPARENT);
 			}
