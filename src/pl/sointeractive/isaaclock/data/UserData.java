@@ -202,10 +202,10 @@ public class UserData implements Serializable {
 			this.ACTIVE = true;
 		}
 
-		public boolean isShowingCurrentTime() {
+		public boolean isShowingCurrentOrPastTime() {
 			Calendar c = Calendar.getInstance();
-			if (c.get(Calendar.HOUR_OF_DAY) == HOUR
-					&& c.get(Calendar.MINUTE) == MINUTE && DAYS_FROM_NOW == 0) {
+			if (c.get(Calendar.HOUR_OF_DAY) >= HOUR
+					&& c.get(Calendar.MINUTE) >= MINUTE && DAYS_FROM_NOW == 0) {
 				return true;
 			} else {
 				return false;

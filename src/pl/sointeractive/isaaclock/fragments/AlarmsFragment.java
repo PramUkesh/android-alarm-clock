@@ -10,11 +10,10 @@ import pl.sointeractive.isaaclock.data.Alarm;
 import pl.sointeractive.isaaclock.data.AlarmService;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.UserData;
-import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
-import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,7 +24,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -70,7 +68,6 @@ public class AlarmsFragment extends SherlockListFragment {
 		App.saveUserData(userData);
 		refreshCurrentFragment();
 		Log.d("setTime", userData.print());
-		App.setAlarm(userData.getNextAlarmInfo());
 
 		startAlarmService();
 	}
@@ -146,11 +143,13 @@ public class AlarmsFragment extends SherlockListFragment {
 			Log.d("AlarmClockManager", "startAlarmService() - restart");
 			Intent intent = new Intent(context.getApplicationContext(),
 					AlarmService.class);
+			intent.putExtra("SNOOZE_COUNTER",0);
 			context.getApplicationContext().stopService(intent);
 			context.getApplicationContext().startService(intent);
 		} else {
 			Log.d("AlarmClockManager", "startAlarmService() - new service");
 			Intent intent = new Intent(context, AlarmService.class);
+			intent.putExtra("SNOOZE_COUNTER",0);
 			context.getApplicationContext().startService(intent);
 		}
 	}

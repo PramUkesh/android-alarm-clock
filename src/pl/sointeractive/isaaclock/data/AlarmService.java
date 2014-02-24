@@ -9,6 +9,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.util.Log;
 public class AlarmService extends Service {
 
 	final static int RequestCode = 1;
+	int snoozeCounter;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -26,9 +28,14 @@ public class AlarmService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d("AlarmService", "onStartCommand");
+		Bundle extras = intent.getExtras();
+		if (extras != null) {
+			snoozeCounter = extras.getInt("SNOOZE_COUNTER");
+		}
 		UserData userData = App.loadUserData();
 		UserData.AlarmInfo alarmInfo = userData.getNextAlarmInfo();
 		String nextAlarmString = userData.getNextAlarmTime();
+
 		setAlarm(alarmInfo);
 
 		NotificationCompat.Builder noteBuilder = new NotificationCompat.Builder(
@@ -46,8 +53,8 @@ public class AlarmService extends Service {
 
 		if (alarmInfo.ACTIVE) {
 			Calendar c = Calendar.getInstance();
-			if(alarmInfo.isShowingCurrentTime()){
-				alarmInfo.DAYS_FROM_NOW +=7;
+			if (alarmInfo.isShowingCurrentOrPastTime()) {
+				alarmInfo.DAYS_FROM_NOW += 7;
 			}
 			c.set(Calendar.HOUR_OF_DAY, alarmInfo.HOUR);
 			c.set(Calendar.MINUTE, alarmInfo.MINUTE);
@@ -57,8 +64,10 @@ public class AlarmService extends Service {
 
 			Intent intent = new Intent(getApplicationContext(),
 					AlarmReceiver.class);
+			intent.putExtra("SNOOZE_COUNTER", snoozeCounter);
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(
-					getApplicationContext(), RequestCode, intent, 0);
+					getApplicationContext(), RequestCode, intent,
+					PendingIntent.FLAG_UPDATE_CURRENT);
 			AlarmManager alarmManager = (AlarmManager) getApplicationContext()
 					.getSystemService(Context.ALARM_SERVICE);
 
