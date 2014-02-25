@@ -9,7 +9,8 @@
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
-
+	<uses-permission android:name="android.permission.INTERNET" />
+	    
     <application
         android:name="pl.sointeractive.isaaclock.data.App"
         android:allowBackup="true"

@@ -1,7 +1,11 @@
 package pl.sointeractive.isaaclock.fragments;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.activities.UserActivityTabs;
@@ -10,6 +14,7 @@ import pl.sointeractive.isaaclock.data.Alarm;
 import pl.sointeractive.isaaclock.data.AlarmService;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.UserData;
+import pl.sointeractive.isaacloud.connection.HttpResponse;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlertDialog;
@@ -18,6 +23,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +34,7 @@ import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
@@ -82,9 +89,8 @@ public class AlarmsFragment extends SherlockListFragment {
 				App.saveUserData(userData);
 				refreshCurrentFragment();
 				Log.d("setTime", userData.print());
-				// App.setAlarm(userData.getNextAlarmInfo());
-				// App.startAlarmService();
 				startAlarmService();
+				new PostEventTask().execute();
 			}
 		};
 
@@ -167,6 +173,54 @@ public class AlarmsFragment extends SherlockListFragment {
 			}
 		}
 		return false;
+	}
+	
+	private class PostEventTask extends AsyncTask<Object, Object, Object>{
+		
+		HttpResponse response;
+		boolean isError = false;
+
+		@Override
+		protected Object doInBackground(Object... params) {
+			Log.d("PostEventTask", "doInBackground()");
+			JSONObject jsonBody = new JSONObject();
+			JSONObject body = new JSONObject();
+			try {
+				body.put("action", "set_alarm");
+				jsonBody.put("body", body);
+				jsonBody.put("priority", "PRIORITY_HIGH");
+				jsonBody.put("sourceId", 1);
+				jsonBody.put("subjectId", 1);
+				jsonBody.put("subjectType", "USER");
+				jsonBody.put("type", "NORMAL");
+			} catch (JSONException e1) {
+				isError = true;
+				e1.printStackTrace();
+			}
+			
+			try {
+				response = App.getWrapper().postEvent(jsonBody);
+			} catch (IOException e) {
+				isError = true;
+				e.printStackTrace();
+			} catch (JSONException e) {
+				isError = true;
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		protected void onPostExecute (Object result){
+			Log.d("PostEventTask", "onPostExecute()");
+			if(isError){
+				Log.d("PostEventTask", "onPostExecute() - error detected");
+				Toast.makeText(context, R.string.error_no_connection, Toast.LENGTH_LONG).show();
+			}
+			if(response != null){
+				Log.d("PostEventTask", "onPostExecute() - response: " + response.toString());
+			}
+		}
+		
 	}
 
 	private class AlarmAdapter extends ArrayAdapter<Alarm> {

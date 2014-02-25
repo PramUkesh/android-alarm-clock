@@ -14,6 +14,9 @@
     <string name="time_not_set">---</string>
     <string name="alarm_not_set">No alarm set</string>
     <string name="image_desc">Image desc</string>
+    
+    <!-- Error messages -->
+    <string name="error_no_connection">An unknown error has occurred. Please try again.</string>
 
     <!-- AlarmService -->
     <string name="service_note_title">IsaaClock</string>

@@ -4,7 +4,6 @@ import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.LoginData;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;

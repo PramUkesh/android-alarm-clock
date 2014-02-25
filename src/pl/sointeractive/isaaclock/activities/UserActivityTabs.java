@@ -11,6 +11,7 @@ import pl.sointeractive.isaaclock.fragments.AlarmsFragment;
 import pl.sointeractive.isaaclock.fragments.GeneralFragment;
 import pl.sointeractive.isaaclock.fragments.LeaderboardFragment;
 import pl.sointeractive.isaaclock.fragments.NotificationsFragment;
+import pl.sointeractive.isaacloud.FakeWrapper;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,6 +32,7 @@ import com.actionbarsherlock.view.MenuItem;
 public class UserActivityTabs extends SherlockFragmentActivity {
 	private TabHost mTabHost;
 	private TabManager mTabManager;
+	
 	
 	private static final int RESULT_SETTINGS = 1;
 
