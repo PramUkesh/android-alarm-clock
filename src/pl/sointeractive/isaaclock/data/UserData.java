@@ -14,6 +14,8 @@ public class UserData implements Serializable {
 	private ArrayList<Alarm> alarmList;
 	private int score;
 	private String name, email;
+	private boolean hasNewNotifications;
+	private boolean use24HourTime;
 
 	private static final String[] dayArray = { "Mon", "Tue", "Wed", "Thu",
 			"Fri", "Sat", "Sun" };
@@ -30,6 +32,8 @@ public class UserData implements Serializable {
 
 		name = "user name";
 		email = "user email";
+		setHasNewNotifications(false);
+		setUse24HourTime(false);
 	}
 
 	public ArrayList<Alarm> getAlarms() {
@@ -183,6 +187,22 @@ public class UserData implements Serializable {
 				counter++;
 			}
 		}
+	}
+
+	public boolean hasNewNotifications() {
+		return hasNewNotifications;
+	}
+
+	public void setHasNewNotifications(boolean hasNewNotifications) {
+		this.hasNewNotifications = hasNewNotifications;
+	}
+
+	public boolean isUsing24HourTime() {
+		return use24HourTime;
+	}
+
+	public void setUse24HourTime(boolean use24HourTime) {
+		this.use24HourTime = use24HourTime;
 	}
 
 	public class AlarmInfo {

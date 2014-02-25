@@ -3,6 +3,7 @@ package pl.sointeractive.isaaclock.activities;
 import pl.sointeractive.isaaclock.R;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -37,12 +38,19 @@ public class RegisterActivity extends Activity {
 			public void onClick(View v) {
 				String pw = textPassword.getEditableText().toString();
 				String pw2 = textPasswordRepeat.getEditableText().toString();
-				if (pw.equals(pw2)) {
-					new RegisterTask().execute();
+				String email = textEmail.getEditableText().toString();
+				if(pw.length()>0 && pw2.length()>0 && email.length()>0){
+					if (pw.compareTo(pw2)==0) {
+						new RegisterTask().execute();
+					} else {
+						resetPasswordFields();
+						Toast.makeText(context, R.string.activity_register_passwords_dont_match, Toast.LENGTH_LONG).show();
+					}
 				} else {
 					resetPasswordFields();
-					Toast.makeText(context, R.string.activity_register_passwords_dont_match, Toast.LENGTH_LONG).show();
+					Toast.makeText(context, R.string.activity_register_empty_fields, Toast.LENGTH_LONG).show();
 				}
+				
 			}
 		});
 
@@ -63,12 +71,7 @@ public class RegisterActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			Log.d("RegisterTask", "onPreExecute()");
-			AlertDialog.Builder builder = new AlertDialog.Builder(context);
-			builder.setView(getLayoutInflater().inflate(
-					R.layout.dialog_progress, null));
-			builder.setCancelable(false);
-			dialog = builder.create();
-			dialog.show();
+			dialog = ProgressDialog.show(context, "Registering account", "Please wait");
 		}
 
 		@Override

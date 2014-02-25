@@ -36,6 +36,12 @@
         <activity
             android:name="pl.sointeractive.isaaclock.activities.AlarmActivity"
             android:label="@string/app_name" />
+        <activity
+            android:name="pl.sointeractive.isaaclock.activities.RegisterActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name="pl.sointeractive.isaaclock.activities.SettingsActivity"
+            android:label="@string/app_name" />
 
         <receiver
             android:name="pl.sointeractive.isaaclock.data.AlarmReceiver"

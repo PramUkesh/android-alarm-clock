@@ -14,7 +14,7 @@
     <string name="time_not_set">---</string>
     <string name="alarm_not_set">No alarm set</string>
     <string name="image_desc">Image desc</string>
-    
+
     <!-- AlarmService -->
     <string name="service_note_title">IsaaClock</string>
     <string name="service_note_message">Next alarm set for: </string>
@@ -22,6 +22,14 @@
     <!-- Menus -->
     <string name="menu_settings">Settings</string>
     <string name="menu_logout">Logout</string>
+
+    <!-- Preferences -->
+    <string name="pref_category_display">Display</string>
+    <string name="pref_category_sound">Sound</string>
+    <string name="pref_option_24h_time">Use 24 hour time display</string>
+    <string name="pref_option_summary_24h_time">Turning this option on enables 24 hour time display. Turning it off keeps the AM/PM time display.</string>
+    <string name="pref_option_set_alarm_sound">Set alarm sound</string>
+    <string name="pref_option_summary_set_alarm_sound">Change the alarm sound here.</string>
 
     <!-- LoginActivity -->
     <string name="activity_login_text_hint_email">Email</string>
@@ -39,7 +47,8 @@
     <string name="activity_register_text_hint_password_repeat">Repeat password</string>
     <string name="activity_register_button_register">Register user</string>
     <string name="activity_register_text_register_prompt">Please fill in the form below.</string>
-    <string name="activity_register_passwords_dont_match">The passwords don\'t match! Please try again.</string>
+    <string name="activity_register_passwords_dont_match">The passwords don\'t match. Please try again.</string>
+    <string name="activity_register_empty_fields">Some of the fields are empty. Please try again.</string>
 
     <!-- UserActivity -->
     <string name="activity_user_tab_name_general">General</string>
@@ -48,7 +57,7 @@
     <string name="activity_user_tab_name_leaderboard">Leaderboard</string>
     <string name="activity_user_tab_name_notifications">Notifications</string>
     <string name="activity_user_menu_logout">Logout</string>
-    
+
     <!-- AlarmActivity -->
     <string name="activity_alarm_prompt">Rise and shine! Ready to wake up?</string>
     <string name="activity_alarm_button_off">Yes, I\'m awake and full of energy!</string>

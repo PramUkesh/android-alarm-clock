@@ -90,9 +90,11 @@ public class AlarmsFragment extends SherlockListFragment {
 
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.MINUTE, 1);
+		
+		boolean isUsing24HoutTime = App.loadUserData().isUsing24HourTime();
 
 		new TimePickerDialog(context, timePickerListener,
-				c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true)
+				c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), isUsing24HoutTime)
 				.show();
 	}
 

@@ -26,17 +26,35 @@ public class Alarm implements Serializable {
 	}
 
 	public String getTime() {
+		boolean isUsing24HourTime = App.loadUserData().isUsing24HourTime();
 		String time = "";
-		if (hour < 10) {
-			time += "0" + hour;
+		if(isUsing24HourTime){
+			if (hour < 10) {
+				time += "0" + hour;
+			} else {
+				time += "" + hour;
+			}
 		} else {
-			time += "" + hour;
+			if (hour < 10) {
+				time += "0" + hour;
+			} else if (hour < 13){
+				time += "" + hour;
+			} else {
+				time += "0" + (hour-12);
+			}
 		}
 		time += ":";
 		if(minutes<10){
 			time += "0" + minutes;
 		} else {
 			time += "" + minutes;
+		}
+		if(!isUsing24HourTime){
+			if(hour<12){
+				time += " AM";
+			} else {
+				time += " PM";
+			}
 		}
 		return time;
 	}

@@ -5,6 +5,7 @@ import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.LoginData;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -23,7 +24,7 @@ public class LoginActivity extends Activity {
 	Context context;
 	LoginData loginData;
 	CheckBox checkbox;
-	AlertDialog dialog;
+	ProgressDialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -93,12 +94,7 @@ public class LoginActivity extends Activity {
 		@Override
 		protected void onPreExecute () {
 			Log.d("LoginTask", "onPreExecute()");
-			AlertDialog.Builder builder = new AlertDialog.Builder(context);
-			builder.setView(getLayoutInflater().inflate(R.layout.dialog_progress,
-					null));
-			builder.setCancelable(false);
-			dialog = builder.create();
-			dialog.show();
+			dialog = ProgressDialog.show(context, "Logging in", "Please wait");
 		}
 
 		@Override

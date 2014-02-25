@@ -5,13 +5,17 @@ import java.util.Map.Entry;
 
 import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.data.App;
+import pl.sointeractive.isaaclock.data.UserData;
 import pl.sointeractive.isaaclock.fragments.AchievementsFragment;
 import pl.sointeractive.isaaclock.fragments.AlarmsFragment;
 import pl.sointeractive.isaaclock.fragments.GeneralFragment;
 import pl.sointeractive.isaaclock.fragments.LeaderboardFragment;
 import pl.sointeractive.isaaclock.fragments.NotificationsFragment;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -27,6 +31,8 @@ import com.actionbarsherlock.view.MenuItem;
 public class UserActivityTabs extends SherlockFragmentActivity {
 	private TabHost mTabHost;
 	private TabManager mTabManager;
+	
+	private static final int RESULT_SETTINGS = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +104,33 @@ public class UserActivityTabs extends SherlockFragmentActivity {
 	}
 
 	public void openSettings() {
-
+		Intent i = new Intent(this, SettingsActivity.class);
+        startActivityForResult(i, RESULT_SETTINGS);
+	}
+	
+	@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+ 
+        switch (requestCode) {
+        case RESULT_SETTINGS:
+            saveSettings();
+            break;
+        }
+    }
+	
+	private void saveSettings(){
+		Log.d("UserActivity","saveSettings()");
+		SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(this);
+		UserData userData = App.loadUserData();
+		
+		boolean isUsing24hTime = prefs.getBoolean("pref24hTime", false);
+		userData.setUse24HourTime(isUsing24hTime);
+		
+		mTabManager.refreshTab(mTabHost.getCurrentTabTag());
+		
+		App.saveUserData(userData);
 	}
 
 	public TabHost getTabHost() {

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+ 
+    <PreferenceCategory android:title="@string/pref_category_display" >
+        <CheckBoxPreference
+            android:key="pref24hTime"
+            android:summary="@string/pref_option_summary_24h_time"
+            android:title="@string/pref_option_24h_time" />
+    </PreferenceCategory>
+     
+    
+ 
+</PreferenceScreen>
