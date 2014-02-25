@@ -23,8 +23,6 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_logout">Logout</string>
 
-    
-
     <!-- LoginActivity -->
     <string name="activity_login_text_hint_email">Email</string>
     <string name="activity_login_text_hint_password">Password</string>
@@ -41,6 +39,7 @@
     <string name="activity_register_text_hint_password_repeat">Repeat password</string>
     <string name="activity_register_button_register">Register user</string>
     <string name="activity_register_text_register_prompt">Please fill in the form below.</string>
+    <string name="activity_register_passwords_dont_match">The passwords don\'t match! Please try again.</string>
 
     <!-- UserActivity -->
     <string name="activity_user_tab_name_general">General</string>

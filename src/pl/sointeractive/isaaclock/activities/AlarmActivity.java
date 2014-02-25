@@ -6,7 +6,6 @@ import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.data.AlarmReceiver;
 import pl.sointeractive.isaaclock.data.AlarmService;
 import pl.sointeractive.isaaclock.data.App;
-import pl.sointeractive.isaaclock.data.UserData;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;

@@ -19,11 +19,11 @@
         android:hint="@string/activity_login_text_login_prompt" />
 
     <EditText
-        android:id="@+id/text_edit_name"
+        android:id="@+id/text_edit_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/activity_login_text_hint_email"
-        android:inputType="text" />
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/text_edit_password"
