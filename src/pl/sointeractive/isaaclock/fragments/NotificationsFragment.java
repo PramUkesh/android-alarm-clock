@@ -1,11 +1,19 @@
 package pl.sointeractive.isaaclock.fragments;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.activities.UserActivityTabs;
+import pl.sointeractive.isaaclock.data.Achievement;
+import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.Notification;
+import pl.sointeractive.isaacloud.connection.HttpResponse;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -38,7 +46,8 @@ public class NotificationsFragment extends SherlockListFragment implements
 
 		// Start out with a progress indicator.
 		setListShown(false);
-
+		// Set empty text
+		setEmptyText(getString(R.string.fragment_notifications_empty));
 		// Prepare the loader. Either re-connect with an existing one,
 		// or start a new one.
 		getLoaderManager().initLoader(0, null, this);
@@ -82,13 +91,22 @@ public class NotificationsFragment extends SherlockListFragment implements
 		public List<Notification> loadInBackground() {
 			System.out.println("DataListLoader.loadInBackground");
 
-			// You should perform the heavy task of getting data from
-			// Internet or database or other source
-			// Here, we are generating some Sample data
+			List<Notification> entries = new ArrayList<Notification>();
+			try {
+				HttpResponse response = App.getWrapper().getNotifications();
 
-			// Create corresponding array of entries and load with data.
-			List<Notification> entries = new ArrayList<Notification>(
-					10);
+				JSONArray array = response.getJSONArray();
+				for (int i = 0; i < array.length(); i++) {
+					entries.add(new Notification((JSONObject) array.get(i)));
+				}
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			/*
 			int title = 1;
 			int message = 1;
 			entries.add(new Notification(null, "Title "+title++, "Message "+message++));
@@ -103,6 +121,7 @@ public class NotificationsFragment extends SherlockListFragment implements
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			*/
 
 			return entries;
 		}

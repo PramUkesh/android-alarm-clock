@@ -1,20 +1,30 @@
 package pl.sointeractive.isaaclock.data;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Notification {
 
-	private String data, title, message;
+	JSONObject data;
+	private String title, message;
 	
-	public Notification(String data, String title, String message){
+	public Notification(JSONObject data, String title, String message){
 		this.data = data;
 		this.title = title;
 		this.message = message;
 	}
+	
+	public Notification(JSONObject json) throws JSONException{
+		this.data = json.getJSONObject("data");
+		this.title = data.getString("title");
+		this.message = data.getString("message");
+	}
 
-	public String getData() {
+	public JSONObject getData() {
 		return data;
 	}
 
-	public void setData(String data) {
+	public void setData(JSONObject data) {
 		this.data = data;
 	}
 
