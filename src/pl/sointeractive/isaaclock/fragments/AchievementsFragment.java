@@ -1,12 +1,19 @@
 package pl.sointeractive.isaaclock.fragments;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.activities.UserActivityTabs;
 import pl.sointeractive.isaaclock.activities.UserActivityTabs.TabManager;
 import pl.sointeractive.isaaclock.data.Achievement;
+import pl.sointeractive.isaaclock.data.App;
+import pl.sointeractive.isaacloud.connection.HttpResponse;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -95,36 +102,50 @@ public class AchievementsFragment extends SherlockListFragment implements
 		public List<Achievement> loadInBackground() {
 			System.out.println("DataListLoader.loadInBackground");
 
-			// You should perform the heavy task of getting data from
-			// Internet or database or other source
-			// Here, we are generating some Sample data
+			List<Achievement> entries = new ArrayList<Achievement>();
+			try {
+				HttpResponse response = App.getWrapper().getUserAchievements(2);
 
-			// Create corresponding array of entries and load with data.
-			List<Achievement> entries = new ArrayList<Achievement>(10);
-			entries.add(new Achievement("Achievement 0", "Desc 0", true));
-			entries.add(new Achievement("Achievement 1", "Desc 1", true));
-			entries.add(new Achievement("Achievement 2", "Desc 2", true));
-			entries.add(new Achievement("Achievement 3", "Desc 3", true));
-			entries.add(new Achievement("Achievement 4", "Desc 4", false));
-			entries.add(new Achievement("Achievement 5", "Desc 5", false));
-			entries.add(new Achievement("Achievement 6", "Desc 6", false));
-			entries.add(new Achievement("Achievement 7", "Desc 7", false));
-			entries.add(new Achievement("Achievement 8", "Desc 8", false));
-			entries.add(new Achievement("Achievement 9", "Desc 9", false));
-			entries.add(new Achievement("Achievement 10", "Desc 10", false));
-			entries.add(new Achievement("Achievement 11", "Desc 11", false));
-			entries.add(new Achievement("Achievement 12", "Desc 12", false));
-			entries.add(new Achievement("Achievement 13", "Desc 13", false));
-			entries.add(new Achievement("Achievement 14", "Desc 14", false));
-			entries.add(new Achievement("Achievement 15", "Desc 15", false));
+				JSONArray array = response.getJSONArray();
+				for (int i = 0; i < array.length(); i++) {
+					entries.add(new Achievement((JSONObject) array.get(i)));
+				}
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
+			/*
+			 * entries.add(new Achievement("Achievement 0", "Desc 0", true));
+			 * entries.add(new Achievement("Achievement 1", "Desc 1", true));
+			 * entries.add(new Achievement("Achievement 2", "Desc 2", true));
+			 * entries.add(new Achievement("Achievement 3", "Desc 3", true));
+			 * entries.add(new Achievement("Achievement 4", "Desc 4", false));
+			 * entries.add(new Achievement("Achievement 5", "Desc 5", false));
+			 * entries.add(new Achievement("Achievement 6", "Desc 6", false));
+			 * entries.add(new Achievement("Achievement 7", "Desc 7", false));
+			 * entries.add(new Achievement("Achievement 8", "Desc 8", false));
+			 * entries.add(new Achievement("Achievement 9", "Desc 9", false));
+			 * entries.add(new Achievement("Achievement 10", "Desc 10", false));
+			 * entries.add(new Achievement("Achievement 11", "Desc 11", false));
+			 * entries.add(new Achievement("Achievement 12", "Desc 12", false));
+			 * entries.add(new Achievement("Achievement 13", "Desc 13", false));
+			 * entries.add(new Achievement("Achievement 14", "Desc 14", false));
+			 * entries.add(new Achievement("Achievement 15", "Desc 15", false));
+			 */
+			
+			/*
 			try {
 				Thread.sleep(1500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			 */
+			
 			return entries;
 		}
 
@@ -236,7 +257,7 @@ public class AchievementsFragment extends SherlockListFragment implements
 
 		public void setData(List<Achievement> data) {
 			clear();
-			//array = (ArrayList<Achievement>) data;
+			// array = (ArrayList<Achievement>) data;
 			if (data != null) {
 				for (Achievement appEntry : data) {
 					add(appEntry);
@@ -255,9 +276,9 @@ public class AchievementsFragment extends SherlockListFragment implements
 				view = convertView;
 			}
 
-			//Achievement achievement = getItem(position);
+			// Achievement achievement = getItem(position);
 			Achievement achievement = getItem(position);
-			Log.d("AchievementAdapter",achievement.print());
+			Log.d("AchievementAdapter", achievement.print());
 			TextView textName = (TextView) view
 					.findViewById(R.id.fragment_achievement_text_name);
 			TextView textDesc = (TextView) view

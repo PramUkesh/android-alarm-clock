@@ -1,5 +1,8 @@
 package pl.sointeractive.isaaclock.data;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Achievement {
 
 	private String name, desc, imageUrl;
@@ -9,6 +12,12 @@ public class Achievement {
 		this.setName(name);
 		this.setDesc(desc);
 		this.setGained(isGained);
+	}
+	
+	public Achievement(JSONObject json) throws JSONException{
+		this.setName(json.getString("name"));
+		this.setDesc(json.getString("description"));
+		this.setGained(true);
 	}
 
 	public String getName() {

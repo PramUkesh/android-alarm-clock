@@ -112,7 +112,7 @@ public class LoginActivity extends Activity {
 		config.put("userPassword", textPassword.getEditableText().toString());
 		App.setWrapper(new FakeWrapper(App.getInstance().getApplicationContext(),
 				"https://api.isaacloud.com", "https://oauth.isaacloud.com",
-				"v1", config));
+				"/v1", config));
 	}
 	
 	private class LoginTask extends AsyncTask<Object, Object, Object>{
