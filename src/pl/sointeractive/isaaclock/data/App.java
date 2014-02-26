@@ -1,8 +1,5 @@
 package pl.sointeractive.isaaclock.data;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import pl.sointeractive.isaacloud.FakeWrapper;
 import android.app.Application;
 
@@ -18,10 +15,7 @@ public class App extends Application {
         obj = this;
         fileManager = new FileManager();
         
-        Map<String, String> config =  new HashMap<String, String>();
-        config.put("clientId", "12");
-		config.put("secret", "be3af94692dd29ecbde034e160c932d1");
-        wrapper = new FakeWrapper("https://api.isaacloud.com","https://oauth.isaacloud.com","v1",config);
+        
     }
 
 	public static void saveUserData(UserData data) {

@@ -42,6 +42,8 @@ public class AchievementsFragment extends SherlockListFragment implements
 
 		// Start out with a progress indicator.
 		setListShown(false);
+		// Set empty text
+		setEmptyText(getString(R.string.fragment_achievements_empty));
 
 		// Prepare the loader. Either re-connect with an existing one,
 		// or start a new one.

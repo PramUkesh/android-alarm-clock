@@ -17,7 +17,8 @@
     
     <!-- Error messages -->
     <string name="error_no_connection">An unknown error has occurred. Please try again.</string>
-
+    <string name="error_login">Unable to log in using current data. Please check user email and password.</string>
+    
     <!-- AlarmService -->
     <string name="service_note_title">IsaaClock</string>
     <string name="service_note_message">Next alarm set for: </string>
@@ -87,11 +88,14 @@
     <string name="fragment_achievements_fragment_name">Achievements Fragment</string>
     <string name="fragment_achievements_default_name">Achievement name</string>
     <string name="fragment_achievements_default_desc">Achievement description</string>
+    <string name="fragment_achievements_empty">No achievements</string>
 
     <!-- LeaderboardFragment -->
     <string name="fragment_leaderboard_fragment_name">Leaderboard Fragment</string>
+    <string name="fragment_leaderboard_empty">No leaderboard</string>
 
     <!-- NotificationsFragment -->
     <string name="fragment_notifications_fragment_name">Notifications Fragment</string>
+    <string name="fragment_notifications_empty">No notifications</string>
 
 </resources>

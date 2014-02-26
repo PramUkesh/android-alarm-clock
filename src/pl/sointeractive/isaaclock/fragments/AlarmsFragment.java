@@ -97,10 +97,10 @@ public class AlarmsFragment extends SherlockListFragment {
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.MINUTE, 1);
 		
-		boolean isUsing24HoutTime = App.loadUserData().isUsing24HourTime();
+		boolean isUsing24HourTime = App.loadUserData().isUsing24HourTime();
 
 		new TimePickerDialog(context, timePickerListener,
-				c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), isUsing24HoutTime)
+				c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), isUsing24HourTime)
 				.show();
 	}
 
@@ -214,7 +214,7 @@ public class AlarmsFragment extends SherlockListFragment {
 			Log.d("PostEventTask", "onPostExecute()");
 			if(isError){
 				Log.d("PostEventTask", "onPostExecute() - error detected");
-				Toast.makeText(context, R.string.error_no_connection, Toast.LENGTH_LONG).show();
+				//Toast.makeText(context, R.string.error_no_connection, Toast.LENGTH_LONG).show();
 			}
 			if(response != null){
 				Log.d("PostEventTask", "onPostExecute() - response: " + response.toString());

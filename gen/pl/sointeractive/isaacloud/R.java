@@ -10,6 +10,9 @@ public final class R {
 	public static final class drawable {
 		public static final int ic_launcher = 0x7f020070;
 	}
+	public static final class raw {
+		public static final int ca = 0x7f050001;
+	}
 	public static final class string {
 		public static final int alert_dialog_ok = 0x7f060003;
 		public static final int alert_dialog_text = 0x7f060002;
