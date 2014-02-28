@@ -14,6 +14,7 @@
     <string name="time_not_set">---</string>
     <string name="alarm_not_set">No alarm set</string>
     <string name="image_desc">Image desc</string>
+    <string name="score_no_data">No information available</string>
     
     <!-- Error messages -->
     <string name="error_no_connection">An unknown error has occurred. Please try again.</string>

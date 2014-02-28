@@ -94,7 +94,6 @@ public class NotificationsFragment extends SherlockListFragment implements
 			List<Notification> entries = new ArrayList<Notification>();
 			try {
 				HttpResponse response = App.getWrapper().getNotifications();
-
 				JSONArray array = response.getJSONArray();
 				for (int i = 0; i < array.length(); i++) {
 					entries.add(new Notification((JSONObject) array.get(i)));

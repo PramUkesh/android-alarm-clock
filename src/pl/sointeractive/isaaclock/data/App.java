@@ -18,8 +18,8 @@ public class App extends Application {
         
     }
 
-	public static void saveUserData(UserData data) {
-		fileManager.saveUserData(data, obj);
+	public static void saveUserData(UserData userData) {
+		fileManager.saveUserData(userData, obj);
 	}
 	
 	public static UserData loadUserData(){

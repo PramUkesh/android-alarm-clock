@@ -13,6 +13,7 @@ import pl.sointeractive.isaaclock.activities.UserActivityTabs;
 import pl.sointeractive.isaaclock.activities.UserActivityTabs.TabManager;
 import pl.sointeractive.isaaclock.data.Achievement;
 import pl.sointeractive.isaaclock.data.App;
+import pl.sointeractive.isaaclock.data.UserData;
 import pl.sointeractive.isaacloud.connection.HttpResponse;
 import android.content.Context;
 import android.graphics.Color;
@@ -92,6 +93,7 @@ public class AchievementsFragment extends SherlockListFragment implements
 	public static class DataListLoader extends
 			AsyncTaskLoader<List<Achievement>> {
 
+		UserData userData;
 		List<Achievement> mModels;
 
 		public DataListLoader(Context context) {
@@ -101,10 +103,12 @@ public class AchievementsFragment extends SherlockListFragment implements
 		@Override
 		public List<Achievement> loadInBackground() {
 			System.out.println("DataListLoader.loadInBackground");
+			
+			userData = App.loadUserData();
 
 			List<Achievement> entries = new ArrayList<Achievement>();
 			try {
-				HttpResponse response = App.getWrapper().getUserAchievements(2);
+				HttpResponse response = App.getWrapper().getUserAchievements(userData.getUserId());
 
 				JSONArray array = response.getJSONArray();
 				for (int i = 0; i < array.length(); i++) {
@@ -279,13 +283,13 @@ public class AchievementsFragment extends SherlockListFragment implements
 			// Achievement achievement = getItem(position);
 			Achievement achievement = getItem(position);
 			Log.d("AchievementAdapter", achievement.print());
-			TextView textName = (TextView) view
-					.findViewById(R.id.fragment_achievement_text_name);
+			TextView textLabel = (TextView) view
+					.findViewById(R.id.fragment_achievement_text_label);
 			TextView textDesc = (TextView) view
 					.findViewById(R.id.fragment_achievement_text_desc);
 			ImageView image = (ImageView) view
 					.findViewById(R.id.fragment_achievement_image);
-			textName.setText(achievement.getName());
+			textLabel.setText(achievement.getLabel());
 			textDesc.setText(achievement.getDesc());
 			image.setImageDrawable(getResources().getDrawable(
 					R.drawable.ic_menu_info_details));

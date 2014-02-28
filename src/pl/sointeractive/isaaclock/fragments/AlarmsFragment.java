@@ -34,7 +34,6 @@ import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
@@ -179,10 +178,14 @@ public class AlarmsFragment extends SherlockListFragment {
 		
 		HttpResponse response;
 		boolean isError = false;
+		UserData userData = App.loadUserData();
 
 		@Override
 		protected Object doInBackground(Object... params) {
 			Log.d("PostEventTask", "doInBackground()");
+			
+			//userData = App.loadUserData();
+			
 			JSONObject jsonBody = new JSONObject();
 			JSONObject body = new JSONObject();
 			try {
@@ -190,7 +193,7 @@ public class AlarmsFragment extends SherlockListFragment {
 				jsonBody.put("body", body);
 				jsonBody.put("priority", "PRIORITY_HIGH");
 				jsonBody.put("sourceId", 1);
-				jsonBody.put("subjectId", 1);
+				jsonBody.put("subjectId", userData.getUserId());
 				jsonBody.put("subjectType", "USER");
 				jsonBody.put("type", "NORMAL");
 			} catch (JSONException e1) {

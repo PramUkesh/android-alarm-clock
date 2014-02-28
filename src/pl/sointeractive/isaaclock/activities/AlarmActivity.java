@@ -3,6 +3,7 @@ package pl.sointeractive.isaaclock.activities;
 import java.util.Calendar;
 
 import pl.sointeractive.isaaclock.R;
+import pl.sointeractive.isaaclock.config.Settings;
 import pl.sointeractive.isaaclock.data.AlarmReceiver;
 import pl.sointeractive.isaaclock.data.AlarmService;
 import pl.sointeractive.isaaclock.data.App;
@@ -86,7 +87,7 @@ public class AlarmActivity extends Activity {
 				+ snoozeCounter);
 
 		Calendar c = Calendar.getInstance();
-		c.add(Calendar.MINUTE, 1);
+		c.add(Calendar.MINUTE, Settings.snoozeTimeInMinutes);
 
 		Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
 		intent.putExtra("SNOOZE_COUNTER", snoozeCounter);

@@ -24,7 +24,7 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/fragment_achievement_text_name"
+            android:id="@+id/fragment_achievement_text_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp" />

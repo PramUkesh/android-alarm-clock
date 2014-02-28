@@ -139,7 +139,7 @@ public class LeaderboardFragment extends SherlockListFragment implements
 			entries.add(new LeaderboardPosition(leaderboardId, position++,
 					userId++, score -= 100).setIsUserPosition(true));
 			userPosition = position-2;
-			userData.setScore(score+100);
+			userData.setLastScore(score+100);
 			App.saveUserData(userData);
 			entries.add(new LeaderboardPosition(leaderboardId, position++,
 					userId++, score -= 100));

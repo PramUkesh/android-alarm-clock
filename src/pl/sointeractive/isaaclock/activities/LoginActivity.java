@@ -1,14 +1,13 @@
 package pl.sointeractive.isaaclock.activities;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.JSONException;
-
 import pl.sointeractive.isaaclock.R;
+import pl.sointeractive.isaaclock.config.Settings;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.LoginData;
+import pl.sointeractive.isaaclock.data.UserData;
 import pl.sointeractive.isaacloud.FakeWrapper;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -32,6 +31,7 @@ public class LoginActivity extends Activity {
 	LoginData loginData;
 	CheckBox checkbox;
 	ProgressDialog dialog;
+	UserData userData;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +68,8 @@ public class LoginActivity extends Activity {
 					loginData.setPassword("");
 					App.saveLoginData(loginData);
 				}
+				
+				userData = App.loadUserData();
 				
 				initializeWrapper();
 				
@@ -106,8 +108,8 @@ public class LoginActivity extends Activity {
 	
 	public void initializeWrapper(){
 		Map<String, String> config = new HashMap<String, String>();
-		config.put("clientId", "12");
-		config.put("secret", "be3af94692dd29ecbde034e160c932d1");
+		config.put("clientId", Settings.memberId);
+		config.put("secret", Settings.appSecret);
 		config.put("userEmail", textEmail.getEditableText().toString());
 		config.put("userPassword", textPassword.getEditableText().toString());
 		App.setWrapper(new FakeWrapper(App.getInstance().getApplicationContext(),
@@ -147,6 +149,14 @@ public class LoginActivity extends Activity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			
+			
+			// TEMPORARY - setting user hardcoded id
+			userData.setName("Jonh" + " " + "Doe");
+			userData.setEmail("jdoe2@isaacloud.com");
+			userData.setUserId(2);
+			App.saveUserData(userData);
 			
 			return null;
 		}

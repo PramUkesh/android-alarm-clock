@@ -65,7 +65,7 @@ public class GeneralFragment extends SherlockFragment implements
 
 		textName.setText(userData.getName());
 		textEmail.setText(userData.getEmail());
-		textScore.setText("" + userData.getScore());
+		textScore.setText(userData.getLastScore());
 		textAlarm.setText(userData.getNextAlarmTime());
 
 		Button buttonScore = (Button) getActivity().findViewById(
@@ -119,13 +119,10 @@ public class GeneralFragment extends SherlockFragment implements
 			// Here, we are generating some Sample data
 
 			// load user data here
-			userData.setName("UserNameExample");
-			userData.setEmail("EmailExample@Example.com");
-			userData.setScore(1000);
 			App.saveUserData(userData);
 
 			try {
-				Thread.sleep(1500);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

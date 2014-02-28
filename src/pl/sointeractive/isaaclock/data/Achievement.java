@@ -5,27 +5,27 @@ import org.json.JSONObject;
 
 public class Achievement {
 
-	private String name, desc, imageUrl;
+	private String label, desc, imageUrl;
 	private boolean isGained;
 
-	public Achievement(String name, String desc, boolean isGained) {
-		this.setName(name);
+	public Achievement(String label, String desc, boolean isGained) {
+		this.setLabel(label);
 		this.setDesc(desc);
 		this.setGained(isGained);
 	}
 	
 	public Achievement(JSONObject json) throws JSONException{
-		this.setName(json.getString("name"));
+		this.setLabel(json.getString("label"));
 		this.setDesc(json.getString("description"));
 		this.setGained(true);
 	}
 
-	public String getName() {
-		return name;
+	public String getLabel() {
+		return label;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setLabel(String label) {
+		this.label = label;
 	}
 
 	public String getDesc() {
@@ -53,6 +53,6 @@ public class Achievement {
 	}
 
 	public String print() {
-		return "Achievement: " + name + " " + desc + " " + isGained;
+		return "Achievement: " + label + " " + desc + " " + isGained;
 	}
 }

@@ -12,10 +12,12 @@ public class UserData implements Serializable {
 	private static final long serialVersionUID = 7298108357152407887L;
 
 	private ArrayList<Alarm> alarmList;
-	private int score;
 	private String name, email;
 	private boolean hasNewNotifications;
 	private boolean use24HourTime;
+	private int userId;
+	private Notification lastNotification;
+	private String lastScore;
 
 	private static final String[] dayArray = { "Mon", "Tue", "Wed", "Thu",
 			"Fri", "Sat", "Sun" };
@@ -32,6 +34,8 @@ public class UserData implements Serializable {
 
 		name = "user name";
 		email = "user email";
+		this.lastScore = (App.getInstance().getString(
+				R.string.score_no_data));
 		setHasNewNotifications(false);
 		setUse24HourTime(false);
 	}
@@ -62,14 +66,6 @@ public class UserData implements Serializable {
 
 	boolean isActive(int dayIndex) {
 		return alarmList.get(dayIndex).isActive();
-	}
-
-	public int getScore() {
-		return score;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
 	}
 
 	public String getName() {
@@ -204,6 +200,34 @@ public class UserData implements Serializable {
 	public void setUse24HourTime(boolean use24HourTime) {
 		this.use24HourTime = use24HourTime;
 	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public Notification getLastNotification() {
+		return lastNotification;
+	}
+
+	public void setLastNotification(Notification lastNotification) {
+		this.lastNotification = lastNotification;
+	}
+
+	
+
+	public String getLastScore() {
+		return lastScore;
+	}
+
+	public void setLastScore(int score) {
+		this.lastScore = ""+score;;
+	}
+
+
 
 	public class AlarmInfo {
 		public boolean ACTIVE;
