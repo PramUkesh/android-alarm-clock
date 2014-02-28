@@ -71,7 +71,7 @@
                     android:id="@+id/fragment_general_user_score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="30sp" />
+                    android:textSize="25sp" />
 
                 <Button
                     android:id="@+id/fragment_general_button_show_score"
@@ -97,7 +97,7 @@
                     android:id="@+id/fragment_general_next_alarm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="30sp" />
+                    android:textSize="25sp" />
 
                 <Button
                     android:id="@+id/fragment_general_button_show_alarms"

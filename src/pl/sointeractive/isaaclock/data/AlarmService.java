@@ -51,6 +51,18 @@ public class AlarmService extends Service {
 
 	private void setAlarm(UserData.AlarmInfo alarmInfo) {
 
+		Intent intent = new Intent(getApplicationContext(),
+				AlarmReceiver.class);
+		intent.putExtra("SNOOZE_COUNTER", snoozeCounter);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(
+				getApplicationContext(), RequestCode, intent,
+				PendingIntent.FLAG_UPDATE_CURRENT);
+		AlarmManager alarmManager = (AlarmManager) getApplicationContext()
+				.getSystemService(Context.ALARM_SERVICE);
+		
+		//cancel any previous alarms if set
+		alarmManager.cancel(pendingIntent);
+		
 		if (alarmInfo.ACTIVE) {
 			Calendar c = Calendar.getInstance();
 			if (alarmInfo.isShowingCurrentOrPastTime()) {
@@ -62,19 +74,11 @@ public class AlarmService extends Service {
 			c.set(Calendar.SECOND, 0);
 			c.set(Calendar.MILLISECOND, 0);
 
-			Intent intent = new Intent(getApplicationContext(),
-					AlarmReceiver.class);
-			intent.putExtra("SNOOZE_COUNTER", snoozeCounter);
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(
-					getApplicationContext(), RequestCode, intent,
-					PendingIntent.FLAG_UPDATE_CURRENT);
-			AlarmManager alarmManager = (AlarmManager) getApplicationContext()
-					.getSystemService(Context.ALARM_SERVICE);
-
 			long alarmTime = c.getTimeInMillis();
 			Log.d("setAlarm", "Alarm set to: " + c.getTime().toString());
 
 			alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
+			
 		}
 	}
 

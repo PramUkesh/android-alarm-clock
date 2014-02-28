@@ -38,6 +38,8 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		context = this;
+		
+		initializeWrapper();
 
 		buttonExit = (Button) findViewById(R.id.button_exit);
 		buttonNewUser = (Button) findViewById(R.id.button_new_user);
@@ -68,11 +70,7 @@ public class LoginActivity extends Activity {
 					loginData.setPassword("");
 					App.saveLoginData(loginData);
 				}
-				
 				userData = App.loadUserData();
-				
-				initializeWrapper();
-				
 				new LoginTask().execute();
 			}
 		});
@@ -110,8 +108,6 @@ public class LoginActivity extends Activity {
 		Map<String, String> config = new HashMap<String, String>();
 		config.put("clientId", Settings.memberId);
 		config.put("secret", Settings.appSecret);
-		config.put("userEmail", textEmail.getEditableText().toString());
-		config.put("userPassword", textPassword.getEditableText().toString());
 		App.setWrapper(new FakeWrapper(App.getInstance().getApplicationContext(),
 				"https://api.isaacloud.com", "https://oauth.isaacloud.com",
 				"/v1", config));
@@ -143,20 +139,25 @@ public class LoginActivity extends Activity {
 			}
 			*/
 			try {
-				success = true;
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
+			//we should download these values - THIS IS A TEMPORARY SOLUTION until we create a proper login flow
+			String firstName = "John";
+			String lastName = "Doe";
+			String email = "jdoe2@isaacloud.com";
+			int userId = 2;
 			
-			
-			// TEMPORARY - setting user hardcoded id
-			userData.setName("Jonh" + " " + "Doe");
-			userData.setEmail("jdoe2@isaacloud.com");
-			userData.setUserId(2);
+			// send loaded data to App.UserData
+			userData.setName(firstName + " " + lastName);
+			userData.setEmail(email);
+			userData.setUserId(userId);
 			App.saveUserData(userData);
+			
+			success = true;
 			
 			return null;
 		}
@@ -171,8 +172,6 @@ public class LoginActivity extends Activity {
 			} else {
 				Toast.makeText(context, R.string.error_login, Toast.LENGTH_LONG).show();
 			}
-			
-			
 		}
 		
 	}

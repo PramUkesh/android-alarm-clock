@@ -146,32 +146,12 @@ public class AlarmsFragment extends SherlockListFragment {
 	}
 
 	public void startAlarmService() {
-		if (isServiceRunning()) {
-			Log.d("AlarmClockManager", "startAlarmService() - restart");
+			Log.d("AlarmClockManager", "startAlarmService()");
 			Intent intent = new Intent(context.getApplicationContext(),
 					AlarmService.class);
 			intent.putExtra("SNOOZE_COUNTER",0);
 			context.getApplicationContext().stopService(intent);
 			context.getApplicationContext().startService(intent);
-		} else {
-			Log.d("AlarmClockManager", "startAlarmService() - new service");
-			Intent intent = new Intent(context, AlarmService.class);
-			intent.putExtra("SNOOZE_COUNTER",0);
-			context.getApplicationContext().startService(intent);
-		}
-	}
-
-	private boolean isServiceRunning() {
-		ActivityManager manager = (ActivityManager) context
-				.getSystemService(Context.ACTIVITY_SERVICE);
-		for (RunningServiceInfo service : manager
-				.getRunningServices(Integer.MAX_VALUE)) {
-			if (AlarmService.class.getName().equals(
-					service.service.getClassName())) {
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	private class PostEventTask extends AsyncTask<Object, Object, Object>{

@@ -1,7 +1,12 @@
 package pl.sointeractive.isaaclock.fragments;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.activities.UserActivityTabs;
@@ -9,6 +14,7 @@ import pl.sointeractive.isaaclock.data.Achievement;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.LeaderboardPosition;
 import pl.sointeractive.isaaclock.data.UserData;
+import pl.sointeractive.isaacloud.connection.HttpResponse;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -46,6 +52,9 @@ public class LeaderboardFragment extends SherlockListFragment implements
 
 		// Start out with a progress indicator.
 		setListShown(false);
+		
+		// Set empty text
+		setEmptyText(getString(R.string.fragment_leaderboard_empty));
 
 		// Prepare the loader. Either re-connect with an existing one,
 		// or start a new one.
@@ -92,12 +101,27 @@ public class LeaderboardFragment extends SherlockListFragment implements
 		@Override
 		public List<LeaderboardPosition> loadInBackground() {
 			System.out.println("DataListLoader.loadInBackground");
+			
+			userData = App.loadUserData();
+			int userId = userData.getUserId();
 
-			// You should perform the heavy task of getting data from
-			// Internet or database or other source
-			// Here, we are generating some Sample data
+			List<LeaderboardPosition> entries = new ArrayList<LeaderboardPosition>();
+			try {
+				HttpResponse response = App.getWrapper().getUserAchievements(userData.getUserId());
 
-			// Create corresponding array of entries and load with data.
+				JSONArray array = response.getJSONArray();
+				for (int i = 0; i < array.length(); i++) {
+					entries.add(new LeaderboardPosition((JSONObject) array.get(i),userId));
+				}
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			/*
 			List<LeaderboardPosition> entries = new ArrayList<LeaderboardPosition>(
 					10);
 			int leaderboardId = 1;
@@ -154,6 +178,8 @@ public class LeaderboardFragment extends SherlockListFragment implements
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			*/
 
 			return entries;
 		}

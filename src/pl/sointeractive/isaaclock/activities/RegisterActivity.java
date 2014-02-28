@@ -1,6 +1,14 @@
 package pl.sointeractive.isaaclock.activities;
 
+import java.io.IOException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import pl.sointeractive.isaaclock.R;
+import pl.sointeractive.isaaclock.data.App;
+import pl.sointeractive.isaaclock.data.UserData;
+import pl.sointeractive.isaacloud.connection.HttpResponse;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -20,7 +28,7 @@ public class RegisterActivity extends Activity {
 	Button buttonRegister;
 	EditText textEmail, textPassword, textPasswordRepeat;
 	Context context;
-	AlertDialog dialog;
+	ProgressDialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +47,7 @@ public class RegisterActivity extends Activity {
 				String pw = textPassword.getEditableText().toString();
 				String pw2 = textPasswordRepeat.getEditableText().toString();
 				String email = textEmail.getEditableText().toString();
-				if(pw.length()>0 && pw2.length()>0 && email.length()>0){
+				if(pw.length()>5 && email.length()>0){
 					if (pw.compareTo(pw2)==0) {
 						new RegisterTask().execute();
 					} else {
@@ -67,6 +75,8 @@ public class RegisterActivity extends Activity {
 	}
 
 	private class RegisterTask extends AsyncTask<Object, Object, Object> {
+		
+		boolean success = false;
 
 		@Override
 		protected void onPreExecute() {
@@ -77,16 +87,41 @@ public class RegisterActivity extends Activity {
 		@Override
 		protected Object doInBackground(Object... params) {
 			Log.d("RegisterTask", "doInBackground()");
-			// connect here
+			/*
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-			Intent intent = new Intent(context, UserActivityTabs.class);
-			startActivity(intent);
+			*/
+			JSONObject jsonBody = new JSONObject();
+			try {
+				jsonBody.put("email", textEmail.getEditableText().toString());
+				jsonBody.put("password", textPassword.getEditableText().toString());
+			} catch (JSONException e1) {
+				e1.printStackTrace();
+			}
+			
+			UserData userData = App.loadUserData();
+			
+			try {
+				HttpResponse response = App.getWrapper().postUser(jsonBody);
+				JSONObject json = response.getJSONObject();
+				userData.setUserId(json.getInt("id"));
+				userData.setName(json.getString("firstName") + " " + json.getString("lastName"));
+				userData.setEmail(json.getString("email"));
+				App.saveUserData(userData);
+				success = true;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 
 			return null;
 		}
@@ -95,6 +130,12 @@ public class RegisterActivity extends Activity {
 		protected void onPostExecute(Object result) {
 			Log.d("RegisterTask", "onPostExecute()");
 			dialog.dismiss();
+			if(success){
+				Intent intent = new Intent(context, UserActivityTabs.class);
+				startActivity(intent);
+			} else {
+				Toast.makeText(context, R.string.error_login, Toast.LENGTH_LONG).show();
+			}
 		}
 
 	}

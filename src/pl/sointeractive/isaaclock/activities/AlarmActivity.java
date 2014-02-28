@@ -1,12 +1,18 @@
 package pl.sointeractive.isaaclock.activities;
 
+import java.io.IOException;
 import java.util.Calendar;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.config.Settings;
 import pl.sointeractive.isaaclock.data.AlarmReceiver;
 import pl.sointeractive.isaaclock.data.AlarmService;
 import pl.sointeractive.isaaclock.data.App;
+import pl.sointeractive.isaaclock.data.UserData;
+import pl.sointeractive.isaacloud.connection.HttpResponse;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -74,7 +80,8 @@ public class AlarmActivity extends Activity {
 		Log.d("AlarmReceiver", "alarmOff() - snoozeCounter = " + snoozeCounter);
 
 		// here send info about the alarm
-
+		new PostEventTask().execute();
+		
 		snoozeCounter = 0;
 		resetAlarmService();
 		finish();
@@ -134,6 +141,58 @@ public class AlarmActivity extends Activity {
 
 			return null;
 		}
+	}
+	
+	private class PostEventTask extends AsyncTask<Object, Object, Object>{
+		
+		HttpResponse response;
+		boolean isError = false;
+		UserData userData = App.loadUserData();
+
+		@Override
+		protected Object doInBackground(Object... params) {
+			Log.d("PostEventTask", "doInBackground()");
+			
+			//userData = App.loadUserData();
+			
+			JSONObject jsonBody = new JSONObject();
+			JSONObject body = new JSONObject();
+			try {
+				body.put("wake_up", "woken_up");
+				jsonBody.put("body", body);
+				jsonBody.put("priority", "PRIORITY_HIGH");
+				jsonBody.put("sourceId", 1);
+				jsonBody.put("subjectId", userData.getUserId());
+				jsonBody.put("subjectType", "USER");
+				jsonBody.put("type", "NORMAL");
+			} catch (JSONException e1) {
+				isError = true;
+				e1.printStackTrace();
+			}
+			
+			try {
+				response = App.getWrapper().postEvent(jsonBody);
+			} catch (IOException e) {
+				isError = true;
+				e.printStackTrace();
+			} catch (JSONException e) {
+				isError = true;
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		protected void onPostExecute (Object result){
+			Log.d("PostEventTask", "onPostExecute()");
+			if(isError){
+				Log.d("PostEventTask", "onPostExecute() - error detected");
+				//Toast.makeText(context, R.string.error_no_connection, Toast.LENGTH_LONG).show();
+			}
+			if(response != null){
+				Log.d("PostEventTask", "onPostExecute() - response: " + response.toString());
+			}
+		}
+		
 	}
 
 	@Override
