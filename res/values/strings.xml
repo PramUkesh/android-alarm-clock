@@ -50,6 +50,8 @@
     <string name="activity_register_text_hint_email">Email</string>
     <string name="activity_register_text_hint_password">Password</string>
     <string name="activity_register_text_hint_password_repeat">Repeat password</string>
+    <string name="activity_register_text_hint_first_name">First name</string>
+    <string name="activity_register_text_hint_last_name">Last name</string>
     <string name="activity_register_button_register">Register user</string>
     <string name="activity_register_text_register_prompt">Please fill in the form below.</string>
     <string name="activity_register_passwords_dont_match">The passwords don\'t match. Please try again.</string>

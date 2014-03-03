@@ -26,7 +26,7 @@ import android.widget.Toast;
 public class RegisterActivity extends Activity {
 
 	Button buttonRegister;
-	EditText textEmail, textPassword, textPasswordRepeat;
+	EditText textEmail, textPassword, textPasswordRepeat, textFirstName, textLastName;
 	Context context;
 	ProgressDialog dialog;
 
@@ -39,6 +39,8 @@ public class RegisterActivity extends Activity {
 		textEmail = (EditText) findViewById(R.id.text_edit_email);
 		textPassword = (EditText) findViewById(R.id.text_edit_password);
 		textPasswordRepeat = (EditText) findViewById(R.id.text_edit_password_repeat);
+		textFirstName = (EditText) findViewById(R.id.text_edit_first_name);
+		textLastName = (EditText) findViewById(R.id.text_edit_last_name);
 
 		buttonRegister = (Button) findViewById(R.id.button_register);
 		buttonRegister.setOnClickListener(new OnClickListener() {
@@ -47,7 +49,9 @@ public class RegisterActivity extends Activity {
 				String pw = textPassword.getEditableText().toString();
 				String pw2 = textPasswordRepeat.getEditableText().toString();
 				String email = textEmail.getEditableText().toString();
-				if(pw.length()>5 && email.length()>0){
+				String firstName = textFirstName.getEditableText().toString();
+				String lastName = textLastName.getEditableText().toString();
+				if(pw.length()>5 && email.length()>0 && firstName.length()>0 && lastName.length()>0){
 					if (pw.compareTo(pw2)==0) {
 						new RegisterTask().execute();
 					} else {
@@ -99,6 +103,8 @@ public class RegisterActivity extends Activity {
 			try {
 				jsonBody.put("email", textEmail.getEditableText().toString());
 				jsonBody.put("password", textPassword.getEditableText().toString());
+				jsonBody.put("firstName", textFirstName.getEditableText().toString());
+				jsonBody.put("lastName", textLastName.getEditableText().toString());
 			} catch (JSONException e1) {
 				e1.printStackTrace();
 			}
