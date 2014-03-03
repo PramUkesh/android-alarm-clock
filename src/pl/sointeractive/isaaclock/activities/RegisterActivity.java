@@ -129,8 +129,6 @@ public class RegisterActivity extends Activity {
 				e.printStackTrace();
 			}
 			
-			
-
 			return null;
 		}
 

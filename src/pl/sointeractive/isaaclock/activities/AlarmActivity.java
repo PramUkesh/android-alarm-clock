@@ -19,6 +19,7 @@ import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -41,6 +42,7 @@ public class AlarmActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 		setContentView(R.layout.activity_alarm);
 
 		Bundle extras = getIntent().getExtras();
@@ -199,5 +201,11 @@ public class AlarmActivity extends Activity {
 	public void onBackPressed() {
 		// do nothing
 	}
+	
+	@Override
+    protected void onDestroy() {
+		super.onDestroy();
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+    }
 
 }
