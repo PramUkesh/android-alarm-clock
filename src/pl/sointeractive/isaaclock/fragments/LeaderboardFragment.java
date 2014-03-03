@@ -107,79 +107,17 @@ public class LeaderboardFragment extends SherlockListFragment implements
 
 			List<LeaderboardPosition> entries = new ArrayList<LeaderboardPosition>();
 			try {
-				HttpResponse response = App.getWrapper().getUserAchievements(userData.getUserId());
+				HttpResponse response = App.getWrapper().getLeaderboard(2);
 
 				JSONArray array = response.getJSONArray();
 				for (int i = 0; i < array.length(); i++) {
 					entries.add(new LeaderboardPosition((JSONObject) array.get(i),userId));
 				}
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (JSONException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-
-			/*
-			List<LeaderboardPosition> entries = new ArrayList<LeaderboardPosition>(
-					10);
-			int leaderboardId = 1;
-			int userId = 1;
-			int score = 3000;
-			int position = 1;
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100).setIsUserPosition(true));
-			userPosition = position-2;
-			userData.setLastScore(score+100);
-			App.saveUserData(userData);
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-			entries.add(new LeaderboardPosition(leaderboardId, position++,
-					userId++, score -= 100));
-
-			try {
-				Thread.sleep(1500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			*/
 
 			return entries;
 		}

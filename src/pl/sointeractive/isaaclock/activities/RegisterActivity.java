@@ -14,6 +14,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -85,6 +86,7 @@ public class RegisterActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			Log.d("RegisterTask", "onPreExecute()");
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 			dialog = ProgressDialog.show(context, "Registering account", "Please wait");
 		}
 
@@ -142,6 +144,7 @@ public class RegisterActivity extends Activity {
 			} else {
 				Toast.makeText(context, R.string.error_login, Toast.LENGTH_LONG).show();
 			}
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 		}
 
 	}

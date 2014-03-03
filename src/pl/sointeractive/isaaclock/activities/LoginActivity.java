@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -120,6 +121,7 @@ public class LoginActivity extends Activity {
 		@Override
 		protected void onPreExecute () {
 			Log.d("LoginTask", "onPreExecute()");
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 			dialog = ProgressDialog.show(context, "Logging in", "Please wait");
 		}
 
@@ -172,6 +174,7 @@ public class LoginActivity extends Activity {
 			} else {
 				Toast.makeText(context, R.string.error_login, Toast.LENGTH_LONG).show();
 			}
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 		}
 		
 	}
