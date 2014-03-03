@@ -15,8 +15,6 @@ import pl.sointeractive.isaaclock.data.AlarmService;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.UserData;
 import pl.sointeractive.isaacloud.connection.HttpResponse;
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;

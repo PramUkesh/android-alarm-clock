@@ -277,13 +277,17 @@ public class UserActivityTabs extends SherlockFragmentActivity {
 				}
 			}
 			if (newTab != null) {
-				if (newTab.fragment == null) {
+				//if (newTab.fragment == null) {
 					newTab.fragment = Fragment.instantiate(mActivity,
 							newTab.clss.getName(), newTab.args);
+					//test
+					//ft.remove(newTab.fragment);
+					//koniec testu
 					ft.add(mContainerId, newTab.fragment, newTab.tag);
-				} else {
-					ft.attach(newTab.fragment);
-				}
+				//} else {
+					//newTab.fragment = Fragment.instantiate(mActivity,newTab.clss.getName(), newTab.args);
+					//ft.attach(newTab.fragment);
+				//}
 			}
 
 			mLastTab = newTab;

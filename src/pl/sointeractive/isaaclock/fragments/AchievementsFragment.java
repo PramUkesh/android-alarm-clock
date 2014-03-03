@@ -75,6 +75,7 @@ public class AchievementsFragment extends SherlockListFragment implements
 		} else {
 			setListShownNoAnimation(true);
 		}
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -121,35 +122,6 @@ public class AchievementsFragment extends SherlockListFragment implements
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-
-			/*
-			 * entries.add(new Achievement("Achievement 0", "Desc 0", true));
-			 * entries.add(new Achievement("Achievement 1", "Desc 1", true));
-			 * entries.add(new Achievement("Achievement 2", "Desc 2", true));
-			 * entries.add(new Achievement("Achievement 3", "Desc 3", true));
-			 * entries.add(new Achievement("Achievement 4", "Desc 4", false));
-			 * entries.add(new Achievement("Achievement 5", "Desc 5", false));
-			 * entries.add(new Achievement("Achievement 6", "Desc 6", false));
-			 * entries.add(new Achievement("Achievement 7", "Desc 7", false));
-			 * entries.add(new Achievement("Achievement 8", "Desc 8", false));
-			 * entries.add(new Achievement("Achievement 9", "Desc 9", false));
-			 * entries.add(new Achievement("Achievement 10", "Desc 10", false));
-			 * entries.add(new Achievement("Achievement 11", "Desc 11", false));
-			 * entries.add(new Achievement("Achievement 12", "Desc 12", false));
-			 * entries.add(new Achievement("Achievement 13", "Desc 13", false));
-			 * entries.add(new Achievement("Achievement 14", "Desc 14", false));
-			 * entries.add(new Achievement("Achievement 15", "Desc 15", false));
-			 */
-			
-			/*
-			try {
-				Thread.sleep(1500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			 */
-			
 			return entries;
 		}
 

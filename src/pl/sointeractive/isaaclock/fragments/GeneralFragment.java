@@ -25,12 +25,17 @@ public class GeneralFragment extends SherlockFragment implements
 	static UserData userData;
 	UserActivityTabs context;
 	View view;
+	
+	TextView textName;
+	TextView textEmail;
+	TextView textScore;
+	TextView textAlarm;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		userData = App.loadUserData();
+		//userData = App.loadUserData();
 		context = (UserActivityTabs) getActivity();
 		
 		view.findViewById(R.id.fragment_general_scroll).setVisibility(View.GONE);
@@ -43,6 +48,16 @@ public class GeneralFragment extends SherlockFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_general, container, false);
+		
+		textName = (TextView) view.findViewById(
+				R.id.fragment_general_user_name);
+		textEmail = (TextView) view.findViewById(
+				R.id.fragment_general_user_email);
+		textScore = (TextView) view.findViewById(
+				R.id.fragment_general_user_score);
+		textAlarm = (TextView) view.findViewById(
+				R.id.fragment_general_next_alarm);
+		
 		return view;
 	}
 
@@ -54,15 +69,6 @@ public class GeneralFragment extends SherlockFragment implements
 
 	@Override
 	public void onLoadFinished(Loader<UserData> arg0, UserData arg1) {
-		TextView textName = (TextView) getActivity().findViewById(
-				R.id.fragment_general_user_name);
-		TextView textEmail = (TextView) getActivity().findViewById(
-				R.id.fragment_general_user_email);
-		TextView textScore = (TextView) getActivity().findViewById(
-				R.id.fragment_general_user_score);
-		TextView textAlarm = (TextView) getActivity().findViewById(
-				R.id.fragment_general_next_alarm);
-
 		textName.setText(userData.getName());
 		textEmail.setText(userData.getEmail());
 		textScore.setText(userData.getLastScore());
@@ -113,21 +119,9 @@ public class GeneralFragment extends SherlockFragment implements
 		@Override
 		public UserData loadInBackground() {
 			System.out.println("DataListLoader.loadInBackground");
-
-			// You should perform the heavy task of getting data from
-			// Internet or database or other source
-			// Here, we are generating some Sample data
-
-			// load user data here
-			App.saveUserData(userData);
-
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+			//App.saveUserData(userData);
+			//userData = 
+			userData = App.loadUserData();
 			return userData;
 		}
 
