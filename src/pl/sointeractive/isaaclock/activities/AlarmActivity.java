@@ -51,7 +51,7 @@ public class AlarmActivity extends Activity {
 			snoozeCounter = extras.getInt("SNOOZE_COUNTER");
 		}
 		Log.d("AlarmReceiver", "onCreate() - snoozeCounter = " + snoozeCounter);
-
+		
 		Button buttonOff = (Button) findViewById(R.id.button_alarm_off);
 		buttonOff.setOnClickListener(new OnClickListener() {
 			@Override
