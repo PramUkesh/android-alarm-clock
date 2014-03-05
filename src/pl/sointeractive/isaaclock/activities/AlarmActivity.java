@@ -8,9 +8,9 @@ import org.json.JSONObject;
 
 import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.config.Settings;
-import pl.sointeractive.isaaclock.data.AlarmReceiver;
 import pl.sointeractive.isaaclock.data.AlarmService;
 import pl.sointeractive.isaaclock.data.App;
+import pl.sointeractive.isaaclock.data.SnoozeReceiver;
 import pl.sointeractive.isaaclock.data.UserData;
 import pl.sointeractive.isaacloud.connection.HttpResponse;
 import android.app.Activity;
@@ -97,7 +97,7 @@ public class AlarmActivity extends Activity {
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.MINUTE, Settings.snoozeTimeInMinutes);
 
-		Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+		Intent intent = new Intent(getApplicationContext(), SnoozeReceiver.class);
 		intent.putExtra("SNOOZE_COUNTER", snoozeCounter);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(
 				getApplicationContext(), RequestCode, intent,

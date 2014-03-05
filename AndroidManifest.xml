@@ -46,6 +46,9 @@
         <receiver
             android:name="pl.sointeractive.isaaclock.data.AlarmReceiver"
             android:process=":remote" />
+        <receiver
+            android:name="pl.sointeractive.isaaclock.data.SnoozeReceiver"
+            android:process=":remote" />
 
         <service android:name="pl.sointeractive.isaaclock.data.AlarmService" >
         </service>
