@@ -14,10 +14,10 @@ public class Achievement {
 		this.setGained(isGained);
 	}
 	
-	public Achievement(JSONObject json) throws JSONException{
+	public Achievement(JSONObject json, boolean isGained) throws JSONException{
 		this.setLabel(json.getString("label"));
 		this.setDesc(json.getString("description"));
-		this.setGained(true);
+		this.setGained(isGained);
 	}
 
 	public String getLabel() {

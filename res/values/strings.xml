@@ -18,7 +18,10 @@
     
     <!-- Error messages -->
     <string name="error_no_connection">An unknown error has occurred. Please try again.</string>
-    <string name="error_login">Unable to log in using current data. Please check user email and password.</string>
+    <string name="error_empty">Email and/or password is empty. Please fill in all fields.</string>
+    <string name="error_password">Password needs to be at least 6 characters long, requires at least one upper and one lower case letter, one number, and one special character ( @#$%\\. )</string>
+    <string name="error_login">Unable to log in using current data. Please check if the user email and password are correct or use different data.</string>
+    <string name="error_register">Unable to register using current data. Please try using different email.</string>
     
     <!-- AlarmService -->
     <string name="service_note_title">IsaaClock</string>
@@ -67,8 +70,8 @@
 
     <!-- AlarmActivity -->
     <string name="activity_alarm_prompt">Rise and shine! Ready to wake up?</string>
-    <string name="activity_alarm_button_off">Yes, I\'m awake and full of energy!</string>
-    <string name="activity_alarm_button_snooze">Naaahh, lemme sleep sum moar&#8230;</string>
+    <string name="activity_alarm_button_off">WAKE UP</string>
+    <string name="activity_alarm_button_snooze">SNOOZE</string>
 
     <!-- GeneralFragment -->
     <string name="fragment_general_user_score_prompt">Score:</string>

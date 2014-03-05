@@ -10,7 +10,6 @@ import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.UserData;
 import pl.sointeractive.isaacloud.connection.HttpResponse;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -53,8 +52,12 @@ public class RegisterActivity extends Activity {
 				String firstName = textFirstName.getEditableText().toString();
 				String lastName = textLastName.getEditableText().toString();
 				if(pw.length()>5 && email.length()>0 && firstName.length()>0 && lastName.length()>0){
-					if (pw.compareTo(pw2)==0) {
-						new RegisterTask().execute();
+					if (pw.equals(pw2)) {
+						if (pw.matches("^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%\\.]).{6,15})$")){
+							new RegisterTask().execute();
+						} else {
+							Toast.makeText(context, R.string.error_password, Toast.LENGTH_LONG).show();
+						}
 					} else {
 						resetPasswordFields();
 						Toast.makeText(context, R.string.activity_register_passwords_dont_match, Toast.LENGTH_LONG).show();
@@ -140,7 +143,7 @@ public class RegisterActivity extends Activity {
 				Intent intent = new Intent(context, UserActivityTabs.class);
 				startActivity(intent);
 			} else {
-				Toast.makeText(context, R.string.error_login, Toast.LENGTH_LONG).show();
+				Toast.makeText(context, R.string.error_register, Toast.LENGTH_LONG).show();
 			}
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 		}

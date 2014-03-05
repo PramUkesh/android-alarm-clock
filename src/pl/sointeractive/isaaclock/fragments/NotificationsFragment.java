@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.activities.UserActivityTabs;
-import pl.sointeractive.isaaclock.data.Achievement;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.Notification;
 import pl.sointeractive.isaacloud.connection.HttpResponse;

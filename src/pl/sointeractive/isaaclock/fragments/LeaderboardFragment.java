@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.activities.UserActivityTabs;
+import pl.sointeractive.isaaclock.config.Settings;
 import pl.sointeractive.isaaclock.data.Achievement;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.LeaderboardPosition;
@@ -107,7 +108,7 @@ public class LeaderboardFragment extends SherlockListFragment implements
 
 			List<LeaderboardPosition> entries = new ArrayList<LeaderboardPosition>();
 			try {
-				HttpResponse response = App.getWrapper().getLeaderboard(2);
+				HttpResponse response = App.getWrapper().getLeaderboard(Settings.leaderboardId);
 
 				JSONArray array = response.getJSONArray();
 				for (int i = 0; i < array.length(); i++) {

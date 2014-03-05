@@ -109,11 +109,23 @@ public class AchievementsFragment extends SherlockListFragment implements
 
 			List<Achievement> entries = new ArrayList<Achievement>();
 			try {
-				HttpResponse response = App.getWrapper().getUserAchievements(userData.getUserId());
-
-				JSONArray array = response.getJSONArray();
-				for (int i = 0; i < array.length(); i++) {
-					entries.add(new Achievement((JSONObject) array.get(i)));
+				List<Integer> idList = new ArrayList<Integer>();
+				HttpResponse responseUser = App.getWrapper().getUserAchievements(userData.getUserId());
+				JSONArray arrayUser = responseUser.getJSONArray();
+				for (int i = 0; i < arrayUser.length(); i++) {
+					Log.d("AchievementDownload","user achievement +");
+					JSONObject json = (JSONObject) arrayUser.get(i);
+					idList.add(json.getInt("achievement"));
+				}
+				HttpResponse responseGeneral = App.getWrapper().getAchievements();
+				JSONArray arrayGeneral = responseGeneral.getJSONArray();
+				for (int i = 0; i < arrayGeneral.length(); i++) {
+					JSONObject json = (JSONObject) arrayGeneral.get(i);
+					if(idList.contains(json.getInt("id"))){
+						entries.add(0,new Achievement(json, true));
+					} else {
+						entries.add(new Achievement(json, false));
+					}
 				}
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block

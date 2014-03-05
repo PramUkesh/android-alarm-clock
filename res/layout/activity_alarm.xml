@@ -23,21 +23,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/button_alarm_off"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:text="@string/activity_alarm_button_off" />
+        android:orientation="vertical" >
 
         <Button
             android:id="@+id/button_alarm_snooze"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".75"
             android:text="@string/activity_alarm_button_snooze" />
+        <Button
+            android:id="@+id/button_alarm_off"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".25"
+            android:text="@string/activity_alarm_button_off" />
     </LinearLayout>
 
 </LinearLayout>

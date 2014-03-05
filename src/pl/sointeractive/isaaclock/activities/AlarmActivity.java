@@ -20,6 +20,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -60,6 +61,7 @@ public class AlarmActivity extends Activity {
 		});
 
 		Button buttonSnooze = (Button) findViewById(R.id.button_alarm_snooze);
+		buttonSnooze.setBackgroundColor(Color.rgb(0, 150, 150));
 		buttonSnooze.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -71,10 +73,7 @@ public class AlarmActivity extends Activity {
 	}
 
 	private void stopAlarm() {
-		mp.stop();
-		mp.reset();
-		mp.release();
-		vibrator.cancel();
+		new StopAlarm().execute();
 	}
 
 	private void alarmOff() {
@@ -145,6 +144,17 @@ public class AlarmActivity extends Activity {
 		}
 	}
 	
+	private class StopAlarm extends AsyncTask<Object, Object, Object> {
+		@Override
+		protected Object doInBackground(Object... params) {
+			mp.stop();
+			mp.reset();
+			mp.release();
+			vibrator.cancel();
+			return null;
+		}
+	}
+	
 	private class PostEventTask extends AsyncTask<Object, Object, Object>{
 		
 		HttpResponse response;
@@ -199,13 +209,14 @@ public class AlarmActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		// do nothing
+		alarmSnooze();
+		super.onBackPressed();
 	}
 	
 	@Override
     protected void onDestroy() {
-		super.onDestroy();
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+		super.onDestroy();
     }
 
 }

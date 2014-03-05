@@ -1,7 +1,12 @@
 package pl.sointeractive.isaaclock.activities;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.config.Settings;
@@ -9,6 +14,7 @@ import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.LoginData;
 import pl.sointeractive.isaaclock.data.UserData;
 import pl.sointeractive.isaacloud.FakeWrapper;
+import pl.sointeractive.isaacloud.connection.HttpResponse;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -39,7 +45,7 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		context = this;
-		
+
 		initializeWrapper();
 
 		buttonExit = (Button) findViewById(R.id.button_exit);
@@ -48,22 +54,23 @@ public class LoginActivity extends Activity {
 		textEmail = (EditText) findViewById(R.id.text_edit_email);
 		textPassword = (EditText) findViewById(R.id.text_edit_password);
 		checkbox = (CheckBox) findViewById(R.id.activity_login_checkbox);
-		
+
 		loginData = App.loadLoginData();
-		
-		if(loginData.isRemembered()){
+
+		if (loginData.isRemembered()) {
 			checkbox.setChecked(true);
 			textEmail.setText(loginData.getEmail());
 			textPassword.setText(loginData.getPassword());
 		}
-		
+
 		buttonLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(checkbox.isChecked()){
+				if (checkbox.isChecked()) {
 					loginData.setRemembered(true);
 					loginData.setEmail(textEmail.getEditableText().toString());
-					loginData.setPassword(textPassword.getEditableText().toString());
+					loginData.setPassword(textPassword.getEditableText()
+							.toString());
 					App.saveLoginData(loginData);
 				} else {
 					loginData.setRemembered(false);
@@ -71,18 +78,22 @@ public class LoginActivity extends Activity {
 					loginData.setPassword("");
 					App.saveLoginData(loginData);
 				}
-				userData = App.loadUserData();
-				new LoginTask().execute();
+				if(textEmail.getEditableText().toString().equals("") || textPassword.getEditableText().toString().equals("")){
+					Toast.makeText(context, R.string.error_empty, Toast.LENGTH_LONG).show();
+				} else {
+					userData = App.loadUserData();
+					new LoginTask().execute();
+				}
 			}
 		});
-		
+
 		buttonNewUser.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				newUser();
 			}
 		});
-		
+
 		buttonExit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -90,36 +101,36 @@ public class LoginActivity extends Activity {
 			}
 		});
 	}
-	
-	private void newUser(){
+
+	private void newUser() {
 		Intent intent = new Intent(context, RegisterActivity.class);
 		startActivity(intent);
 	}
-	
-	private void exit(){
+
+	private void exit() {
 		finish();
 	}
-	
+
 	@Override
 	public void onBackPressed() {
-	   finish();
+		finish();
 	}
-	
-	public void initializeWrapper(){
+
+	public void initializeWrapper() {
 		Map<String, String> config = new HashMap<String, String>();
 		config.put("clientId", Settings.memberId);
 		config.put("secret", Settings.appSecret);
-		App.setWrapper(new FakeWrapper(App.getInstance().getApplicationContext(),
-				"https://api.isaacloud.com", "https://oauth.isaacloud.com",
-				"/v1", config));
+		App.setWrapper(new FakeWrapper(App.getInstance()
+				.getApplicationContext(), "https://api.isaacloud.com",
+				"https://oauth.isaacloud.com", "/v1", config));
 	}
-	
-	private class LoginTask extends AsyncTask<Object, Object, Object>{
-		
+
+	private class LoginTask extends AsyncTask<Object, Object, Object> {
+
 		boolean success = false;
-		
+
 		@Override
-		protected void onPreExecute () {
+		protected void onPreExecute() {
 			Log.d("LoginTask", "onPreExecute()");
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 			dialog = ProgressDialog.show(context, "Logging in", "Please wait");
@@ -127,11 +138,35 @@ public class LoginActivity extends Activity {
 
 		@Override
 		protected Object doInBackground(Object... params) {
+			// THIS IS A TEMPORARY SOLUTION
+			// a proper login flow through a website will be enabled after
+			// testing
 			Log.d("LoginTask", "doInBackground()");
-			//connect here
-			/*
+			// connect here
 			try {
-				success = App.getWrapper().tryLogin();
+				String email = textEmail.getEditableText().toString();
+				HttpResponse response = App.getWrapper().getUsers();
+				JSONArray array = response.getJSONArray();
+				for (int i = 0; i < array.length(); i++) {
+					JSONObject json = (JSONObject) array.get(i);
+					Log.d("LoginFlow",
+							"Compare: " + email + " with " + json.get("email")
+									+ " - Result "
+									+ email.equals(json.get("email")));
+					if (email.equals(json.get("email"))) {
+						String userFirstName = json.getString("firstName");
+						String userLastName = json.getString("lastName");
+						String userEmail = json.getString("email");
+						int userId = json.getInt("id");
+						// send loaded data to App.UserData
+						userData.setName(userFirstName + " " + userLastName);
+						userData.setEmail(userEmail);
+						userData.setUserId(userId);
+						App.saveUserData(userData);
+						// report user found
+						success = true;
+					}
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -139,44 +174,24 @@ public class LoginActivity extends Activity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			*/
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			//we should download these values - THIS IS A TEMPORARY SOLUTION until we create a proper login flow
-			String firstName = "John";
-			String lastName = "Doe";
-			String email = "jdoe2@isaacloud.com";
-			int userId = 2;
-			
-			// send loaded data to App.UserData
-			userData.setName(firstName + " " + lastName);
-			userData.setEmail(email);
-			userData.setUserId(userId);
-			App.saveUserData(userData);
-			
-			success = true;
-			
+
 			return null;
 		}
-		
+
 		@Override
-		protected void onPostExecute (Object result) {
+		protected void onPostExecute(Object result) {
 			Log.d("LoginTask", "onPostExecute()");
 			dialog.dismiss();
-			if(success){
+			if (success) {
 				Intent intent = new Intent(context, UserActivityTabs.class);
 				startActivity(intent);
 			} else {
-				Toast.makeText(context, R.string.error_login, Toast.LENGTH_LONG).show();
+				Toast.makeText(context, R.string.error_login, Toast.LENGTH_LONG)
+						.show();
 			}
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 		}
-		
+
 	}
 
 }
