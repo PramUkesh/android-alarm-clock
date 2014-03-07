@@ -35,9 +35,6 @@ public class AlarmActivity extends Activity {
 
 	final static int RequestCode = 1;
 
-	static SoundAlarm soundAlarm;
-	static StopAlarm stopAlarm;
-
 	MediaPlayer mp;
 	AlertDialog dialog;
 	Vibrator vibrator;
@@ -72,17 +69,11 @@ public class AlarmActivity extends Activity {
 			}
 		});
 		
-		if (soundAlarm == null) {
-			soundAlarm = new SoundAlarm();
-			soundAlarm.execute();
-		}
+		new SoundAlarm().execute();
 	}
 
 	private void stopAlarm() {
-		if (stopAlarm == null) {
-			stopAlarm = new StopAlarm();
-			stopAlarm.execute();
-		}
+		new StopAlarm().execute();
 	}
 
 	private void alarmOff() {
@@ -228,7 +219,6 @@ public class AlarmActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-		//stopAlarm.execute();
 		super.onDestroy();
 	}
 
