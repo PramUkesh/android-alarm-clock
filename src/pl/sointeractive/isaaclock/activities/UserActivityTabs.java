@@ -101,6 +101,8 @@ public class UserActivityTabs extends SherlockFragmentActivity {
 
 	public void logout() {
 		App.resetUserData();
+		Intent intent = new Intent(App.getInstance().getApplicationContext(), LoginActivity.class);
+	    startActivity(intent);
 		this.finish();
 	}
 

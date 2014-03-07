@@ -2,12 +2,12 @@ package pl.sointeractive.isaaclock.fragments;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.activities.UserActivityTabs;
 import pl.sointeractive.isaaclock.activities.UserActivityTabs.TabManager;
@@ -15,6 +15,7 @@ import pl.sointeractive.isaaclock.data.Achievement;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.UserData;
 import pl.sointeractive.isaacloud.connection.HttpResponse;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -29,9 +30,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
-
 import com.actionbarsherlock.app.SherlockListFragment;
 
+@SuppressLint("UseSparseArrays")
 public class AchievementsFragment extends SherlockListFragment implements
 		LoaderManager.LoaderCallbacks<List<Achievement>> {
 
@@ -104,25 +105,31 @@ public class AchievementsFragment extends SherlockListFragment implements
 		@Override
 		public List<Achievement> loadInBackground() {
 			System.out.println("DataListLoader.loadInBackground");
-			
+
 			userData = App.loadUserData();
 
 			List<Achievement> entries = new ArrayList<Achievement>();
 			try {
-				List<Integer> idList = new ArrayList<Integer>();
-				HttpResponse responseUser = App.getWrapper().getUserAchievements(userData.getUserId());
+				Map<Integer, Integer> idList = new HashMap<Integer, Integer>();
+				HttpResponse responseUser = App.getWrapper()
+						.getUserAchievements(userData.getUserId());
 				JSONArray arrayUser = responseUser.getJSONArray();
 				for (int i = 0; i < arrayUser.length(); i++) {
-					Log.d("AchievementDownload","user achievement +");
+					Log.d("AchievementDownload", "user achievement +");
 					JSONObject json = (JSONObject) arrayUser.get(i);
-					idList.add(json.getInt("achievement"));
+					idList.put(json.getInt("achievement"),
+							json.getInt("amount"));
 				}
-				HttpResponse responseGeneral = App.getWrapper().getAchievements();
+				HttpResponse responseGeneral = App.getWrapper()
+						.getAchievements();
 				JSONArray arrayGeneral = responseGeneral.getJSONArray();
 				for (int i = 0; i < arrayGeneral.length(); i++) {
 					JSONObject json = (JSONObject) arrayGeneral.get(i);
-					if(idList.contains(json.getInt("id"))){
-						entries.add(0,new Achievement(json, true));
+					if (idList.containsKey(json.getInt("id"))) {
+						entries.add(
+								0,
+								new Achievement(json, true, idList.get(json
+										.getInt("id"))));
 					} else {
 						entries.add(new Achievement(json, false));
 					}
@@ -271,10 +278,15 @@ public class AchievementsFragment extends SherlockListFragment implements
 					.findViewById(R.id.fragment_achievement_text_label);
 			TextView textDesc = (TextView) view
 					.findViewById(R.id.fragment_achievement_text_desc);
+			TextView textCounter = (TextView) view
+					.findViewById(R.id.fragment_achievement_text_counter);
 			ImageView image = (ImageView) view
 					.findViewById(R.id.fragment_achievement_image);
 			textLabel.setText(achievement.getLabel());
 			textDesc.setText(achievement.getDesc());
+			if(achievement.getCounter()!=0){
+				textCounter.setText("" + achievement.getCounter());
+			}
 			image.setImageDrawable(getResources().getDrawable(
 					R.drawable.ic_menu_info_details));
 			if (!achievement.isGained()) {

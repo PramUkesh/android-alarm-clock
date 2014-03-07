@@ -6,6 +6,7 @@ import org.json.JSONObject;
 public class Achievement {
 
 	private String label, desc, imageUrl;
+	private int counter = 0;
 	private boolean isGained;
 
 	public Achievement(String label, String desc, boolean isGained) {
@@ -18,6 +19,13 @@ public class Achievement {
 		this.setLabel(json.getString("label"));
 		this.setDesc(json.getString("description"));
 		this.setGained(isGained);
+	}
+	
+	public Achievement(JSONObject json, boolean isGained, int amount) throws JSONException{
+		this.setLabel(json.getString("label"));
+		this.setDesc(json.getString("description"));
+		this.setGained(isGained);
+		this.setCounter(amount);
 	}
 
 	public String getLabel() {
@@ -54,5 +62,13 @@ public class Achievement {
 
 	public String print() {
 		return "Achievement: " + label + " " + desc + " " + isGained;
+	}
+
+	public int getCounter() {
+		return counter;
+	}
+
+	public void setCounter(int counter) {
+		this.counter = counter;
 	}
 }
