@@ -29,6 +29,8 @@ public class RegisterActivity extends Activity {
 	EditText textEmail, textPassword, textPasswordRepeat, textFirstName, textLastName;
 	Context context;
 	ProgressDialog dialog;
+	int errorCode = 0;
+	// 1 - email not unique
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -115,9 +117,9 @@ public class RegisterActivity extends Activity {
 			}
 			
 			UserData userData = App.loadUserData();
-			
+			HttpResponse response = null;
 			try {
-				HttpResponse response = App.getWrapper().postUser(jsonBody);
+				response = App.getWrapper().postUser(jsonBody);
 				JSONObject json = response.getJSONObject();
 				userData.setUserId(json.getInt("id"));
 				userData.setName(json.getString("firstName") + " " + json.getString("lastName"));
