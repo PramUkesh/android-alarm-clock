@@ -6,6 +6,7 @@ import org.json.JSONObject;
 public class LeaderboardPosition {
 
 	private int leaderboardId, position, userId, userScore;
+	private String userName;
 	private boolean isUserPosition = false;;
 	
 	public LeaderboardPosition(int leaderboardId, int position, int userId, int userScore){
@@ -17,7 +18,10 @@ public class LeaderboardPosition {
 	
 	public LeaderboardPosition(JSONObject json, int userId) throws JSONException{
 		this.userId = json.getInt("id");
-		JSONObject data = json.getJSONObject("leaderboards").getJSONObject("0");
+		String firstName = json.getString("firstName");
+		String lastName = json.getString("lastName");
+		this.setUserName(firstName + " " + lastName);
+		JSONObject data = json.getJSONArray("leaderboards").getJSONObject(0);
 		this.userScore = data.getInt("score");
 		this.position = data.getInt("index");
 		
@@ -69,5 +73,13 @@ public class LeaderboardPosition {
 	public LeaderboardPosition setIsUserPosition(boolean isUserPosition) {
 		this.isUserPosition = isUserPosition;
 		return this;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 }

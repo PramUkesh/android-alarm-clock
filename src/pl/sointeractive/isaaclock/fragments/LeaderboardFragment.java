@@ -2,6 +2,8 @@ package pl.sointeractive.isaaclock.fragments;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -105,20 +107,48 @@ public class LeaderboardFragment extends SherlockListFragment implements
 			
 			userData = App.loadUserData();
 			int userId = userData.getUserId();
-
+			
+			//recalculate loeaderboard
+			try {
+				App.getWrapper().getLeaderboardRecalculate(Settings.leaderboardId);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			//failsafe - remove later
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			//get leaderboard
 			List<LeaderboardPosition> entries = new ArrayList<LeaderboardPosition>();
 			try {
 				HttpResponse response = App.getWrapper().getLeaderboard(Settings.leaderboardId);
 
 				JSONArray array = response.getJSONArray();
 				for (int i = 0; i < array.length(); i++) {
-					entries.add(new LeaderboardPosition((JSONObject) array.get(i),userId));
+					entries.add(0, new LeaderboardPosition((JSONObject) array.get(i),userId));
 				}
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			} catch (JSONException e1) {
 				e1.printStackTrace();
 			}
+			
+			Collections.sort(entries, new Comparator<LeaderboardPosition>(){
+				@Override
+				public int compare(LeaderboardPosition lhs,
+						LeaderboardPosition rhs) {
+					return lhs.getPosition() - rhs.getPosition();
+				}
+			});
 
 			return entries;
 		}
@@ -261,8 +291,8 @@ public class LeaderboardFragment extends SherlockListFragment implements
 			ImageView image = (ImageView) view
 					.findViewById(R.id.fragment_leaderboard_image);
 			textPosition.setText("" + p.getPosition());
-			textId.setText("" + p.getUserId());
-			textScore.setText("" + p.getUserScore());
+			textId.setText(p.getUserName());
+			textScore.setText("Score: " + p.getUserScore());
 			image.setImageDrawable(getResources().getDrawable(
 					R.drawable.ic_menu_info_details));
 

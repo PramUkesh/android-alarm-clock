@@ -34,8 +34,7 @@ public class UserData implements Serializable {
 
 		name = "user name";
 		email = "user email";
-		this.lastScore = (App.getInstance().getString(
-				R.string.score_no_data));
+		this.lastScore = (App.getInstance().getString(R.string.score_no_data));
 		setHasNewNotifications(false);
 		setUse24HourTime(false);
 	}
@@ -217,17 +216,28 @@ public class UserData implements Serializable {
 		this.lastNotification = lastNotification;
 	}
 
-	
-
 	public String getLastScore() {
 		return lastScore;
 	}
 
 	public void setLastScore(int score) {
-		this.lastScore = ""+score;;
+		this.lastScore = "" + score;
 	}
 
-
+	public void resetLastScore() {
+		this.lastScore = App.getInstance().getString(R.string.score_no_data);
+	}
+	
+	public void resetData(){
+		alarmList.get(0).setActive(false);
+		alarmList.get(1).setActive(false);
+		alarmList.get(2).setActive(false);
+		alarmList.get(3).setActive(false);
+		alarmList.get(4).setActive(false);
+		alarmList.get(5).setActive(false);
+		alarmList.get(6).setActive(false);
+		this.lastScore = App.getInstance().getString(R.string.score_no_data);
+	}
 
 	public class AlarmInfo {
 		public boolean ACTIVE;

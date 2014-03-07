@@ -298,4 +298,9 @@ public class UserActivityTabs extends SherlockFragmentActivity {
 			// }
 		}
 	}
+	
+	@Override
+	public void onBackPressed() {
+		// do nothing
+	}
 }

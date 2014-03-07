@@ -66,6 +66,7 @@ public class LoginActivity extends Activity {
 		buttonLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				
 				if (checkbox.isChecked()) {
 					loginData.setRemembered(true);
 					loginData.setEmail(textEmail.getEditableText().toString());
@@ -84,6 +85,8 @@ public class LoginActivity extends Activity {
 					userData = App.loadUserData();
 					new LoginTask().execute();
 				}
+				
+				//testWebView();
 			}
 		});
 
@@ -115,14 +118,19 @@ public class LoginActivity extends Activity {
 	public void onBackPressed() {
 		finish();
 	}
+	
+	public void testWebView(){
+		Intent intent = new Intent(context, WebViewActivity.class);
+	    startActivity(intent);
+	}
 
 	public void initializeWrapper() {
 		Map<String, String> config = new HashMap<String, String>();
 		config.put("clientId", Settings.memberId);
 		config.put("secret", Settings.appSecret);
 		App.setWrapper(new FakeWrapper(App.getInstance()
-				.getApplicationContext(), "https://api.isaacloud.com",
-				"https://oauth.isaacloud.com", "/v1", config));
+				.getApplicationContext(), Settings.baseUrl,
+				Settings.oauthUrl, Settings.version, config));
 	}
 
 	private class LoginTask extends AsyncTask<Object, Object, Object> {
@@ -159,6 +167,9 @@ public class LoginActivity extends Activity {
 						String userEmail = json.getString("email");
 						int userId = json.getInt("id");
 						// send loaded data to App.UserData
+						if(!userData.getEmail().equals(userEmail)){
+							userData.resetData();
+						}
 						userData.setName(userFirstName + " " + userLastName);
 						userData.setEmail(userEmail);
 						userData.setUserId(userId);

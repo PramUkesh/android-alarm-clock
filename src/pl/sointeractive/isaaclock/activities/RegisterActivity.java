@@ -112,6 +112,7 @@ public class RegisterActivity extends Activity {
 				jsonBody.put("password", textPassword.getEditableText().toString());
 				jsonBody.put("firstName", textFirstName.getEditableText().toString());
 				jsonBody.put("lastName", textLastName.getEditableText().toString());
+				jsonBody.put("status", 1);
 			} catch (JSONException e1) {
 				e1.printStackTrace();
 			}
