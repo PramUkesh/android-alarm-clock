@@ -55,7 +55,7 @@ public class LeaderboardFragment extends SherlockListFragment implements
 
 		// Start out with a progress indicator.
 		setListShown(false);
-		
+
 		// Set empty text
 		setEmptyText(getString(R.string.fragment_leaderboard_empty));
 
@@ -79,7 +79,7 @@ public class LeaderboardFragment extends SherlockListFragment implements
 		// The list should now be shown.
 		if (isResumed()) {
 			setListShown(true);
-			if(userPosition!=-1){
+			if (userPosition != -1) {
 				getListView().smoothScrollToPosition(userPosition);
 			}
 		} else {
@@ -104,49 +104,45 @@ public class LeaderboardFragment extends SherlockListFragment implements
 		@Override
 		public List<LeaderboardPosition> loadInBackground() {
 			System.out.println("DataListLoader.loadInBackground");
-			
+
 			userData = App.loadUserData();
 			int userId = userData.getUserId();
-			
-			//recalculate loeaderboard
-			try {
-				App.getWrapper().getLeaderboardRecalculate(Settings.leaderboardId);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			//failsafe - remove later
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			//get leaderboard
+
+			// recalculate loeaderboard
+			/*
+			 * try {
+			 * App.getWrapper().getLeaderboardRecalculate(Settings.leaderboardId
+			 * ); } catch (IOException e) { // TODO Auto-generated catch block
+			 * e.printStackTrace(); } catch (JSONException e) { // TODO
+			 * Auto-generated catch block e.printStackTrace(); }
+			 * 
+			 * //failsafe - remove later try { Thread.sleep(100); } catch
+			 * (InterruptedException e) { // TODO Auto-generated catch block
+			 * e.printStackTrace(); }
+			 */
+			// get leaderboard
 			List<LeaderboardPosition> entries = new ArrayList<LeaderboardPosition>();
 			try {
-				HttpResponse response = App.getWrapper().getLeaderboard(Settings.leaderboardId);
+				HttpResponse response = App.getWrapper().getLeaderboard(
+						Settings.leaderboardId);
 
 				JSONArray array = response.getJSONArray();
 				for (int i = 0; i < array.length(); i++) {
-					entries.add(0, new LeaderboardPosition((JSONObject) array.get(i),userId));
+					entries.add(0,
+							new LeaderboardPosition((JSONObject) array.get(i),
+									userId));
 				}
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			} catch (JSONException e1) {
 				e1.printStackTrace();
 			}
-			
-			Collections.sort(entries, new Comparator<LeaderboardPosition>(){
+
+			Collections.sort(entries, new Comparator<LeaderboardPosition>() {
 				@Override
 				public int compare(LeaderboardPosition lhs,
 						LeaderboardPosition rhs) {
-					return lhs.getPosition() - rhs.getPosition();
+					return rhs.getUserScore() - lhs.getUserScore();
 				}
 			});
 
@@ -290,7 +286,8 @@ public class LeaderboardFragment extends SherlockListFragment implements
 					.findViewById(R.id.fragment_leaderboard_score);
 			ImageView image = (ImageView) view
 					.findViewById(R.id.fragment_leaderboard_image);
-			textPosition.setText("" + p.getPosition());
+			// textPosition.setText("" + p.getPosition());
+			textPosition.setText("" + (position+1));
 			textId.setText(p.getUserName());
 			textScore.setText("Score: " + p.getUserScore());
 			image.setImageDrawable(getResources().getDrawable(

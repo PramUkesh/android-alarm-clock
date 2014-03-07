@@ -50,14 +50,14 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="@string/activity_register_text_hint_first_name"
-            android:inputType="text" />
+            android:inputType="textCapSentences" />
 
         <EditText
             android:id="@+id/text_edit_last_name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="@string/activity_register_text_hint_last_name"
-            android:inputType="text" />
+            android:inputType="textCapSentences" />
 
         <Button
             android:id="@+id/button_register"

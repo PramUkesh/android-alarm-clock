@@ -35,6 +35,9 @@ public class AlarmActivity extends Activity {
 
 	final static int RequestCode = 1;
 
+	static SoundAlarm soundAlarm;
+	static StopAlarm stopAlarm;
+
 	MediaPlayer mp;
 	AlertDialog dialog;
 	Vibrator vibrator;
@@ -51,7 +54,7 @@ public class AlarmActivity extends Activity {
 			snoozeCounter = extras.getInt("SNOOZE_COUNTER");
 		}
 		Log.d("AlarmReceiver", "onCreate() - snoozeCounter = " + snoozeCounter);
-		
+
 		Button buttonOff = (Button) findViewById(R.id.button_alarm_off);
 		buttonOff.setOnClickListener(new OnClickListener() {
 			@Override
@@ -68,12 +71,18 @@ public class AlarmActivity extends Activity {
 				alarmSnooze();
 			}
 		});
-
-		new SoundAlarm().execute();
+		
+		if (soundAlarm == null) {
+			soundAlarm = new SoundAlarm();
+			soundAlarm.execute();
+		}
 	}
 
 	private void stopAlarm() {
-		new StopAlarm().execute();
+		if (stopAlarm == null) {
+			stopAlarm = new StopAlarm();
+			stopAlarm.execute();
+		}
 	}
 
 	private void alarmOff() {
@@ -82,7 +91,7 @@ public class AlarmActivity extends Activity {
 
 		// here send info about the alarm
 		new PostEventTask().execute();
-		
+
 		snoozeCounter = 0;
 		resetAlarmService();
 		finish();
@@ -97,7 +106,8 @@ public class AlarmActivity extends Activity {
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.MINUTE, Settings.snoozeTimeInMinutes);
 
-		Intent intent = new Intent(getApplicationContext(), SnoozeReceiver.class);
+		Intent intent = new Intent(getApplicationContext(),
+				SnoozeReceiver.class);
 		intent.putExtra("SNOOZE_COUNTER", snoozeCounter);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(
 				getApplicationContext(), RequestCode, intent,
@@ -143,7 +153,7 @@ public class AlarmActivity extends Activity {
 			return null;
 		}
 	}
-	
+
 	private class StopAlarm extends AsyncTask<Object, Object, Object> {
 		@Override
 		protected Object doInBackground(Object... params) {
@@ -154,9 +164,9 @@ public class AlarmActivity extends Activity {
 			return null;
 		}
 	}
-	
-	private class PostEventTask extends AsyncTask<Object, Object, Object>{
-		
+
+	private class PostEventTask extends AsyncTask<Object, Object, Object> {
+
 		HttpResponse response;
 		boolean isError = false;
 		UserData userData = App.loadUserData();
@@ -164,9 +174,9 @@ public class AlarmActivity extends Activity {
 		@Override
 		protected Object doInBackground(Object... params) {
 			Log.d("PostEventTask", "doInBackground()");
-			
-			//userData = App.loadUserData();
-			
+
+			// userData = App.loadUserData();
+
 			JSONObject jsonBody = new JSONObject();
 			JSONObject body = new JSONObject();
 			try {
@@ -181,7 +191,7 @@ public class AlarmActivity extends Activity {
 				isError = true;
 				e1.printStackTrace();
 			}
-			
+
 			try {
 				response = App.getWrapper().postEvent(jsonBody);
 			} catch (IOException e) {
@@ -193,18 +203,20 @@ public class AlarmActivity extends Activity {
 			}
 			return null;
 		}
-		
-		protected void onPostExecute (Object result){
+
+		protected void onPostExecute(Object result) {
 			Log.d("PostEventTask", "onPostExecute()");
-			if(isError){
+			if (isError) {
 				Log.d("PostEventTask", "onPostExecute() - error detected");
-				//Toast.makeText(context, R.string.error_no_connection, Toast.LENGTH_LONG).show();
+				// Toast.makeText(context, R.string.error_no_connection,
+				// Toast.LENGTH_LONG).show();
 			}
-			if(response != null){
-				Log.d("PostEventTask", "onPostExecute() - response: " + response.toString());
+			if (response != null) {
+				Log.d("PostEventTask", "onPostExecute() - response: "
+						+ response.toString());
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -212,11 +224,12 @@ public class AlarmActivity extends Activity {
 		alarmSnooze();
 		super.onBackPressed();
 	}
-	
+
 	@Override
-    protected void onDestroy() {
+	protected void onDestroy() {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+		//stopAlarm.execute();
 		super.onDestroy();
-    }
+	}
 
 }

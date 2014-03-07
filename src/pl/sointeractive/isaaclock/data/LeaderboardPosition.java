@@ -1,5 +1,6 @@
 package pl.sointeractive.isaaclock.data;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,10 +22,18 @@ public class LeaderboardPosition {
 		String firstName = json.getString("firstName");
 		String lastName = json.getString("lastName");
 		this.setUserName(firstName + " " + lastName);
+		
+		userScore=0;
+		JSONArray data = json.getJSONArray("gainedAchievements");
+		for(int i=0; i<data.length(); i++){
+			userScore += data.getJSONObject(i).getInt("amount");
+		}
+		
+		/*
 		JSONObject data = json.getJSONArray("leaderboards").getJSONObject(0);
 		this.userScore = data.getInt("score");
 		this.position = data.getInt("index");
-		
+		*/
 		if(this.userId == userId){
 			UserData userData = App.loadUserData();
 			userData.setLastScore(userScore);
