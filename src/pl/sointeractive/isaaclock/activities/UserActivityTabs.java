@@ -1,7 +1,11 @@
 package pl.sointeractive.isaaclock.activities;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.data.App;
@@ -11,9 +15,11 @@ import pl.sointeractive.isaaclock.fragments.AlarmsFragment;
 import pl.sointeractive.isaaclock.fragments.GeneralFragment;
 import pl.sointeractive.isaaclock.fragments.LeaderboardFragment;
 import pl.sointeractive.isaaclock.fragments.NotificationsFragment;
+import pl.sointeractive.isaacloud.connection.HttpResponse;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -31,8 +37,7 @@ import com.actionbarsherlock.view.MenuItem;
 public class UserActivityTabs extends SherlockFragmentActivity {
 	private TabHost mTabHost;
 	private static TabManager mTabManager;
-	
-	
+
 	private static final int RESULT_SETTINGS = 1;
 
 	@Override
@@ -76,6 +81,8 @@ public class UserActivityTabs extends SherlockFragmentActivity {
 		}
 		getMenuInflater();
 		
+		new PostEventTask().execute();
+
 	}
 
 	@Override
@@ -101,38 +108,36 @@ public class UserActivityTabs extends SherlockFragmentActivity {
 
 	public void logout() {
 		App.resetUserData();
-		Intent intent = new Intent(App.getInstance().getApplicationContext(), LoginActivity.class);
-	    startActivity(intent);
 		this.finish();
 	}
 
 	public void openSettings() {
 		Intent i = new Intent(this, SettingsActivity.class);
-        startActivityForResult(i, RESULT_SETTINGS);
+		startActivityForResult(i, RESULT_SETTINGS);
 	}
-	
+
 	@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
- 
-        switch (requestCode) {
-        case RESULT_SETTINGS:
-            saveSettings();
-            break;
-        }
-    }
-	
-	private void saveSettings(){
-		Log.d("UserActivity","saveSettings()");
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		switch (requestCode) {
+		case RESULT_SETTINGS:
+			saveSettings();
+			break;
+		}
+	}
+
+	private void saveSettings() {
+		Log.d("UserActivity", "saveSettings()");
 		SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(this);
+				.getDefaultSharedPreferences(this);
 		UserData userData = App.loadUserData();
-		
+
 		boolean isUsing24hTime = prefs.getBoolean("pref24hTime", false);
 		userData.setUse24HourTime(isUsing24hTime);
-		
+
 		mTabManager.refreshTab(mTabHost.getCurrentTabTag());
-		
+
 		App.saveUserData(userData);
 	}
 
@@ -266,7 +271,7 @@ public class UserActivityTabs extends SherlockFragmentActivity {
 
 		@Override
 		public void onTabChanged(String tabId) {
-			//printTabInfo();
+			// printTabInfo();
 			Log.d("UserActivityTabs", "onTabChanged, tabId: " + tabId);
 			TabInfo newTab = mTabs.get(tabId);
 			Log.d("UserActivityTabs", "newTab.tag: " + newTab.tag);
@@ -279,30 +284,86 @@ public class UserActivityTabs extends SherlockFragmentActivity {
 				}
 			}
 			if (newTab != null) {
-				//if (newTab.fragment == null) {
-					newTab.fragment = Fragment.instantiate(mActivity,
-							newTab.clss.getName(), newTab.args);
-					//test
-					//ft.remove(newTab.fragment);
-					//koniec testu
-					ft.add(mContainerId, newTab.fragment, newTab.tag);
-				//} else {
-					//newTab.fragment = Fragment.instantiate(mActivity,newTab.clss.getName(), newTab.args);
-					//ft.attach(newTab.fragment);
-				//}
+				// if (newTab.fragment == null) {
+				newTab.fragment = Fragment.instantiate(mActivity,
+						newTab.clss.getName(), newTab.args);
+				// test
+				// ft.remove(newTab.fragment);
+				// koniec testu
+				ft.add(mContainerId, newTab.fragment, newTab.tag);
+				// } else {
+				// newTab.fragment =
+				// Fragment.instantiate(mActivity,newTab.clss.getName(),
+				// newTab.args);
+				// ft.attach(newTab.fragment);
+				// }
 			}
 
 			mLastTab = newTab;
 			ft.commit();
 			mActivity.getSupportFragmentManager().executePendingTransactions();
-			
+
 			mTabManager.refreshTab(mTabHost.getCurrentTabTag());
 			// }
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		// do nothing
+	}
+
+	private class PostEventTask extends AsyncTask<Object, Object, Object> {
+
+		HttpResponse response;
+		boolean isError = false;
+		UserData userData = App.loadUserData();
+
+		@Override
+		protected Object doInBackground(Object... params) {
+			Log.d("PostEventTask", "doInBackground()");
+
+			// userData = App.loadUserData();
+
+			JSONObject jsonBody = new JSONObject();
+			JSONObject body = new JSONObject();
+			try {
+				body.put("action", "create_account");
+				jsonBody.put("body", body);
+				jsonBody.put("priority", "PRIORITY_HIGH");
+				jsonBody.put("sourceId", 1);
+				jsonBody.put("subjectId", userData.getUserId());
+				jsonBody.put("subjectType", "USER");
+				jsonBody.put("type", "NORMAL");
+			} catch (JSONException e1) {
+				isError = true;
+				e1.printStackTrace();
+			}
+
+			try {
+				response = App.getWrapper().postEvent(jsonBody);
+			} catch (IOException e) {
+				isError = true;
+				e.printStackTrace();
+			} catch (JSONException e) {
+				isError = true;
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		protected void onPostExecute(Object result) {
+			Log.d("PostEventTask", "onPostExecute()");
+			if (isError) {
+				Log.d("PostEventTask", "onPostExecute() - error detected");
+				// Toast.makeText(context, R.string.error_no_connection,
+				// Toast.LENGTH_LONG).show();
+			}
+			if (response != null) {
+				Log.d("PostEventTask", "onPostExecute() - response: "
+						+ response.toString());
+			}
+		}
+
 	}
 }

@@ -127,6 +127,19 @@ public class RegisterActivity extends Activity {
 				userData.setEmail(json.getString("email"));
 				App.saveUserData(userData);
 				success = true;
+				
+				// achievement for logging into isaaclock for the first time
+				JSONObject jsonBody2 = new JSONObject();
+				JSONObject body = new JSONObject();
+				body.put("action", "create_account");
+				jsonBody2.put("body", body);
+				jsonBody2.put("priority", "PRIORITY_HIGH");
+				jsonBody2.put("sourceId", 1);
+				jsonBody2.put("subjectId", userData.getUserId());
+				jsonBody2.put("subjectType", "USER");
+				jsonBody2.put("type", "NORMAL");
+				response = App.getWrapper().postEvent(jsonBody2);
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -149,6 +162,7 @@ public class RegisterActivity extends Activity {
 				Toast.makeText(context, R.string.error_register, Toast.LENGTH_LONG).show();
 			}
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+			finish();
 		}
 
 	}
