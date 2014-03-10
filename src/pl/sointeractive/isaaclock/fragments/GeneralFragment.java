@@ -1,7 +1,7 @@
 package pl.sointeractive.isaaclock.fragments;
 
 import pl.sointeractive.isaaclock.R;
-import pl.sointeractive.isaaclock.activities.UserActivityTabs;
+import pl.sointeractive.isaaclock.activities.UserActivity;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.UserData;
 import android.content.Context;
@@ -23,7 +23,7 @@ public class GeneralFragment extends SherlockFragment implements
 		LoaderManager.LoaderCallbacks<UserData> {
 
 	static UserData userData;
-	UserActivityTabs context;
+	UserActivity context;
 	View view;
 	
 	TextView textName;
@@ -36,7 +36,7 @@ public class GeneralFragment extends SherlockFragment implements
 		super.onActivityCreated(savedInstanceState);
 
 		//userData = App.loadUserData();
-		context = (UserActivityTabs) getActivity();
+		context = (UserActivity) getActivity();
 		
 		view.findViewById(R.id.fragment_general_scroll).setVisibility(View.GONE);
 		view.findViewById(R.id.fragment_general_progress_bar).setVisibility(View.VISIBLE);

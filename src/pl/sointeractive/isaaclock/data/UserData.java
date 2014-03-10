@@ -125,20 +125,25 @@ public class UserData implements Serializable {
 	public AlarmInfo getNextAlarmInfo() {
 		AlarmInfo nextAlarmInfo = new AlarmInfo();
 		Calendar c = Calendar.getInstance();
-		c.setFirstDayOfWeek(Calendar.MONDAY);
+		//c.setFirstDayOfWeek(Calendar.MONDAY);
 		Alarm firstActiveAlarm = null;
 
-		int currentDayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 1;
+		int currentDayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 		int currentHour = c.get(Calendar.HOUR_OF_DAY);
 		int currentMinute = c.get(Calendar.MINUTE);
 
 		for (Alarm a : alarmList) {
 			if (a.isActive()) {
-
 				int alarmDayOfWeek = a.getDayOfWeekInt();
 				int alarmHour = a.getHour();
 				int alarmMinute = a.getMinutes();
-
+				Log.d("getNextAlarmInfo()", "currentDayOfWeek: "
+						+ currentDayOfWeek);
+				Log.d("getNextAlarmInfo()", "currentHour: " + currentHour);
+				Log.d("getNextAlarmInfo()", "currentMinute: " + currentMinute);
+				Log.d("getNextAlarmInfo()", "alarmDayOfWeek: " + alarmDayOfWeek);
+				Log.d("getNextAlarmInfo()", "alarmHour: " + alarmHour);
+				Log.d("getNextAlarmInfo()", "alarmMinute: " + alarmMinute);
 				if (firstActiveAlarm == null) {
 					firstActiveAlarm = a;
 					nextAlarmInfo = new AlarmInfo(alarmHour, alarmMinute,
@@ -165,6 +170,7 @@ public class UserData implements Serializable {
 			}
 
 		}
+		nextAlarmInfo.print();
 		return nextAlarmInfo;
 
 	}
@@ -176,9 +182,9 @@ public class UserData implements Serializable {
 				return counter;
 			} else {
 				day1++;
-				if (day1 == 8) {
-					day1 = 1;
-				}
+				if(day1==8){
+					day1 =1;
+				};
 				counter++;
 			}
 		}
@@ -227,8 +233,8 @@ public class UserData implements Serializable {
 	public void resetLastScore() {
 		this.lastScore = App.getInstance().getString(R.string.score_no_data);
 	}
-	
-	public void resetData(){
+
+	public void resetData() {
 		alarmList.get(0).setActive(false);
 		alarmList.get(1).setActive(false);
 		alarmList.get(2).setActive(false);

@@ -194,7 +194,7 @@ public class LoginActivity extends Activity {
 			Log.d("LoginTask", "onPostExecute()");
 			dialog.dismiss();
 			if (success) {
-				Intent intent = new Intent(context, UserActivityTabs.class);
+				Intent intent = new Intent(context, UserActivity.class);
 				startActivity(intent);
 			} else {
 				Toast.makeText(context, R.string.error_login, Toast.LENGTH_LONG)

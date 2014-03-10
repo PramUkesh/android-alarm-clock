@@ -34,7 +34,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class UserActivityTabs extends SherlockFragmentActivity {
+public class UserActivity extends SherlockFragmentActivity {
 	private TabHost mTabHost;
 	private static TabManager mTabManager;
 

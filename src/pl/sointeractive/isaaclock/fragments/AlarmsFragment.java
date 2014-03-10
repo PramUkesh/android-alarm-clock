@@ -8,8 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import pl.sointeractive.isaaclock.R;
-import pl.sointeractive.isaaclock.activities.UserActivityTabs;
-import pl.sointeractive.isaaclock.activities.UserActivityTabs.TabManager;
+import pl.sointeractive.isaaclock.activities.UserActivity;
+import pl.sointeractive.isaaclock.activities.UserActivity.TabManager;
 import pl.sointeractive.isaaclock.data.Alarm;
 import pl.sointeractive.isaaclock.data.AlarmService;
 import pl.sointeractive.isaaclock.data.App;
@@ -37,7 +37,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 
 public class AlarmsFragment extends SherlockListFragment {
 
-	UserActivityTabs context;
+	UserActivity context;
 	AlarmAdapter alarmAdapter;
 	ArrayList<Alarm> alarmList;
 	UserData userData;
@@ -45,7 +45,7 @@ public class AlarmsFragment extends SherlockListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		context = (UserActivityTabs) getSherlockActivity();
+		context = (UserActivity) getSherlockActivity();
 
 		userData = App.loadUserData();
 		alarmList = userData.getAlarms();
@@ -93,12 +93,12 @@ public class AlarmsFragment extends SherlockListFragment {
 
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.MINUTE, 1);
-		
+
 		boolean isUsing24HourTime = App.loadUserData().isUsing24HourTime();
 
 		new TimePickerDialog(context, timePickerListener,
-				c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), isUsing24HourTime)
-				.show();
+				c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),
+				isUsing24HourTime).show();
 	}
 
 	public void refreshCurrentFragment() {
@@ -144,16 +144,16 @@ public class AlarmsFragment extends SherlockListFragment {
 	}
 
 	public void startAlarmService() {
-			Log.d("AlarmClockManager", "startAlarmService()");
-			Intent intent = new Intent(context.getApplicationContext(),
-					AlarmService.class);
-			intent.putExtra("SNOOZE_COUNTER",0);
-			context.getApplicationContext().stopService(intent);
-			context.getApplicationContext().startService(intent);
+		Log.d("AlarmClockManager", "startAlarmService()");
+		Intent intent = new Intent(context.getApplicationContext(),
+				AlarmService.class);
+		intent.putExtra("SNOOZE_COUNTER", 0);
+		context.getApplicationContext().stopService(intent);
+		context.getApplicationContext().startService(intent);
 	}
-	
-	private class PostEventTask extends AsyncTask<Object, Object, Object>{
-		
+
+	private class PostEventTask extends AsyncTask<Object, Object, Object> {
+
 		HttpResponse response;
 		boolean isError = false;
 		UserData userData = App.loadUserData();
@@ -161,9 +161,9 @@ public class AlarmsFragment extends SherlockListFragment {
 		@Override
 		protected Object doInBackground(Object... params) {
 			Log.d("PostEventTask", "doInBackground()");
-			
-			//userData = App.loadUserData();
-			
+
+			// userData = App.loadUserData();
+
 			JSONObject jsonBody = new JSONObject();
 			JSONObject body = new JSONObject();
 			try {
@@ -178,7 +178,7 @@ public class AlarmsFragment extends SherlockListFragment {
 				isError = true;
 				e1.printStackTrace();
 			}
-			
+
 			try {
 				response = App.getWrapper().postEvent(jsonBody);
 			} catch (IOException e) {
@@ -190,18 +190,20 @@ public class AlarmsFragment extends SherlockListFragment {
 			}
 			return null;
 		}
-		
-		protected void onPostExecute (Object result){
+
+		protected void onPostExecute(Object result) {
 			Log.d("PostEventTask", "onPostExecute()");
-			if(isError){
+			if (isError) {
 				Log.d("PostEventTask", "onPostExecute() - error detected");
-				//Toast.makeText(context, R.string.error_no_connection, Toast.LENGTH_LONG).show();
+				// Toast.makeText(context, R.string.error_no_connection,
+				// Toast.LENGTH_LONG).show();
 			}
-			if(response != null){
-				Log.d("PostEventTask", "onPostExecute() - response: " + response.toString());
+			if (response != null) {
+				Log.d("PostEventTask", "onPostExecute() - response: "
+						+ response.toString());
 			}
 		}
-		
+
 	}
 
 	private class AlarmAdapter extends ArrayAdapter<Alarm> {
@@ -215,7 +217,12 @@ public class AlarmsFragment extends SherlockListFragment {
 			for (Alarm alarm : userData.getAlarms()) {
 				add(alarm);
 			}
+		}
 
+		@Override
+		public Alarm getItem(int position) {
+			//Log.d("getItem(position)", "position: " + position);
+			return super.getItem(position);
 		}
 
 		@Override
@@ -224,18 +231,16 @@ public class AlarmsFragment extends SherlockListFragment {
 
 			View view;
 			if (convertView == null) {
-				view = mInflater.inflate(R.layout.fragment_alarms_item,
-						parent, false);
+				view = mInflater.inflate(R.layout.fragment_alarms_item, parent,
+						false);
 			} else {
 				view = convertView;
 			}
 			boolean isActive = getItem(position).isActive();
 
 			Alarm alarm = (Alarm) getItem(position);
-			TextView textDay = (TextView) view
-					.findViewById(R.id.text_day);
-			TextView textTime = (TextView) view
-					.findViewById(R.id.text_time);
+			TextView textDay = (TextView) view.findViewById(R.id.text_day);
+			TextView textTime = (TextView) view.findViewById(R.id.text_time);
 			textTime.setText(alarm.getTime());
 			textDay.setText(alarm.getDay());
 			if (!isActive) {

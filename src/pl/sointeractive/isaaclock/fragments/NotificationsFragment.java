@@ -9,7 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import pl.sointeractive.isaaclock.R;
-import pl.sointeractive.isaaclock.activities.UserActivityTabs;
+import pl.sointeractive.isaaclock.activities.UserActivity;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.Notification;
 import pl.sointeractive.isaacloud.connection.HttpResponse;
@@ -30,7 +30,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 public class NotificationsFragment extends SherlockListFragment implements
 		LoaderManager.LoaderCallbacks<List<Notification>> {
 
-	UserActivityTabs context;
+	UserActivity context;
 	ArrayList<Notification> array;
 	boolean isLoaded = false;
 	NotificationAdapter adapter;
@@ -38,7 +38,7 @@ public class NotificationsFragment extends SherlockListFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		context = (UserActivityTabs) getSherlockActivity();
+		context = (UserActivity) getSherlockActivity();
 		array = new ArrayList<Notification>();
 		adapter = new NotificationAdapter(context);
 		setListAdapter(adapter);

@@ -9,8 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import pl.sointeractive.isaaclock.R;
-import pl.sointeractive.isaaclock.activities.UserActivityTabs;
-import pl.sointeractive.isaaclock.activities.UserActivityTabs.TabManager;
+import pl.sointeractive.isaaclock.activities.UserActivity;
+import pl.sointeractive.isaaclock.activities.UserActivity.TabManager;
 import pl.sointeractive.isaaclock.data.Achievement;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.UserData;
@@ -36,7 +36,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 public class AchievementsFragment extends SherlockListFragment implements
 		LoaderManager.LoaderCallbacks<List<Achievement>> {
 
-	UserActivityTabs context;
+	UserActivity context;
 	ArrayList<Achievement> array;
 	boolean isLoaded = false;
 	AchievementAdapter adapter;
@@ -44,7 +44,7 @@ public class AchievementsFragment extends SherlockListFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		context = (UserActivityTabs) getSherlockActivity();
+		context = (UserActivity) getSherlockActivity();
 		array = new ArrayList<Achievement>();
 		adapter = new AchievementAdapter(context);
 		setListAdapter(adapter);

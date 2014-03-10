@@ -61,19 +61,19 @@ public class Alarm implements Serializable {
 	
 	public int getDayOfWeekInt(){
 		if (day.equals("Mon")) {
-			return 1;
-		} else if (day.equals("Tue")) {
 			return 2;
-		} else if (day.equals("Wed")) {
+		} else if (day.equals("Tue")) {
 			return 3;
-		} else if (day.equals("Thu")) {
+		} else if (day.equals("Wed")) {
 			return 4;
-		} else if (day.equals("Fri")) {
+		} else if (day.equals("Thu")) {
 			return 5;
-		} else if (day.equals("Sat")) {
+		} else if (day.equals("Fri")) {
 			return 6;
-		} else if (day.equals("Sun")) {
+		} else if (day.equals("Sat")) {
 			return 7;
+		} else if (day.equals("Sun")) {
+			return 1;
 		} else {
 			return 0;
 		}
