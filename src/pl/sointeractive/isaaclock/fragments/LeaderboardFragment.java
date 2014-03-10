@@ -109,17 +109,25 @@ public class LeaderboardFragment extends SherlockListFragment implements
 			int userId = userData.getUserId();
 
 			// recalculate loeaderboard
-			/*
-			 * try {
-			 * App.getWrapper().getLeaderboardRecalculate(Settings.leaderboardId
-			 * ); } catch (IOException e) { // TODO Auto-generated catch block
-			 * e.printStackTrace(); } catch (JSONException e) { // TODO
-			 * Auto-generated catch block e.printStackTrace(); }
-			 * 
-			 * //failsafe - remove later try { Thread.sleep(100); } catch
-			 * (InterruptedException e) { // TODO Auto-generated catch block
-			 * e.printStackTrace(); }
-			 */
+			try {
+				App.getWrapper().getLeaderboardRecalculate(
+						Settings.leaderboardId);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			// failsafe - remove later
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			// get leaderboard
 			List<LeaderboardPosition> entries = new ArrayList<LeaderboardPosition>();
 			try {
@@ -287,7 +295,7 @@ public class LeaderboardFragment extends SherlockListFragment implements
 			ImageView image = (ImageView) view
 					.findViewById(R.id.fragment_leaderboard_image);
 			// textPosition.setText("" + p.getPosition());
-			textPosition.setText("" + (position+1));
+			textPosition.setText("" + (position + 1));
 			textId.setText(p.getUserName());
 			textScore.setText("Score: " + p.getUserScore());
 			image.setImageDrawable(getResources().getDrawable(
