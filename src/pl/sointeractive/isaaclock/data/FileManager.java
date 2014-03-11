@@ -13,6 +13,11 @@ import java.io.StreamCorruptedException;
 import android.content.Context;
 import android.util.Log;
 
+/**
+ * This is a helper class for saving and loading files from the application folder.
+ * @author Mateusz Renes
+ *
+ */
 public class FileManager {
 
 	private static final String userDataFileName = "user_data.dat";
@@ -44,6 +49,7 @@ public class FileManager {
 	}
 
 	public void saveUserData(UserData data, App app) {
+		String userDataFileName = data.getEmail().replace("@", ".at.") + ".dat";
 		try {
 			FileOutputStream fos = app.openFileOutput(userDataFileName,
 					Context.MODE_PRIVATE);

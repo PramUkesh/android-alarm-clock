@@ -2,6 +2,11 @@ package pl.sointeractive.isaaclock.data;
 
 import java.io.Serializable;
 
+/**
+ * Data store class for Alarms.
+ * @author Mateusz Renes
+ *
+ */
 public class Alarm implements Serializable {
 
 	private static final long serialVersionUID = 3779821744568481486L;

@@ -7,6 +7,11 @@ import java.util.Calendar;
 import android.util.Log;
 import pl.sointeractive.isaaclock.R;
 
+/**
+ * Data store class for user information. Apart from collecting user data, it enables some parts of alarms management.
+ * @author Mateusz Renes
+ *
+ */
 public class UserData implements Serializable {
 
 	private static final long serialVersionUID = 7298108357152407887L;

@@ -2,6 +2,11 @@ package pl.sointeractive.isaaclock.data;
 
 import java.io.Serializable;
 
+/**
+ * Data store class for login information. Used to store latest user email and password. 
+ * @author Mateusz Renes
+ *
+ */
 public class LoginData implements Serializable{
 
 	private static final long serialVersionUID = -8558214128161150380L;

@@ -35,6 +35,11 @@ import android.widget.TimePicker;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
+/**
+ * Fragment class for Alarms. Used in the UserActivity. Shown in its corresponding Tab.
+ * @author Mateusz Renes
+ *
+ */
 public class AlarmsFragment extends SherlockListFragment {
 
 	UserActivity context;

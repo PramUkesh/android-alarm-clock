@@ -7,6 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+/**
+ * This is a BroadcastReceiver used to detect snooze alarms. After receiving an
+ * appropriate message from the system it starts a new AlarmActivty. A snooze
+ * counter is stored and sent together with the new intent.
+ * 
+ * @author Mateusz Renes
+ * 
+ */
 public class SnoozeReceiver extends BroadcastReceiver {
 
 	Context context;

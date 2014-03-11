@@ -34,19 +34,31 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
+/**
+ * Main activity of the application. This class stores user tabs that allow the
+ * user to view their general data, set alarms, view achievements, leaderboard
+ * and notifications. The class is heavily based on the example TabView class
+ * from the ActionBarSherlock library.
+ * 
+ * @author Mateusz Renes
+ * 
+ */
 public class UserActivity extends SherlockFragmentActivity {
 	private TabHost mTabHost;
 	private static TabManager mTabManager;
 
 	private static final int RESULT_SETTINGS = 1;
 
+	/**
+	 * Method used on activity creation. Here the tabs are initiated, but not
+	 * filled with their individual data.
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_tabs);
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();
-
 		mTabManager = new TabManager(this, mTabHost, R.id.realtabcontent);
 
 		mTabManager.addTab(
@@ -80,7 +92,7 @@ public class UserActivity extends SherlockFragmentActivity {
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
 		}
 		getMenuInflater();
-		
+
 		new PostEventTask().execute();
 
 	}
@@ -119,7 +131,6 @@ public class UserActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
 		switch (requestCode) {
 		case RESULT_SETTINGS:
 			saveSettings();
@@ -127,17 +138,17 @@ public class UserActivity extends SherlockFragmentActivity {
 		}
 	}
 
+	/**
+	 * Save user preferences to the UserData object.
+	 */
 	private void saveSettings() {
 		Log.d("UserActivity", "saveSettings()");
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		UserData userData = App.loadUserData();
-
 		boolean isUsing24hTime = prefs.getBoolean("pref24hTime", false);
 		userData.setUse24HourTime(isUsing24hTime);
-
 		mTabManager.refreshTab(mTabHost.getCurrentTabTag());
-
 		App.saveUserData(userData);
 	}
 
@@ -156,6 +167,10 @@ public class UserActivity extends SherlockFragmentActivity {
 	}
 
 	/**
+	 * This is a modified version of the ABS library class with the same name.
+	 * The main differrence is that the tabs content is refreshed on every tab
+	 * change. The original class description is below:
+	 * 
 	 * This is a helper class that implements a generic mechanism for
 	 * associating fragments with the tabs in a tab host. It relies on a trick.
 	 * Normally a tab host has a simple API for supplying a View or Intent that
@@ -271,11 +286,9 @@ public class UserActivity extends SherlockFragmentActivity {
 
 		@Override
 		public void onTabChanged(String tabId) {
-			// printTabInfo();
 			Log.d("UserActivityTabs", "onTabChanged, tabId: " + tabId);
 			TabInfo newTab = mTabs.get(tabId);
 			Log.d("UserActivityTabs", "newTab.tag: " + newTab.tag);
-			// if (mLastTab != newTab) {
 			FragmentTransaction ft = mActivity.getSupportFragmentManager()
 					.beginTransaction();
 			if (mLastTab != null) {
@@ -284,27 +297,14 @@ public class UserActivity extends SherlockFragmentActivity {
 				}
 			}
 			if (newTab != null) {
-				// if (newTab.fragment == null) {
 				newTab.fragment = Fragment.instantiate(mActivity,
 						newTab.clss.getName(), newTab.args);
-				// test
-				// ft.remove(newTab.fragment);
-				// koniec testu
 				ft.add(mContainerId, newTab.fragment, newTab.tag);
-				// } else {
-				// newTab.fragment =
-				// Fragment.instantiate(mActivity,newTab.clss.getName(),
-				// newTab.args);
-				// ft.attach(newTab.fragment);
-				// }
 			}
-
 			mLastTab = newTab;
 			ft.commit();
 			mActivity.getSupportFragmentManager().executePendingTransactions();
-
 			mTabManager.refreshTab(mTabHost.getCurrentTabTag());
-			// }
 		}
 	}
 
@@ -313,6 +313,11 @@ public class UserActivity extends SherlockFragmentActivity {
 		// do nothing
 	}
 
+	/**
+	 * AsyncTask used to send an appropriate event to the API when the user visits their account.
+	 * @author Mateusz Renes
+	 *
+	 */
 	private class PostEventTask extends AsyncTask<Object, Object, Object> {
 
 		HttpResponse response;
@@ -356,8 +361,6 @@ public class UserActivity extends SherlockFragmentActivity {
 			Log.d("PostEventTask", "onPostExecute()");
 			if (isError) {
 				Log.d("PostEventTask", "onPostExecute() - error detected");
-				// Toast.makeText(context, R.string.error_no_connection,
-				// Toast.LENGTH_LONG).show();
 			}
 			if (response != null) {
 				Log.d("PostEventTask", "onPostExecute() - response: "

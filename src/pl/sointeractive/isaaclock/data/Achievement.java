@@ -3,6 +3,11 @@ package pl.sointeractive.isaaclock.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Data store class for Achievements.
+ * @author Mateusz Renes
+ *
+ */
 public class Achievement {
 
 	private String label, desc, imageUrl;

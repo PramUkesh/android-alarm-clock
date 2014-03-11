@@ -3,6 +3,11 @@ package pl.sointeractive.isaaclock.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Data store class for Notifications.
+ * @author Mateusz Renes
+ *
+ */
 public class Notification {
 
 	JSONObject data;

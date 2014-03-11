@@ -7,6 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+/**
+ * This is a BroadcastReceiver used to detect new alarms. After receiving an
+ * appropriate message from the system it starts a new AlarmActivty. A snooze
+ * counter is stored and sent together with the new intent.
+ * 
+ * @author Mateusz Renes
+ * 
+ */
 public class AlarmReceiver extends BroadcastReceiver {
 
 	Context context;
@@ -20,7 +28,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 		if (extras != null) {
 			snoozeCounter = extras.getInt("SNOOZE_COUNTER");
 		}
-		
+
 		Intent newIntent = new Intent(context, AlarmActivity.class);
 		newIntent.putExtra("SNOOZE_COUNTER", snoozeCounter);
 		newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

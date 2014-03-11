@@ -16,6 +16,14 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+/**
+ * This service is used for monitoring alarm activity and setting new alarms for
+ * the AlarmManager. The service is run in foreground to ensure that it will be
+ * shut down by the OS only is case of extreme lack of resources.
+ * 
+ * @author Mateusz Renes
+ * 
+ */
 public class AlarmService extends Service {
 
 	final static int RequestCode = 1;
@@ -27,6 +35,10 @@ public class AlarmService extends Service {
 		return null;
 	}
 
+	/**
+	 * This method is called after the start() command of the service. It sets a
+	 * new alarm based on UserData file and starts the service.
+	 */
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d("AlarmService", "onStartCommand");
@@ -37,9 +49,7 @@ public class AlarmService extends Service {
 		UserData userData = App.loadUserData();
 		UserData.AlarmInfo alarmInfo = userData.getNextAlarmInfo();
 		String nextAlarmString = userData.getNextAlarmTime();
-
 		setAlarm(alarmInfo);
-
 		NotificationCompat.Builder noteBuilder = new NotificationCompat.Builder(
 				this);
 		noteBuilder.setSmallIcon(R.drawable.ic_launcher);
@@ -51,20 +61,21 @@ public class AlarmService extends Service {
 		return START_NOT_STICKY;
 	}
 
+	/**
+	 * Sets a new alarm.
+	 * @param alarmInfo
+	 */
 	private void setAlarm(UserData.AlarmInfo alarmInfo) {
-
-		Intent intent = new Intent(getApplicationContext(),
-				AlarmReceiver.class);
+		Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
 		intent.putExtra("SNOOZE_COUNTER", snoozeCounter);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(
 				getApplicationContext(), RequestCode, intent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 		AlarmManager alarmManager = (AlarmManager) getApplicationContext()
 				.getSystemService(Context.ALARM_SERVICE);
-		
-		//cancel any previous alarms if set
+		// cancel any previous alarms if set
 		alarmManager.cancel(pendingIntent);
-		
+
 		if (alarmInfo.ACTIVE) {
 			Calendar c = Calendar.getInstance();
 			if (alarmInfo.isShowingCurrentOrPastTime()) {
@@ -80,7 +91,7 @@ public class AlarmService extends Service {
 			Log.d("setAlarm", "Alarm set to: " + c.getTime().toString());
 
 			alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
-			
+
 		}
 	}
 

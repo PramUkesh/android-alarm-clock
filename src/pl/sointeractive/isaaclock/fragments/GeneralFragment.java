@@ -19,6 +19,11 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
+/**
+ * Fragment class for general user information. Used in the UserActivity. Shown in its corresponding Tab.
+ * @author Mateusz Renes
+ *
+ */
 public class GeneralFragment extends SherlockFragment implements
 		LoaderManager.LoaderCallbacks<UserData> {
 

@@ -15,7 +15,6 @@ import pl.sointeractive.isaaclock.data.UserData;
 import pl.sointeractive.isaacloud.connection.HttpResponse;
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -31,27 +30,38 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+/**
+ * This Activity is started when an the AlarmReceiver or SnoozeReceiver detects
+ * a valid intent. It allows the use to turn off the alarm or put on next
+ * snooze.
+ * 
+ * @author Mateusz Renes
+ * 
+ */
 public class AlarmActivity extends Activity {
 
-	final static int RequestCode = 1;
+	private final static int RequestCode = 1;
 
-	MediaPlayer mp;
-	AlertDialog dialog;
-	Vibrator vibrator;
-	int snoozeCounter;
+	private MediaPlayer mp;
+	private Vibrator vibrator;
+	private int snoozeCounter;
 
+	/**
+	 * Method called on activity creation.
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		// generate basic view and lock screen orientation
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 		setContentView(R.layout.activity_alarm);
-
+		// get the snoozeCounter value from the intent
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			snoozeCounter = extras.getInt("SNOOZE_COUNTER");
 		}
 		Log.d("AlarmReceiver", "onCreate() - snoozeCounter = " + snoozeCounter);
-
+		// set button listeners
 		Button buttonOff = (Button) findViewById(R.id.button_alarm_off);
 		buttonOff.setOnClickListener(new OnClickListener() {
 			@Override
@@ -59,7 +69,6 @@ public class AlarmActivity extends Activity {
 				alarmOff();
 			}
 		});
-
 		Button buttonSnooze = (Button) findViewById(R.id.button_alarm_snooze);
 		buttonSnooze.setBackgroundColor(Color.rgb(0, 150, 150));
 		buttonSnooze.setOnClickListener(new OnClickListener() {
@@ -68,28 +77,29 @@ public class AlarmActivity extends Activity {
 				alarmSnooze();
 			}
 		});
-		
+		// execute alarm sound and vibration async task
 		new SoundAlarm().execute();
 	}
 
-	private void stopAlarm() {
-		new StopAlarm().execute();
-	}
-
+	/**
+	 * Method used to deactivate the alarm after the user used the "Wake up"
+	 * button.
+	 */
 	private void alarmOff() {
-		stopAlarm();
+		new StopAlarm().execute();
 		Log.d("AlarmReceiver", "alarmOff() - snoozeCounter = " + snoozeCounter);
-
-		// here send info about the alarm
 		new PostEventTask().execute();
-
 		snoozeCounter = 0;
 		resetAlarmService();
 		finish();
 	}
 
+	/**
+	 * Method used to deactivate and reschedule the alarm after the user used
+	 * the "Snooze" button.
+	 */
 	private void alarmSnooze() {
-		stopAlarm();
+		new StopAlarm().execute();
 		snoozeCounter++;
 		Log.d("AlarmReceiver", "alarmSnooze() - snoozeCounter = "
 				+ snoozeCounter);
@@ -112,6 +122,10 @@ public class AlarmActivity extends Activity {
 		finish();
 	}
 
+	/**
+	 * Cancel any AlarmService tasks and run then again with renewed parameters
+	 * (new alarm date and time).
+	 */
 	private void resetAlarmService() {
 		Log.d("AlarmReceiver", "restart AlarmService");
 		Intent intent = new Intent(getApplicationContext(), AlarmService.class);
@@ -119,6 +133,11 @@ public class AlarmActivity extends Activity {
 		startService(intent);
 	}
 
+	/**
+	 * AsynTask used for starting the alarm sound and vibration.
+	 * 
+	 * @author Mateusz Renes
+	 */
 	private class SoundAlarm extends AsyncTask<Object, Object, Object> {
 
 		@Override
@@ -145,6 +164,11 @@ public class AlarmActivity extends Activity {
 		}
 	}
 
+	/**
+	 * AsynTask used for stopping the alarm sound and vibration.
+	 * 
+	 * @author Mateusz Renes
+	 */
 	private class StopAlarm extends AsyncTask<Object, Object, Object> {
 		@Override
 		protected Object doInBackground(Object... params) {
@@ -156,6 +180,12 @@ public class AlarmActivity extends Activity {
 		}
 	}
 
+	/**
+	 * AsynTask used for posting an event to the API after the user finally
+	 * decided to wake up.
+	 * 
+	 * @author Mateusz Renes
+	 */
 	private class PostEventTask extends AsyncTask<Object, Object, Object> {
 
 		HttpResponse response;
@@ -165,11 +195,9 @@ public class AlarmActivity extends Activity {
 		@Override
 		protected Object doInBackground(Object... params) {
 			Log.d("PostEventTask", "doInBackground()");
-
-			// userData = App.loadUserData();
-
 			JSONObject jsonBody = new JSONObject();
 			JSONObject body = new JSONObject();
+			// create the json body post the request
 			try {
 				body.put("wake_up", "woken_up");
 				jsonBody.put("body", body);
@@ -184,6 +212,7 @@ public class AlarmActivity extends Activity {
 			}
 
 			try {
+				// send request and wait for response
 				response = App.getWrapper().postEvent(jsonBody);
 			} catch (IOException e) {
 				isError = true;
@@ -197,10 +226,9 @@ public class AlarmActivity extends Activity {
 
 		protected void onPostExecute(Object result) {
 			Log.d("PostEventTask", "onPostExecute()");
+			// check if an error has occured
 			if (isError) {
 				Log.d("PostEventTask", "onPostExecute() - error detected");
-				// Toast.makeText(context, R.string.error_no_connection,
-				// Toast.LENGTH_LONG).show();
 			}
 			if (response != null) {
 				Log.d("PostEventTask", "onPostExecute() - response: "
@@ -212,12 +240,14 @@ public class AlarmActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
+		// snooze alarm if the user presses the back button
 		alarmSnooze();
 		super.onBackPressed();
 	}
 
 	@Override
 	protected void onDestroy() {
+		// unlock screen orientation
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 		super.onDestroy();
 	}

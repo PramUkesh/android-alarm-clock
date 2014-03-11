@@ -30,43 +30,56 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ * This is the first Activity started by the application. It allows the user to
+ * log into their IsaaClock account. Bear in mind that the login flow will
+ * change in the near future.
+ * 
+ * @author Mateusz Renes
+ * 
+ */
 public class LoginActivity extends Activity {
 
-	Button buttonLogin, buttonNewUser, buttonExit;
-	EditText textEmail, textPassword;
-	Context context;
-	LoginData loginData;
-	CheckBox checkbox;
-	ProgressDialog dialog;
-	UserData userData;
+	private Button buttonLogin, buttonNewUser, buttonExit;
+	private EditText textEmail, textPassword;
+	private Context context;
+	private LoginData loginData;
+	private CheckBox checkbox;
+	private ProgressDialog dialog;
+	private UserData userData;
 
+	/**
+	 * Method called on activity creation.
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		context = this;
-
+		// create a new wrapper instance for API connection
 		initializeWrapper();
-
+		// find relevant views
 		buttonExit = (Button) findViewById(R.id.button_exit);
 		buttonNewUser = (Button) findViewById(R.id.button_new_user);
 		buttonLogin = (Button) findViewById(R.id.button_login);
 		textEmail = (EditText) findViewById(R.id.text_edit_email);
 		textPassword = (EditText) findViewById(R.id.text_edit_password);
 		checkbox = (CheckBox) findViewById(R.id.activity_login_checkbox);
-
+		// load login data if available
 		loginData = App.loadLoginData();
-
 		if (loginData.isRemembered()) {
 			checkbox.setChecked(true);
 			textEmail.setText(loginData.getEmail());
 			textPassword.setText(loginData.getPassword());
 		}
+		// set button listeners
+		setButtonListeners();
+	}
 
+	public void setButtonListeners() {
 		buttonLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
 				if (checkbox.isChecked()) {
 					loginData.setRemembered(true);
 					loginData.setEmail(textEmail.getEditableText().toString());
@@ -79,24 +92,22 @@ public class LoginActivity extends Activity {
 					loginData.setPassword("");
 					App.saveLoginData(loginData);
 				}
-				if(textEmail.getEditableText().toString().equals("") || textPassword.getEditableText().toString().equals("")){
-					Toast.makeText(context, R.string.error_empty, Toast.LENGTH_LONG).show();
+				if (textEmail.getEditableText().toString().equals("")
+						|| textPassword.getEditableText().toString().equals("")) {
+					Toast.makeText(context, R.string.error_empty,
+							Toast.LENGTH_LONG).show();
 				} else {
 					userData = App.loadUserData();
 					new LoginTask().execute();
 				}
-				
-				//testWebView();
 			}
 		});
-
 		buttonNewUser.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				newUser();
 			}
 		});
-
 		buttonExit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -105,6 +116,9 @@ public class LoginActivity extends Activity {
 		});
 	}
 
+	/**
+	 * Start RegisterActivity for new account creation
+	 */
 	private void newUser() {
 		Intent intent = new Intent(context, RegisterActivity.class);
 		startActivity(intent);
@@ -118,21 +132,30 @@ public class LoginActivity extends Activity {
 	public void onBackPressed() {
 		finish();
 	}
-	
-	public void testWebView(){
+
+	public void testWebView() {
 		Intent intent = new Intent(context, WebViewActivity.class);
-	    startActivity(intent);
+		startActivity(intent);
 	}
 
+	/**
+	 * Create new wrapper instance for communicating with IsaaClock API.
+	 */
 	public void initializeWrapper() {
 		Map<String, String> config = new HashMap<String, String>();
 		config.put("clientId", Settings.memberId);
 		config.put("secret", Settings.appSecret);
 		App.setWrapper(new FakeWrapper(App.getInstance()
-				.getApplicationContext(), Settings.baseUrl,
-				Settings.oauthUrl, Settings.version, config));
+				.getApplicationContext(), Settings.baseUrl, Settings.oauthUrl,
+				Settings.version, config));
 	}
 
+	/**
+	 * AsyncTask used for logging in. A different login method will be used in the future.
+	 * 
+	 * @author Mateusz Renes
+	 * 
+	 */
 	private class LoginTask extends AsyncTask<Object, Object, Object> {
 
 		boolean success = false;
@@ -146,9 +169,10 @@ public class LoginActivity extends Activity {
 
 		@Override
 		protected Object doInBackground(Object... params) {
-			// THIS IS A TEMPORARY SOLUTION
-			// a proper login flow through a website will be enabled after
-			// testing
+			/*
+			 * THIS IS A TEMPORARY SOLUTION. A proper login flow through a
+			 * website will be enabled after testing
+			 */
 			Log.d("LoginTask", "doInBackground()");
 			// connect here
 			try {
@@ -167,7 +191,7 @@ public class LoginActivity extends Activity {
 						String userEmail = json.getString("email");
 						int userId = json.getInt("id");
 						// send loaded data to App.UserData
-						if(!userData.getEmail().equals(userEmail)){
+						if (!userData.getEmail().equals(userEmail)) {
 							userData.resetData();
 						}
 						userData.setName(userFirstName + " " + userLastName);

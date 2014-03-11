@@ -32,6 +32,11 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockListFragment;
 
+/**
+ * Fragment class for Achievements. Used in the UserActivity. Shown in its corresponding Tab.
+ * @author Mateusz Renes
+ *
+ */
 @SuppressLint("UseSparseArrays")
 public class AchievementsFragment extends SherlockListFragment implements
 		LoaderManager.LoaderCallbacks<List<Achievement>> {

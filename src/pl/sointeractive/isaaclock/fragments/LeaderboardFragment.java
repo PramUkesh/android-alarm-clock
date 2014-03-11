@@ -33,6 +33,11 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
+/**
+ * Fragment class for the Leaderboard. Used in the UserActivity. Shown in its corresponding Tab.
+ * @author Mateusz Renes
+ *
+ */
 public class LeaderboardFragment extends SherlockListFragment implements
 		LoaderManager.LoaderCallbacks<List<LeaderboardPosition>> {
 

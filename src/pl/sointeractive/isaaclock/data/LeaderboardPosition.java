@@ -4,6 +4,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Data store class for leaderboard items (positions).
+ * @author Mateusz Renes
+ *
+ */
 public class LeaderboardPosition {
 
 	private int leaderboardId, position, userId, userScore;

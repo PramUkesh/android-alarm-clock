@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceActivity;
 
+
 public class SettingsActivity extends PreferenceActivity {
 
 	@SuppressWarnings("deprecation")
