@@ -7,10 +7,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import pl.sointeractive.isaaclock.R;
+import pl.sointeractive.isaaclock.alarm.AlarmService;
+import pl.sointeractive.isaaclock.alarm.SnoozeReceiver;
 import pl.sointeractive.isaaclock.config.Settings;
-import pl.sointeractive.isaaclock.data.AlarmService;
 import pl.sointeractive.isaaclock.data.App;
-import pl.sointeractive.isaaclock.data.SnoozeReceiver;
 import pl.sointeractive.isaaclock.data.UserData;
 import pl.sointeractive.isaacloud.connection.HttpResponse;
 import android.app.Activity;

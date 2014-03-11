@@ -1,8 +1,10 @@
-package pl.sointeractive.isaaclock.data;
+package pl.sointeractive.isaaclock.alarm;
 
 import java.util.Calendar;
 
 import pl.sointeractive.isaaclock.R;
+import pl.sointeractive.isaaclock.data.App;
+import pl.sointeractive.isaaclock.data.UserData;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;

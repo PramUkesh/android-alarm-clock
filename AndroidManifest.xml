@@ -50,13 +50,13 @@
             android:label="@string/app_name" />
 
         <receiver
-            android:name="pl.sointeractive.isaaclock.data.AlarmReceiver"
+            android:name="pl.sointeractive.isaaclock.alarm.AlarmReceiver"
             android:process=":remote" />
         <receiver
-            android:name="pl.sointeractive.isaaclock.data.SnoozeReceiver"
+            android:name="pl.sointeractive.isaaclock.alarm.SnoozeReceiver"
             android:process=":remote" />
 
-        <service android:name="pl.sointeractive.isaaclock.data.AlarmService" >
+        <service android:name="pl.sointeractive.isaaclock.alarm.AlarmService" >
         </service>
     </application>
 

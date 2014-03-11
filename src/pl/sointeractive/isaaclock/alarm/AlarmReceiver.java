@@ -1,4 +1,4 @@
-package pl.sointeractive.isaaclock.data;
+package pl.sointeractive.isaaclock.alarm;
 
 import pl.sointeractive.isaaclock.activities.AlarmActivity;
 import android.content.BroadcastReceiver;
