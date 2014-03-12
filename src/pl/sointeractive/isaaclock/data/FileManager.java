@@ -9,14 +9,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 
-
 import android.content.Context;
 import android.util.Log;
 
 /**
- * This is a helper class for saving and loading files from the application folder.
+ * This is a helper class for saving and loading files from the application
+ * folder.
+ * 
  * @author Mateusz Renes
- *
+ * 
  */
 public class FileManager {
 
@@ -26,8 +27,8 @@ public class FileManager {
 	public UserData loadUserData(App app) {
 		UserData data = null;
 		File checkFile = new File(app.getFilesDir(), userDataFileName);
-		if(!checkFile.exists()){
-			Log.d("", "no user data, create new one");
+		if (!checkFile.exists()) {
+			Log.d("FileManager", "no user data, create new one");
 			saveUserData(new UserData(), app);
 		}
 		try {
@@ -49,7 +50,7 @@ public class FileManager {
 	}
 
 	public void saveUserData(UserData data, App app) {
-		String userDataFileName = data.getEmail().replace("@", ".at.") + ".dat";
+		//String userDataFileName = data.getEmail().replace("@", ".at.") + ".dat";
 		try {
 			FileOutputStream fos = app.openFileOutput(userDataFileName,
 					Context.MODE_PRIVATE);
@@ -60,11 +61,11 @@ public class FileManager {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public LoginData loadLoginData(App app) {
 		LoginData data = null;
 		File checkFile = new File(app.getFilesDir(), loginDataFileName);
-		if(!checkFile.exists()){
+		if (!checkFile.exists()) {
 			saveLoginData(new LoginData(), app);
 		}
 		try {
@@ -96,8 +97,8 @@ public class FileManager {
 			e.printStackTrace();
 		}
 	}
-	
-	public void resetUserData(App app){
+
+	public void resetUserData(App app) {
 		saveUserData(new UserData(), app);
 	}
 }

@@ -2,7 +2,9 @@ package pl.sointeractive.isaaclock.fragments;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,9 +30,11 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockListFragment;
 
 /**
- * Fragment class for Notifications. Used in the UserActivity. Shown in its corresponding Tab.
+ * Fragment class for Notifications. Used in the UserActivity. Shown in its
+ * corresponding Tab.
+ * 
  * @author Mateusz Renes
- *
+ * 
  */
 public class NotificationsFragment extends SherlockListFragment implements
 		LoaderManager.LoaderCallbacks<List<Notification>> {
@@ -47,7 +51,6 @@ public class NotificationsFragment extends SherlockListFragment implements
 		array = new ArrayList<Notification>();
 		adapter = new NotificationAdapter(context);
 		setListAdapter(adapter);
-
 		// Start out with a progress indicator.
 		setListShown(false);
 		// Set empty text
@@ -58,8 +61,7 @@ public class NotificationsFragment extends SherlockListFragment implements
 	}
 
 	@Override
-	public Loader<List<Notification>> onCreateLoader(int arg0,
-			Bundle arg1) {
+	public Loader<List<Notification>> onCreateLoader(int arg0, Bundle arg1) {
 		System.out.println("DataListFragment.onCreateLoader");
 		return new DataListLoader(getActivity());
 	}
@@ -94,38 +96,21 @@ public class NotificationsFragment extends SherlockListFragment implements
 		@Override
 		public List<Notification> loadInBackground() {
 			System.out.println("DataListLoader.loadInBackground");
-
 			List<Notification> entries = new ArrayList<Notification>();
 			try {
-				HttpResponse response = App.getWrapper().getNotifications();
+				Map<String, Object> param = new HashMap<String, Object>();
+				param.put("limit", 1000);
+				HttpResponse response = App.getWrapper()
+						.getQueuesNotifications(param);
 				JSONArray array = response.getJSONArray();
 				for (int i = 0; i < array.length(); i++) {
 					entries.add(new Notification((JSONObject) array.get(i)));
 				}
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (JSONException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			/*
-			int title = 1;
-			int message = 1;
-			entries.add(new Notification(null, "Title "+title++, "Message "+message++));
-			entries.add(new Notification(null, "Title "+title++, "Message "+message++));
-			entries.add(new Notification(null, "Title "+title++, "Message "+message++));
-			entries.add(new Notification(null, "Title "+title++, "Message "+message++));
-			entries.add(new Notification(null, "Title "+title++, "Message "+message++));
-
-			try {
-				Thread.sleep(1500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			*/
-
 			return entries;
 		}
 
@@ -145,13 +130,11 @@ public class NotificationsFragment extends SherlockListFragment implements
 			}
 			List<Notification> oldApps = listOfData;
 			mModels = listOfData;
-
 			if (isStarted()) {
 				// If the Loader is currently started, we can immediately
 				// deliver its results.
 				super.deliverResult(listOfData);
 			}
-
 			// At this point we can release the resources associated with
 			// 'oldApps' if needed; now that the new result is delivered we
 			// know that it is no longer in use.
@@ -237,7 +220,6 @@ public class NotificationsFragment extends SherlockListFragment implements
 
 		public void setData(List<Notification> data) {
 			clear();
-			// array = (ArrayList<Achievement>) data;
 			if (data != null) {
 				for (Notification appEntry : data) {
 					add(appEntry);
@@ -255,8 +237,6 @@ public class NotificationsFragment extends SherlockListFragment implements
 			} else {
 				view = convertView;
 			}
-
-			// Achievement achievement = getItem(position);
 			Notification note = getItem(position);
 			TextView textTitle = (TextView) view
 					.findViewById(R.id.fragment_notification_title);
@@ -268,7 +248,6 @@ public class NotificationsFragment extends SherlockListFragment implements
 			textMessage.setText(note.getMessage());
 			image.setImageDrawable(getResources().getDrawable(
 					R.drawable.ic_menu_info_details));
-
 			return view;
 		}
 	}

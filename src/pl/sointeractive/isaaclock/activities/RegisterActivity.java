@@ -143,7 +143,7 @@ public class RegisterActivity extends Activity {
 			UserData userData = App.loadUserData();
 			HttpResponse response = null;
 			try {
-				response = App.getWrapper().postUser(jsonBody);
+				response = App.getWrapper().postAdminUser(jsonBody, null);
 				JSONObject json = response.getJSONObject();
 				userData.setUserId(json.getInt("id"));
 				userData.setName(json.getString("firstName") + " "
@@ -162,7 +162,7 @@ public class RegisterActivity extends Activity {
 				jsonBody2.put("subjectId", userData.getUserId());
 				jsonBody2.put("subjectType", "USER");
 				jsonBody2.put("type", "NORMAL");
-				response = App.getWrapper().postEvent(jsonBody2);
+				response = App.getWrapper().postQueuesEvent(jsonBody2, null);
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

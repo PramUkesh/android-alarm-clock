@@ -314,9 +314,11 @@ public class UserActivity extends SherlockFragmentActivity {
 	}
 
 	/**
-	 * AsyncTask used to send an appropriate event to the API when the user visits their account.
+	 * AsyncTask used to send an appropriate event to the API when the user
+	 * visits their account.
+	 * 
 	 * @author Mateusz Renes
-	 *
+	 * 
 	 */
 	private class PostEventTask extends AsyncTask<Object, Object, Object> {
 
@@ -346,7 +348,7 @@ public class UserActivity extends SherlockFragmentActivity {
 			}
 
 			try {
-				response = App.getWrapper().postEvent(jsonBody);
+				response = App.getWrapper().postQueuesEvent(jsonBody, null);
 			} catch (IOException e) {
 				isError = true;
 				e.printStackTrace();

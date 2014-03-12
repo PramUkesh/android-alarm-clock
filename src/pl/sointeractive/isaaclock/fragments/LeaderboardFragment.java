@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,9 +36,11 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockListFragment;
 
 /**
- * Fragment class for the Leaderboard. Used in the UserActivity. Shown in its corresponding Tab.
+ * Fragment class for the Leaderboard. Used in the UserActivity. Shown in its
+ * corresponding Tab.
+ * 
  * @author Mateusz Renes
- *
+ * 
  */
 public class LeaderboardFragment extends SherlockListFragment implements
 		LoaderManager.LoaderCallbacks<List<LeaderboardPosition>> {
@@ -109,35 +113,30 @@ public class LeaderboardFragment extends SherlockListFragment implements
 		@Override
 		public List<LeaderboardPosition> loadInBackground() {
 			System.out.println("DataListLoader.loadInBackground");
-
 			userData = App.loadUserData();
 			int userId = userData.getUserId();
-
 			// recalculate loeaderboard
+			// THIS STEP SHOULD NOT BE NECCESSARY. The API should recalculate
+			// the leaderboard automatically, based on the "cron" parameter
+			// defined during leaderboard creation. But for the purpose of this
+			// example we will manually recalculate the leaderboard, in order to
+			// display the changes done immediately.
 			try {
-				App.getWrapper().getLeaderboardRecalculate(
-						Settings.leaderboardId);
+				App.getWrapper().getAdminLeaderboardRecalculate(
+						Settings.leaderboardId, null);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-			// failsafe - remove later
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
 			// get leaderboard
 			List<LeaderboardPosition> entries = new ArrayList<LeaderboardPosition>();
 			try {
-				HttpResponse response = App.getWrapper().getLeaderboard(
-						Settings.leaderboardId);
+				Map<String, Object> param = new HashMap<String, Object>();
+				param.put("fields", "firstName,lastName,gainedAchievements");
+				param.put("limit", "1000");
+				HttpResponse response = App.getWrapper().getCacheLeaderboard(
+						Settings.leaderboardId, param);
 
 				JSONArray array = response.getJSONArray();
 				for (int i = 0; i < array.length(); i++) {
@@ -150,7 +149,7 @@ public class LeaderboardFragment extends SherlockListFragment implements
 			} catch (JSONException e1) {
 				e1.printStackTrace();
 			}
-
+			// sort leaderboard based on position
 			Collections.sort(entries, new Comparator<LeaderboardPosition>() {
 				@Override
 				public int compare(LeaderboardPosition lhs,
@@ -158,7 +157,6 @@ public class LeaderboardFragment extends SherlockListFragment implements
 					return rhs.getUserScore() - lhs.getUserScore();
 				}
 			});
-
 			return entries;
 		}
 
@@ -238,10 +236,8 @@ public class LeaderboardFragment extends SherlockListFragment implements
 		@Override
 		protected void onReset() {
 			super.onReset();
-
 			// Ensure the loader is stopped
 			onStopLoading();
-
 			// At this point we can release the resources associated with 'apps'
 			// if needed.
 			if (mModels != null) {
@@ -270,7 +266,6 @@ public class LeaderboardFragment extends SherlockListFragment implements
 
 		public void setData(List<LeaderboardPosition> data) {
 			clear();
-			// array = (ArrayList<Achievement>) data;
 			if (data != null) {
 				for (LeaderboardPosition appEntry : data) {
 					add(appEntry);
@@ -288,8 +283,6 @@ public class LeaderboardFragment extends SherlockListFragment implements
 			} else {
 				view = convertView;
 			}
-
-			// Achievement achievement = getItem(position);
 			LeaderboardPosition p = getItem(position);
 			TextView textPosition = (TextView) view
 					.findViewById(R.id.fragment_leaderboard_position);
@@ -299,19 +292,16 @@ public class LeaderboardFragment extends SherlockListFragment implements
 					.findViewById(R.id.fragment_leaderboard_score);
 			ImageView image = (ImageView) view
 					.findViewById(R.id.fragment_leaderboard_image);
-			// textPosition.setText("" + p.getPosition());
 			textPosition.setText("" + (position + 1));
 			textId.setText(p.getUserName());
 			textScore.setText("Score: " + p.getUserScore());
 			image.setImageDrawable(getResources().getDrawable(
 					R.drawable.ic_menu_info_details));
-
 			if (p.isUserPosition()) {
 				view.setBackgroundColor(Color.rgb(0, 150, 150));
 			} else {
 				view.setBackgroundColor(Color.TRANSPARENT);
 			}
-
 			return view;
 		}
 	}

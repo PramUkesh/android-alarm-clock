@@ -185,7 +185,7 @@ public class AlarmsFragment extends SherlockListFragment {
 			}
 
 			try {
-				response = App.getWrapper().postEvent(jsonBody);
+				response = App.getWrapper().postQueuesEvent(jsonBody, null);
 			} catch (IOException e) {
 				isError = true;
 				e.printStackTrace();

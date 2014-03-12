@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.activities.UserActivity;
 import pl.sointeractive.isaaclock.activities.UserActivity.TabManager;
@@ -30,6 +32,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
+
 import com.actionbarsherlock.app.SherlockListFragment;
 
 /**
@@ -116,8 +119,10 @@ public class AchievementsFragment extends SherlockListFragment implements
 			List<Achievement> entries = new ArrayList<Achievement>();
 			try {
 				Map<Integer, Integer> idList = new HashMap<Integer, Integer>();
+				Map<String, Object> param = new HashMap<String, Object>();
+				param.put("limit", 1000);
 				HttpResponse responseUser = App.getWrapper()
-						.getUserAchievements(userData.getUserId());
+						.getAdminUserAchievements(userData.getUserId(), param);
 				JSONArray arrayUser = responseUser.getJSONArray();
 				for (int i = 0; i < arrayUser.length(); i++) {
 					Log.d("AchievementDownload", "user achievement +");
@@ -126,7 +131,7 @@ public class AchievementsFragment extends SherlockListFragment implements
 							json.getInt("amount"));
 				}
 				HttpResponse responseGeneral = App.getWrapper()
-						.getAchievements();
+						.getAdminAchievements(param);
 				JSONArray arrayGeneral = responseGeneral.getJSONArray();
 				for (int i = 0; i < arrayGeneral.length(); i++) {
 					JSONObject json = (JSONObject) arrayGeneral.get(i);
@@ -140,10 +145,8 @@ public class AchievementsFragment extends SherlockListFragment implements
 					}
 				}
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (JSONException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			return entries;
@@ -165,13 +168,11 @@ public class AchievementsFragment extends SherlockListFragment implements
 			}
 			List<Achievement> oldApps = listOfData;
 			mModels = listOfData;
-
 			if (isStarted()) {
 				// If the Loader is currently started, we can immediately
 				// deliver its results.
 				super.deliverResult(listOfData);
 			}
-
 			// At this point we can release the resources associated with
 			// 'oldApps' if needed; now that the new result is delivered we
 			// know that it is no longer in use.
@@ -190,7 +191,6 @@ public class AchievementsFragment extends SherlockListFragment implements
 				// immediately.
 				deliverResult(mModels);
 			}
-
 			if (takeContentChanged() || mModels == null) {
 				// If the data has changed since the last time it was loaded
 				// or is not currently available, start a load.
@@ -213,7 +213,6 @@ public class AchievementsFragment extends SherlockListFragment implements
 		@Override
 		public void onCanceled(List<Achievement> apps) {
 			super.onCanceled(apps);
-
 			// At this point we can release the resources associated with 'apps'
 			// if needed.
 			onReleaseResources(apps);

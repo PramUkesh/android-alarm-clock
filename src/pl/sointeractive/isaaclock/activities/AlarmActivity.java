@@ -213,7 +213,7 @@ public class AlarmActivity extends Activity {
 
 			try {
 				// send request and wait for response
-				response = App.getWrapper().postEvent(jsonBody);
+				response = App.getWrapper().postQueuesEvent(jsonBody, null);
 			} catch (IOException e) {
 				isError = true;
 				e.printStackTrace();

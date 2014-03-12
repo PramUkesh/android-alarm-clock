@@ -151,7 +151,8 @@ public class LoginActivity extends Activity {
 	}
 
 	/**
-	 * AsyncTask used for logging in. A different login method will be used in the future.
+	 * AsyncTask used for logging in. A different login method will be used in
+	 * the future.
 	 * 
 	 * @author Mateusz Renes
 	 * 
@@ -177,7 +178,10 @@ public class LoginActivity extends Activity {
 			// connect here
 			try {
 				String email = textEmail.getEditableText().toString();
-				HttpResponse response = App.getWrapper().getUsers();
+				Map<String, Object> param = new HashMap<String, Object>();
+				param.put("limit", 1000);
+				HttpResponse response = App.getWrapper().getAdminUsers(param);
+				Log.d("RESPONSE", response.toString());
 				JSONArray array = response.getJSONArray();
 				for (int i = 0; i < array.length(); i++) {
 					JSONObject json = (JSONObject) array.get(i);
