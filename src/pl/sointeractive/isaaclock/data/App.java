@@ -5,7 +5,8 @@ import android.app.Application;
 
 /**
  * This class represents the running application. It is used mainly for static
- * references to various general-use methods.
+ * references to various general-use methods (file management and API
+ * communication).
  * 
  * @author Mateusz Renes
  * 

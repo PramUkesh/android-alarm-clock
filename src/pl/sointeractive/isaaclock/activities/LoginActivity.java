@@ -80,6 +80,7 @@ public class LoginActivity extends Activity {
 		buttonLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				/*
 				if (checkbox.isChecked()) {
 					loginData.setRemembered(true);
 					loginData.setEmail(textEmail.getEditableText().toString());
@@ -100,6 +101,8 @@ public class LoginActivity extends Activity {
 					userData = App.loadUserData();
 					new LoginTask().execute();
 				}
+				*/
+				testWebView();
 			}
 		});
 		buttonNewUser.setOnClickListener(new OnClickListener() {

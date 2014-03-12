@@ -13,7 +13,7 @@ public class LeaderboardPosition {
 
 	private int leaderboardId, position, userId, userScore;
 	private String userName;
-	private boolean isUserPosition = false;;
+	private boolean isCurrentUserPosition = false;;
 	
 	public LeaderboardPosition(int leaderboardId, int position, int userId, int userScore){
 		this.leaderboardId = leaderboardId;
@@ -23,28 +23,23 @@ public class LeaderboardPosition {
 	}
 	
 	public LeaderboardPosition(JSONObject json, int userId) throws JSONException{
+		//get basic user data
 		this.userId = json.getInt("id");
 		String firstName = json.getString("firstName");
 		String lastName = json.getString("lastName");
 		this.setUserName(firstName + " " + lastName);
-		
 		userScore=0;
+		//scroll through users gained achievements and increase score accordingly
 		JSONArray data = json.getJSONArray("gainedAchievements");
 		for(int i=0; i<data.length(); i++){
 			userScore += data.getJSONObject(i).getInt("amount");
 		}
-		
-		/*
-		JSONObject data = json.getJSONArray("leaderboards").getJSONObject(0);
-		this.userScore = data.getInt("score");
-		this.position = data.getInt("index");
-		*/
+		//if the logged in user is found, mark his score in UserData
 		if(this.userId == userId){
 			UserData userData = App.loadUserData();
 			userData.setLastScore(userScore);
 			App.saveUserData(userData);
-			this.isUserPosition = true;
-			
+			this.isCurrentUserPosition = true;
 		}
 	}
 
@@ -80,12 +75,12 @@ public class LeaderboardPosition {
 		this.userScore = userScore;
 	}
 
-	public boolean isUserPosition() {
-		return isUserPosition;
+	public boolean isCurrentUserPosition() {
+		return isCurrentUserPosition;
 	}
 
-	public LeaderboardPosition setIsUserPosition(boolean isUserPosition) {
-		this.isUserPosition = isUserPosition;
+	public LeaderboardPosition setIsCurrentUserPosition(boolean isUserPosition) {
+		this.isCurrentUserPosition = isUserPosition;
 		return this;
 	}
 

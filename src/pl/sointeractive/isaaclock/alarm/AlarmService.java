@@ -31,7 +31,6 @@ public class AlarmService extends Service {
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -42,14 +41,18 @@ public class AlarmService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d("AlarmService", "onStartCommand");
+		// get snooze counter
 		Bundle extras = intent.getExtras();
 		if (extras != null) {
 			snoozeCounter = extras.getInt("SNOOZE_COUNTER");
 		}
+		// get alarm info
 		UserData userData = App.loadUserData();
 		UserData.AlarmInfo alarmInfo = userData.getNextAlarmInfo();
 		String nextAlarmString = userData.getNextAlarmTime();
+		// set alarm
 		setAlarm(alarmInfo);
+		// build notification
 		NotificationCompat.Builder noteBuilder = new NotificationCompat.Builder(
 				this);
 		noteBuilder.setSmallIcon(R.drawable.ic_launcher);
@@ -57,25 +60,32 @@ public class AlarmService extends Service {
 		noteBuilder.setContentText(getString(R.string.service_note_message)
 				+ "\n" + nextAlarmString);
 		Notification note = noteBuilder.build();
-		startForeground(9999, note);
+		// start service
+		startForeground(1, note);
 		return START_NOT_STICKY;
 	}
 
 	/**
 	 * Sets a new alarm.
+	 * 
 	 * @param alarmInfo
+	 *            Information about the alarm being set.
 	 */
 	private void setAlarm(UserData.AlarmInfo alarmInfo) {
+		// set snooze counter
 		Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
 		intent.putExtra("SNOOZE_COUNTER", snoozeCounter);
+		// create intent
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(
 				getApplicationContext(), RequestCode, intent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
+		// get alarm manager
 		AlarmManager alarmManager = (AlarmManager) getApplicationContext()
 				.getSystemService(Context.ALARM_SERVICE);
 		// cancel any previous alarms if set
 		alarmManager.cancel(pendingIntent);
-
+		// if the alarm is active, choose time and date of the alarm and
+		// set it in the alarm manager
 		if (alarmInfo.ACTIVE) {
 			Calendar c = Calendar.getInstance();
 			if (alarmInfo.isShowingCurrentOrPastTime()) {
@@ -86,10 +96,8 @@ public class AlarmService extends Service {
 			c.add(Calendar.DATE, alarmInfo.DAYS_FROM_NOW);
 			c.set(Calendar.SECOND, 0);
 			c.set(Calendar.MILLISECOND, 0);
-
 			long alarmTime = c.getTimeInMillis();
 			Log.d("setAlarm", "Alarm set to: " + c.getTime().toString());
-
 			alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
 
 		}

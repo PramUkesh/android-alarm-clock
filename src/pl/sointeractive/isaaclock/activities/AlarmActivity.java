@@ -148,18 +148,14 @@ public class AlarmActivity extends Activity {
 					.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
 					maxVolume / 2, 0);
-
 			mp = MediaPlayer.create(App.getInstance().getApplicationContext(),
 					R.raw.alarm);
 			mp.setLooping(true);
 			mp.start();
-
 			vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 			long[] pattern = { 1000, 1000 };
 			vibrator.vibrate(pattern, 0);
-
 			Log.d("AsyncTask", "IsPlaying: " + mp.isPlaying());
-
 			return null;
 		}
 	}

@@ -20,32 +20,33 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 
 /**
- * Fragment class for general user information. Used in the UserActivity. Shown in its corresponding Tab.
+ * Fragment class for general user information. Used in the UserActivity an
+ * shown in its corresponding Tab. It extends SherlockListFragment, which is a
+ * ABS library version of the Android ListFragment class. For detailed
+ * information on how the ListFragment handles its data viewing, please check
+ * the class documentation provided by Google.
+ * 
  * @author Mateusz Renes
- *
+ * 
  */
 public class GeneralFragment extends SherlockFragment implements
 		LoaderManager.LoaderCallbacks<UserData> {
 
-	static UserData userData;
-	UserActivity context;
-	View view;
-	
-	TextView textName;
-	TextView textEmail;
-	TextView textScore;
-	TextView textAlarm;
+	private static UserData userData;
+	private UserActivity context;
+	private View view;
+
+	private TextView textName, textEmail, textScore, textAlarm;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
-		//userData = App.loadUserData();
 		context = (UserActivity) getActivity();
-		
-		view.findViewById(R.id.fragment_general_scroll).setVisibility(View.GONE);
-		view.findViewById(R.id.fragment_general_progress_bar).setVisibility(View.VISIBLE);
-		
+		view.findViewById(R.id.fragment_general_scroll)
+				.setVisibility(View.GONE);
+		view.findViewById(R.id.fragment_general_progress_bar).setVisibility(
+				View.VISIBLE);
+		// start loading data
 		getLoaderManager().initLoader(0, null, this);
 	}
 
@@ -53,16 +54,14 @@ public class GeneralFragment extends SherlockFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_general, container, false);
-		
-		textName = (TextView) view.findViewById(
-				R.id.fragment_general_user_name);
-		textEmail = (TextView) view.findViewById(
-				R.id.fragment_general_user_email);
-		textScore = (TextView) view.findViewById(
-				R.id.fragment_general_user_score);
-		textAlarm = (TextView) view.findViewById(
-				R.id.fragment_general_next_alarm);
-		
+		textName = (TextView) view
+				.findViewById(R.id.fragment_general_user_name);
+		textEmail = (TextView) view
+				.findViewById(R.id.fragment_general_user_email);
+		textScore = (TextView) view
+				.findViewById(R.id.fragment_general_user_score);
+		textAlarm = (TextView) view
+				.findViewById(R.id.fragment_general_next_alarm);
 		return view;
 	}
 
@@ -74,47 +73,47 @@ public class GeneralFragment extends SherlockFragment implements
 
 	@Override
 	public void onLoadFinished(Loader<UserData> arg0, UserData arg1) {
+		//set text field values
 		textName.setText(userData.getName());
 		textEmail.setText(userData.getEmail());
 		textScore.setText(userData.getLastScore());
 		textAlarm.setText(userData.getNextAlarmTime());
-
+		//find buttons 
 		Button buttonScore = (Button) getActivity().findViewById(
 				R.id.fragment_general_button_show_score);
 		Button buttonAlarm = (Button) getActivity().findViewById(
 				R.id.fragment_general_button_show_alarms);
-
+		//set button listeners
 		buttonScore.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				context.getTabHost().setCurrentTabByTag("leaderboard");
 			}
 		});
-
 		buttonAlarm.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				context.getTabHost().setCurrentTabByTag("alarms");
 			}
 		});
-
+		//set images (currently just fake icons)
 		ImageView imageUser = (ImageView) getActivity().findViewById(
 				R.id.fragment_general_image);
 		imageUser.setImageDrawable(getResources().getDrawable(
 				R.drawable.ic_menu_friendslist));
-		
-		view.findViewById(R.id.fragment_general_scroll).setVisibility(View.VISIBLE);
-		view.findViewById(R.id.fragment_general_progress_bar).setVisibility(View.GONE);
+		//show the list
+		view.findViewById(R.id.fragment_general_scroll).setVisibility(
+				View.VISIBLE);
+		//hide progress bar
+		view.findViewById(R.id.fragment_general_progress_bar).setVisibility(
+				View.GONE);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<UserData> arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public static class DataListLoader extends AsyncTaskLoader<UserData> {
-
 		UserData mModel;
 
 		public DataListLoader(Context context) {
@@ -124,8 +123,8 @@ public class GeneralFragment extends SherlockFragment implements
 		@Override
 		public UserData loadInBackground() {
 			System.out.println("DataListLoader.loadInBackground");
-			//App.saveUserData(userData);
-			//userData = 
+			// App.saveUserData(userData);
+			// userData =
 			userData = App.loadUserData();
 			return userData;
 		}

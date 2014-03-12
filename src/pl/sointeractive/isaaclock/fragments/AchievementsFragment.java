@@ -12,7 +12,6 @@ import org.json.JSONObject;
 
 import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.activities.UserActivity;
-import pl.sointeractive.isaaclock.activities.UserActivity.TabManager;
 import pl.sointeractive.isaaclock.data.Achievement;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.UserData;
@@ -30,15 +29,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
 /**
- * Fragment class for Achievements. Used in the UserActivity. Shown in its corresponding Tab.
+ * Fragment class for Achievements. Used in the UserActivity an shown in its
+ * corresponding Tab. It extends SherlockListFragment, which is a ABS library
+ * version of the Android ListFragment class. For detailed information on how the
+ * ListFragment handles its data viewing, please check the class documentation
+ * provided by Google.
+ * 
  * @author Mateusz Renes
- *
+ * 
  */
 @SuppressLint("UseSparseArrays")
 public class AchievementsFragment extends SherlockListFragment implements
@@ -56,12 +59,10 @@ public class AchievementsFragment extends SherlockListFragment implements
 		array = new ArrayList<Achievement>();
 		adapter = new AchievementAdapter(context);
 		setListAdapter(adapter);
-
 		// Start out with a progress indicator.
 		setListShown(false);
 		// Set empty text
 		setEmptyText(getString(R.string.fragment_achievements_empty));
-
 		// Prepare the loader. Either re-connect with an existing one,
 		// or start a new one.
 		getLoaderManager().initLoader(0, null, this);
@@ -92,14 +93,6 @@ public class AchievementsFragment extends SherlockListFragment implements
 		adapter.setData(null);
 	}
 
-	public void refreshCurrentFragment() {
-		Log.d("AlarmsFragment", "refreshCurrentFragment()");
-		TabManager tm = context.getTabManager();
-		TabHost th = context.getTabHost();
-		tm.printTabInfo();
-		tm.refreshTab(th.getCurrentTabTag());
-	}
-
 	public static class DataListLoader extends
 			AsyncTaskLoader<List<Achievement>> {
 
@@ -113,9 +106,7 @@ public class AchievementsFragment extends SherlockListFragment implements
 		@Override
 		public List<Achievement> loadInBackground() {
 			System.out.println("DataListLoader.loadInBackground");
-
 			userData = App.loadUserData();
-
 			List<Achievement> entries = new ArrayList<Achievement>();
 			try {
 				Map<Integer, Integer> idList = new HashMap<Integer, Integer>();
@@ -274,8 +265,6 @@ public class AchievementsFragment extends SherlockListFragment implements
 			} else {
 				view = convertView;
 			}
-
-			// Achievement achievement = getItem(position);
 			Achievement achievement = getItem(position);
 			Log.d("AchievementAdapter", achievement.print());
 			TextView textLabel = (TextView) view
@@ -288,7 +277,7 @@ public class AchievementsFragment extends SherlockListFragment implements
 					.findViewById(R.id.fragment_achievement_image);
 			textLabel.setText(achievement.getLabel());
 			textDesc.setText(achievement.getDesc());
-			if(achievement.getCounter()!=0){
+			if (achievement.getCounter() != 0) {
 				textCounter.setText("" + achievement.getCounter());
 			}
 			image.setImageDrawable(getResources().getDrawable(

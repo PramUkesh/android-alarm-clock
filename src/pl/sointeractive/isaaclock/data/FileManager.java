@@ -26,11 +26,13 @@ public class FileManager {
 
 	public UserData loadUserData(App app) {
 		UserData data = null;
+		//Check if the file exists. If not, create a new one.
 		File checkFile = new File(app.getFilesDir(), userDataFileName);
 		if (!checkFile.exists()) {
 			Log.d("FileManager", "no user data, create new one");
 			saveUserData(new UserData(), app);
 		}
+		//load the file
 		try {
 			FileInputStream fis = app.openFileInput(userDataFileName);
 			ObjectInputStream ois = new ObjectInputStream(fis);
@@ -50,7 +52,7 @@ public class FileManager {
 	}
 
 	public void saveUserData(UserData data, App app) {
-		//String userDataFileName = data.getEmail().replace("@", ".at.") + ".dat";
+		//save the file
 		try {
 			FileOutputStream fos = app.openFileOutput(userDataFileName,
 					Context.MODE_PRIVATE);
@@ -64,10 +66,12 @@ public class FileManager {
 
 	public LoginData loadLoginData(App app) {
 		LoginData data = null;
+		//Check if the file exists. If not, create a new one.
 		File checkFile = new File(app.getFilesDir(), loginDataFileName);
 		if (!checkFile.exists()) {
 			saveLoginData(new LoginData(), app);
 		}
+		//load the file
 		try {
 			FileInputStream fis = app.openFileInput(loginDataFileName);
 			ObjectInputStream ois = new ObjectInputStream(fis);
@@ -87,6 +91,7 @@ public class FileManager {
 	}
 
 	public void saveLoginData(LoginData data, App app) {
+		//save the file
 		try {
 			FileOutputStream fos = app.openFileOutput(loginDataFileName,
 					Context.MODE_PRIVATE);

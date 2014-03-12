@@ -46,7 +46,6 @@ import com.actionbarsherlock.view.MenuItem;
 public class UserActivity extends SherlockFragmentActivity {
 	private TabHost mTabHost;
 	private static TabManager mTabManager;
-
 	private static final int RESULT_SETTINGS = 1;
 
 	/**
@@ -60,7 +59,6 @@ public class UserActivity extends SherlockFragmentActivity {
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();
 		mTabManager = new TabManager(this, mTabHost, R.id.realtabcontent);
-
 		mTabManager.addTab(
 				mTabHost.newTabSpec("general").setIndicator(null,
 						getResources().getDrawable(R.drawable.ic_menu_cc_am)),
@@ -87,14 +85,11 @@ public class UserActivity extends SherlockFragmentActivity {
 						getResources().getDrawable(
 								R.drawable.ic_menu_notifications)),
 				NotificationsFragment.class, null);
-
 		if (savedInstanceState != null) {
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
 		}
 		getMenuInflater();
-
 		new PostEventTask().execute();
-
 	}
 
 	@Override
@@ -234,9 +229,7 @@ public class UserActivity extends SherlockFragmentActivity {
 		public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
 			tabSpec.setContent(new DummyTabFactory(mActivity));
 			String tag = tabSpec.getTag();
-
 			TabInfo info = new TabInfo(tag, clss, args);
-
 			// Check to see if we already have a fragment for this tab, probably
 			// from a previously saved state. If so, deactivate it, because our
 			// initial state is that a tab isn't shown.
@@ -248,7 +241,6 @@ public class UserActivity extends SherlockFragmentActivity {
 				ft.detach(info.fragment);
 				ft.commit();
 			}
-
 			mTabs.put(tag, info);
 			mTabHost.addTab(tabSpec);
 		}
@@ -257,7 +249,6 @@ public class UserActivity extends SherlockFragmentActivity {
 			Log.d("UserActivityTabs", " refreshTab, tabId: " + tabId);
 			TabInfo newTab = mTabs.get(tabId);
 			Log.d("UserActivityTabs", "newTab.tag: " + newTab.tag);
-			// if (mLastTab != newTab) {
 			FragmentTransaction ft = mActivity.getSupportFragmentManager()
 					.beginTransaction();
 			if (mLastTab != null) {
@@ -277,11 +268,9 @@ public class UserActivity extends SherlockFragmentActivity {
 					ft.attach(newTab.fragment);
 				}
 			}
-
 			mLastTab = newTab;
 			ft.commit();
 			mActivity.getSupportFragmentManager().executePendingTransactions();
-			// }
 		}
 
 		@Override
@@ -318,7 +307,6 @@ public class UserActivity extends SherlockFragmentActivity {
 	 * visits their account.
 	 * 
 	 * @author Mateusz Renes
-	 * 
 	 */
 	private class PostEventTask extends AsyncTask<Object, Object, Object> {
 
@@ -329,9 +317,6 @@ public class UserActivity extends SherlockFragmentActivity {
 		@Override
 		protected Object doInBackground(Object... params) {
 			Log.d("PostEventTask", "doInBackground()");
-
-			// userData = App.loadUserData();
-
 			JSONObject jsonBody = new JSONObject();
 			JSONObject body = new JSONObject();
 			try {

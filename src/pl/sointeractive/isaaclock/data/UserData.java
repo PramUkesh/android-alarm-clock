@@ -8,9 +8,11 @@ import android.util.Log;
 import pl.sointeractive.isaaclock.R;
 
 /**
- * Data store class for user information. Apart from collecting user data, it enables some parts of alarms management.
+ * Data store class for user information. Apart from collecting user data, it
+ * enables some parts of alarms management.
+ * 
  * @author Mateusz Renes
- *
+ * 
  */
 public class UserData implements Serializable {
 
@@ -36,7 +38,6 @@ public class UserData implements Serializable {
 		alarmList.add(new Alarm(dayArray[4], 0, 0, false));
 		alarmList.add(new Alarm(dayArray[5], 0, 0, false));
 		alarmList.add(new Alarm(dayArray[6], 0, 0, false));
-
 		name = "user name";
 		email = "user email";
 		this.lastScore = (App.getInstance().getString(R.string.score_no_data));
@@ -44,10 +45,12 @@ public class UserData implements Serializable {
 		setUse24HourTime(false);
 	}
 
-	public ArrayList<Alarm> getAlarms() {
-		return alarmList;
-	}
-
+	/**
+	 * Used for changing alarm activation status without changing its time.
+	 * 
+	 * @param dayIndex
+	 * @param active
+	 */
 	public void setAlarm(int dayIndex, boolean active) {
 		int hour = alarmList.get(dayIndex).getHour();
 		int minutes = alarmList.get(dayIndex).getMinutes();
@@ -55,12 +58,25 @@ public class UserData implements Serializable {
 				active));
 	}
 
+	/**
+	 * Used for changing the alarms time and activation status.
+	 * 
+	 * @param dayIndex
+	 * @param hour
+	 * @param minutes
+	 * @param active
+	 */
 	public void setAlarm(int dayIndex, int hour, int minutes, boolean active) {
 		alarmList.set(dayIndex, new Alarm(dayArray[dayIndex], hour, minutes,
 				active));
 	}
 
-	public String print() {
+	/**
+	 * Returns readable info on the alarms.
+	 * 
+	 * @return
+	 */
+	public String printAlarms() {
 		String result = "Alarms: \n";
 		for (int i = 0; i < 7; i++) {
 			result += alarmList.get(i).print() + "\n";
@@ -68,26 +84,12 @@ public class UserData implements Serializable {
 		return result;
 	}
 
-	boolean isActive(int dayIndex) {
-		return alarmList.get(dayIndex).isActive();
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
+	/**
+	 * Returns a String representation of the next active alarm. If there is no
+	 * active alarm detected, the returned String will show this.
+	 * 
+	 * @return
+	 */
 	public String getNextAlarmTime() {
 		String nextAlarmTime = App.getInstance().getString(
 				R.string.alarm_not_set);
@@ -127,10 +129,16 @@ public class UserData implements Serializable {
 		return nextAlarmTime;
 	}
 
+	/**
+	 * Returns AlarmInfo of the next active alarm. If there is no active alarm
+	 * detected, the AlarmInfo will have its ACTIVE variable set to false.
+	 * 
+	 * @return
+	 */
 	public AlarmInfo getNextAlarmInfo() {
 		AlarmInfo nextAlarmInfo = new AlarmInfo();
 		Calendar c = Calendar.getInstance();
-		//c.setFirstDayOfWeek(Calendar.MONDAY);
+		// c.setFirstDayOfWeek(Calendar.MONDAY);
 		Alarm firstActiveAlarm = null;
 
 		int currentDayOfWeek = c.get(Calendar.DAY_OF_WEEK);
@@ -142,19 +150,11 @@ public class UserData implements Serializable {
 				int alarmDayOfWeek = a.getDayOfWeekInt();
 				int alarmHour = a.getHour();
 				int alarmMinute = a.getMinutes();
-				Log.d("getNextAlarmInfo()", "currentDayOfWeek: "
-						+ currentDayOfWeek);
-				Log.d("getNextAlarmInfo()", "currentHour: " + currentHour);
-				Log.d("getNextAlarmInfo()", "currentMinute: " + currentMinute);
-				Log.d("getNextAlarmInfo()", "alarmDayOfWeek: " + alarmDayOfWeek);
-				Log.d("getNextAlarmInfo()", "alarmHour: " + alarmHour);
-				Log.d("getNextAlarmInfo()", "alarmMinute: " + alarmMinute);
 				if (firstActiveAlarm == null) {
 					firstActiveAlarm = a;
 					nextAlarmInfo = new AlarmInfo(alarmHour, alarmMinute,
 							getDaysBetween(currentDayOfWeek, alarmDayOfWeek));
 				}
-
 				if (alarmDayOfWeek > currentDayOfWeek) {
 					return new AlarmInfo(alarmHour, alarmMinute,
 							getDaysBetween(currentDayOfWeek, alarmDayOfWeek));
@@ -173,26 +173,87 @@ public class UserData implements Serializable {
 					}
 				}
 			}
-
 		}
 		nextAlarmInfo.print();
 		return nextAlarmInfo;
-
 	}
 
-	public int getDaysBetween(int day1, int day2) {
+	/**
+	 * Returns the number of days in between the weekdays passed as arguments.
+	 * The day1 and day2 variables must be integers between 1 and 7. The result
+	 * is the day difference between these two values. For instance if day1 has
+	 * value 6 (Friday) and day2 has value 3 (Tuesday), the returned value will
+	 * be 4 (since there is a 4 day difference between current Friday and next
+	 * weeks Tuesday).
+	 * 
+	 * @param day1
+	 * @param day2
+	 * @return
+	 */
+	private int getDaysBetween(int day1, int day2) {
 		int counter = 0;
 		while (true) {
 			if (day1 == day2) {
 				return counter;
 			} else {
 				day1++;
-				if(day1==8){
-					day1 =1;
-				};
+				if (day1 == 8) {
+					day1 = 1;
+				}
 				counter++;
 			}
 		}
+	}
+
+	/**
+	 * This is a helper class for generating and storing alarm information. Used
+	 * only for setting alarms in the AlarmActivity and AlarmFragment.
+	 * 
+	 * @author Mateusz Renes
+	 * 
+	 */
+	public class AlarmInfo {
+		public boolean ACTIVE;
+		public int HOUR;
+		public int MINUTE;
+		public int DAYS_FROM_NOW;
+
+		public AlarmInfo() {
+			this.ACTIVE = false;
+		}
+
+		public AlarmInfo(int hour, int minute, int days) {
+			this.HOUR = hour;
+			this.MINUTE = minute;
+			this.DAYS_FROM_NOW = days;
+			this.ACTIVE = true;
+		}
+
+		public boolean isShowingCurrentOrPastTime() {
+			Calendar c = Calendar.getInstance();
+			if (c.get(Calendar.HOUR_OF_DAY) >= HOUR
+					&& c.get(Calendar.MINUTE) >= MINUTE && DAYS_FROM_NOW == 0) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		public void print() {
+			Log.d("AlarmInfo", "Hour: " + HOUR + " Minute: " + MINUTE
+					+ " DaysFromNow: " + DAYS_FROM_NOW);
+		}
+	}
+
+	public void resetData() {
+		alarmList.get(0).setActive(false);
+		alarmList.get(1).setActive(false);
+		alarmList.get(2).setActive(false);
+		alarmList.get(3).setActive(false);
+		alarmList.get(4).setActive(false);
+		alarmList.get(5).setActive(false);
+		alarmList.get(6).setActive(false);
+		this.lastScore = App.getInstance().getString(R.string.score_no_data);
 	}
 
 	public boolean hasNewNotifications() {
@@ -205,6 +266,30 @@ public class UserData implements Serializable {
 
 	public boolean isUsing24HourTime() {
 		return use24HourTime;
+	}
+
+	boolean isActive(int dayIndex) {
+		return alarmList.get(dayIndex).isActive();
+	}
+
+	public ArrayList<Alarm> getAlarms() {
+		return alarmList;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public void setUse24HourTime(boolean use24HourTime) {
@@ -237,50 +322,6 @@ public class UserData implements Serializable {
 
 	public void resetLastScore() {
 		this.lastScore = App.getInstance().getString(R.string.score_no_data);
-	}
-
-	public void resetData() {
-		alarmList.get(0).setActive(false);
-		alarmList.get(1).setActive(false);
-		alarmList.get(2).setActive(false);
-		alarmList.get(3).setActive(false);
-		alarmList.get(4).setActive(false);
-		alarmList.get(5).setActive(false);
-		alarmList.get(6).setActive(false);
-		this.lastScore = App.getInstance().getString(R.string.score_no_data);
-	}
-
-	public class AlarmInfo {
-		public boolean ACTIVE;
-		public int HOUR;
-		public int MINUTE;
-		public int DAYS_FROM_NOW;
-
-		public AlarmInfo() {
-			this.ACTIVE = false;
-		}
-
-		public AlarmInfo(int hour, int minute, int days) {
-			this.HOUR = hour;
-			this.MINUTE = minute;
-			this.DAYS_FROM_NOW = days;
-			this.ACTIVE = true;
-		}
-
-		public boolean isShowingCurrentOrPastTime() {
-			Calendar c = Calendar.getInstance();
-			if (c.get(Calendar.HOUR_OF_DAY) >= HOUR
-					&& c.get(Calendar.MINUTE) >= MINUTE && DAYS_FROM_NOW == 0) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-
-		public void print() {
-			Log.d("AlarmInfo", "Hour: " + HOUR + " Minute: " + MINUTE
-					+ " DaysFromNow: " + DAYS_FROM_NOW);
-		}
 	}
 
 }

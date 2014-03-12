@@ -4,8 +4,9 @@ import java.io.Serializable;
 
 /**
  * Data store class for Alarms.
+ * 
  * @author Mateusz Renes
- *
+ * 
  */
 public class Alarm implements Serializable {
 
@@ -22,18 +23,16 @@ public class Alarm implements Serializable {
 		setActive(active);
 	}
 
-	public String getDay() {
-		return day;
-	}
-
-	public void setDay(String day) {
-		this.day = day;
-	}
-
+	/**
+	 * Get a readable time interpretation. The returned String differs base don
+	 * what time display option is currently enabled by the user.
+	 * 
+	 * @return
+	 */
 	public String getTime() {
 		boolean isUsing24HourTime = App.loadUserData().isUsing24HourTime();
 		String time = "";
-		if(isUsing24HourTime){
+		if (isUsing24HourTime) {
 			if (hour < 10) {
 				time += "0" + hour;
 			} else {
@@ -42,20 +41,20 @@ public class Alarm implements Serializable {
 		} else {
 			if (hour < 10) {
 				time += "0" + hour;
-			} else if (hour < 13){
+			} else if (hour < 13) {
 				time += "" + hour;
 			} else {
-				time += "0" + (hour-12);
+				time += "0" + (hour - 12);
 			}
 		}
 		time += ":";
-		if(minutes<10){
+		if (minutes < 10) {
 			time += "0" + minutes;
 		} else {
 			time += "" + minutes;
 		}
-		if(!isUsing24HourTime){
-			if(hour<12){
+		if (!isUsing24HourTime) {
+			if (hour < 12) {
 				time += " AM";
 			} else {
 				time += " PM";
@@ -63,8 +62,14 @@ public class Alarm implements Serializable {
 		}
 		return time;
 	}
-	
-	public int getDayOfWeekInt(){
+
+	/**
+	 * Returns a numeric interpretation of the week day. In this case, the first
+	 * day of the week in Sunday (1) and the last is Saturday (7).
+	 * 
+	 * @return
+	 */
+	public int getDayOfWeekInt() {
 		if (day.equals("Mon")) {
 			return 2;
 		} else if (day.equals("Tue")) {
@@ -82,6 +87,14 @@ public class Alarm implements Serializable {
 		} else {
 			return 0;
 		}
+	}
+
+	public String getDay() {
+		return day;
+	}
+
+	public void setDay(String day) {
+		this.day = day;
 	}
 
 	public boolean isActive() {

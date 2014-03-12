@@ -22,19 +22,18 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(final Context context, Intent intent) {
+		Log.d("AlarmReceiver", "ALARM RECEIVED!!!");
 		this.context = context;
-
+		//set bundle with snooze counter
 		Bundle extras = intent.getExtras();
 		if (extras != null) {
 			snoozeCounter = extras.getInt("SNOOZE_COUNTER");
 		}
-
+		// and start new activity
 		Intent newIntent = new Intent(context, AlarmActivity.class);
 		newIntent.putExtra("SNOOZE_COUNTER", snoozeCounter);
 		newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(newIntent);
-
-		Log.e("AlarmReceiver", "ALARM RECEIVED!!!");
 	}
 
 }

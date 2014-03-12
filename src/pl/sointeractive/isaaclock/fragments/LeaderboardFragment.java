@@ -36,8 +36,11 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockListFragment;
 
 /**
- * Fragment class for the Leaderboard. Used in the UserActivity. Shown in its
- * corresponding Tab.
+ * Fragment class for the Leaderboard. Used in the UserActivity an shown in its
+ * corresponding Tab. It extends SherlockListFragment, which is a ABS library
+ * version of the Android ListFragment class. For detailed information on how the
+ * ListFragment handles its data viewing, please check the class documentation
+ * provided by Google.
  * 
  * @author Mateusz Renes
  * 
@@ -61,13 +64,10 @@ public class LeaderboardFragment extends SherlockListFragment implements
 		adapter = new LeaderboardAdapter(context);
 		setListAdapter(adapter);
 		userData = App.loadUserData();
-
 		// Start out with a progress indicator.
 		setListShown(false);
-
 		// Set empty text
 		setEmptyText(getString(R.string.fragment_leaderboard_empty));
-
 		// Prepare the loader. Either re-connect with an existing one,
 		// or start a new one.
 		getLoaderManager().initLoader(0, null, this);
@@ -120,7 +120,7 @@ public class LeaderboardFragment extends SherlockListFragment implements
 			// the leaderboard automatically, based on the "cron" parameter
 			// defined during leaderboard creation. But for the purpose of this
 			// example we will manually recalculate the leaderboard, in order to
-			// display the changes done immediately.
+			// display changes in positions immediately.
 			try {
 				App.getWrapper().getAdminLeaderboardRecalculate(
 						Settings.leaderboardId, null);
@@ -297,7 +297,7 @@ public class LeaderboardFragment extends SherlockListFragment implements
 			textScore.setText("Score: " + p.getUserScore());
 			image.setImageDrawable(getResources().getDrawable(
 					R.drawable.ic_menu_info_details));
-			if (p.isUserPosition()) {
+			if (p.isCurrentUserPosition()) {
 				view.setBackgroundColor(Color.rgb(0, 150, 150));
 			} else {
 				view.setBackgroundColor(Color.TRANSPARENT);

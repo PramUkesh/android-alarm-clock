@@ -10,7 +10,7 @@ import org.json.JSONObject;
  */
 public class Achievement {
 
-	private String label, desc, imageUrl;
+	private String label, description, imageUrl;
 	private int counter = 0;
 	private boolean isGained;
 
@@ -42,11 +42,11 @@ public class Achievement {
 	}
 
 	public String getDesc() {
-		return desc;
+		return description;
 	}
 
 	public void setDesc(String desc) {
-		this.desc = desc;
+		this.description = desc;
 	}
 
 	public String getImageUrl() {
@@ -66,7 +66,7 @@ public class Achievement {
 	}
 
 	public String print() {
-		return "Achievement: " + label + " " + desc + " " + isGained;
+		return "Achievement: " + label + " " + description + " " + isGained;
 	}
 
 	public int getCounter() {

@@ -122,10 +122,6 @@ public class RegisterActivity extends Activity {
 		@Override
 		protected Object doInBackground(Object... params) {
 			Log.d("RegisterTask", "doInBackground()");
-			/*
-			 * try { Thread.sleep(1000); } catch (InterruptedException e) { //
-			 * TODO Auto-generated catch block e.printStackTrace(); }
-			 */
 			JSONObject jsonBody = new JSONObject();
 			try {
 				jsonBody.put("email", textEmail.getEditableText().toString());
@@ -139,7 +135,6 @@ public class RegisterActivity extends Activity {
 			} catch (JSONException e1) {
 				e1.printStackTrace();
 			}
-
 			UserData userData = App.loadUserData();
 			HttpResponse response = null;
 			try {
@@ -151,7 +146,7 @@ public class RegisterActivity extends Activity {
 				userData.setEmail(json.getString("email"));
 				App.saveUserData(userData);
 				success = true;
-
+				/*
 				// achievement for logging into isaaclock for the first time
 				JSONObject jsonBody2 = new JSONObject();
 				JSONObject body = new JSONObject();
@@ -163,15 +158,12 @@ public class RegisterActivity extends Activity {
 				jsonBody2.put("subjectType", "USER");
 				jsonBody2.put("type", "NORMAL");
 				response = App.getWrapper().postQueuesEvent(jsonBody2, null);
-
+				*/
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 			return null;
 		}
 
