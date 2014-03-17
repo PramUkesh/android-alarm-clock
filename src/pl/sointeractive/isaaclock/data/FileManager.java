@@ -10,7 +10,6 @@ import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 
 import android.content.Context;
-import android.util.Log;
 
 /**
  * This is a helper class for saving and loading files from the application
@@ -20,7 +19,7 @@ import android.util.Log;
  * 
  */
 public class FileManager {
-
+	
 	private static final String userDataFileName = "user_data.dat";
 	private static final String loginDataFileName = "login_data.dat";
 
@@ -29,7 +28,6 @@ public class FileManager {
 		//Check if the file exists. If not, create a new one.
 		File checkFile = new File(app.getFilesDir(), userDataFileName);
 		if (!checkFile.exists()) {
-			Log.d("FileManager", "no user data, create new one");
 			saveUserData(new UserData(), app);
 		}
 		//load the file

@@ -36,16 +36,18 @@ import android.widget.TimePicker;
 import com.actionbarsherlock.app.SherlockListFragment;
 
 /**
- * Fragment class for Alarms. Used in the UserActivity an shown in its
- * corresponding Tab. It extends SherlockListFragment, which is a ABS library
- * version of the Android ListFragment class. For detailed information on how
- * the ListFragment handles its data viewing, please check the class
+ * Fragment class for displaying Alarms. Used in the UserActivity and shown in
+ * its corresponding Tab. It extends SherlockListFragment, which is a ABS
+ * library version of the Android ListFragment class. For detailed information
+ * on how the ListFragment handles its data viewing, please check the class
  * documentation provided by Google.
  * 
  * @author Mateusz Renes
  * 
  */
 public class AlarmsFragment extends SherlockListFragment {
+	
+	private static final String TAG = "AlarmsFragment";
 
 	UserActivity context;
 	AlarmAdapter alarmAdapter;
@@ -67,7 +69,6 @@ public class AlarmsFragment extends SherlockListFragment {
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		Log.d("", "ON LIST ITEM CLICK");
 		// If the selected alarm is active, open options. If not, set alarm.
 		if (alarmList.get(position).isActive()) {
 			openOptionsDialog(position);
@@ -80,12 +81,14 @@ public class AlarmsFragment extends SherlockListFragment {
 	 * Deactivate the selected alarm and restart the alarm service.
 	 * 
 	 * @param dayIndex
+	 *            The index of the desired day (0-Monday, 6-Sunday) in the alarm
+	 *            list.
 	 */
-	public void deactivateAlarm(final int dayIndex) {
+	private void deactivateAlarm(final int dayIndex) {
 		alarmList.get(dayIndex).setActive(false);
 		App.saveUserData(userData);
 		refreshCurrentFragment();
-		Log.d("setTime", userData.printAlarms());
+		Log.d(TAG, userData.printAlarms());
 		startAlarmService();
 	}
 
@@ -93,9 +96,10 @@ public class AlarmsFragment extends SherlockListFragment {
 	 * Set time to the selected alarm and restart the alarm service.
 	 * 
 	 * @param dayIndex
+	 *            The index of the desired day (0-Monday, 6-Sunday) in the alarm
+	 *            list.
 	 */
-	public void setTime(final int dayIndex) {
-		Log.d("TEST", "touch");
+	private void setTime(final int dayIndex) {
 		// setup time picker dialog
 		TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
 			public void onTimeSet(TimePicker view, int selectedHour,
@@ -104,7 +108,7 @@ public class AlarmsFragment extends SherlockListFragment {
 				alarmList = userData.getAlarms();
 				App.saveUserData(userData);
 				refreshCurrentFragment();
-				Log.d("setTime", userData.printAlarms());
+				Log.d(TAG, userData.printAlarms());
 				startAlarmService();
 				new PostEventTask().execute();
 			}
@@ -122,8 +126,8 @@ public class AlarmsFragment extends SherlockListFragment {
 	/**
 	 * Refresh view of the current tab.
 	 */
-	public void refreshCurrentFragment() {
-		Log.d("AlarmsFragment", "refreshCurrentFragment()");
+	private void refreshCurrentFragment() {
+		Log.d(TAG, "refreshCurrentFragment()");
 		TabManager tm = context.getTabManager();
 		TabHost th = context.getTabHost();
 		tm.printTabInfo();
@@ -136,7 +140,7 @@ public class AlarmsFragment extends SherlockListFragment {
 	 * 
 	 * @param dayIndex
 	 */
-	public void openOptionsDialog(final int dayIndex) {
+	private void openOptionsDialog(final int dayIndex) {
 		AlertDialog dialog;
 		String[] options = {
 				getString(R.string.fragment_alarms_dialog_option_change_time),
@@ -172,8 +176,8 @@ public class AlarmsFragment extends SherlockListFragment {
 	/**
 	 * Stop any active AlarmService instances and start a new one.
 	 */
-	public void startAlarmService() {
-		Log.d("AlarmClockManager", "startAlarmService()");
+	private void startAlarmService() {
+		Log.d(TAG, "startAlarmService()");
 		Intent intent = new Intent(context.getApplicationContext(),
 				AlarmService.class);
 		intent.putExtra("SNOOZE_COUNTER", 0);
@@ -196,7 +200,7 @@ public class AlarmsFragment extends SherlockListFragment {
 
 		@Override
 		protected Object doInBackground(Object... params) {
-			Log.d("PostEventTask", "doInBackground()");
+			Log.d(TAG, "doInBackground()");
 			JSONObject jsonBody = new JSONObject();
 			JSONObject body = new JSONObject();
 			// create request body
@@ -226,13 +230,13 @@ public class AlarmsFragment extends SherlockListFragment {
 		}
 
 		protected void onPostExecute(Object result) {
-			Log.d("PostEventTask", "onPostExecute()");
+			Log.d(TAG, "onPostExecute()");
 			// check for errors
 			if (isError) {
-				Log.d("PostEventTask", "onPostExecute() - error detected");
+				Log.d(TAG, "onPostExecute() - error detected");
 			}
 			if (response != null) {
-				Log.d("PostEventTask", "onPostExecute() - response: "
+				Log.d(TAG, "onPostExecute() - response: "
 						+ response.toString());
 			}
 		}

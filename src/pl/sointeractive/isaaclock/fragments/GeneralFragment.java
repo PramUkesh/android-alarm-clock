@@ -20,11 +20,11 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 
 /**
- * Fragment class for general user information. Used in the UserActivity an
- * shown in its corresponding Tab. It extends SherlockListFragment, which is a
- * ABS library version of the Android ListFragment class. For detailed
- * information on how the ListFragment handles its data viewing, please check
- * the class documentation provided by Google.
+ * Fragment class for displaying general user information. Used in the
+ * UserActivity and shown in its corresponding Tab. It extends
+ * SherlockListFragment, which is a ABS library version of the Android
+ * ListFragment class. For detailed information on how the ListFragment handles
+ * its data viewing, please check the class documentation provided by Google.
  * 
  * @author Mateusz Renes
  * 
@@ -73,17 +73,17 @@ public class GeneralFragment extends SherlockFragment implements
 
 	@Override
 	public void onLoadFinished(Loader<UserData> arg0, UserData arg1) {
-		//set text field values
+		// set text field values
 		textName.setText(userData.getName());
 		textEmail.setText(userData.getEmail());
 		textScore.setText(userData.getLastScore());
 		textAlarm.setText(userData.getNextAlarmTime());
-		//find buttons 
+		// find buttons
 		Button buttonScore = (Button) getActivity().findViewById(
 				R.id.fragment_general_button_show_score);
 		Button buttonAlarm = (Button) getActivity().findViewById(
 				R.id.fragment_general_button_show_alarms);
-		//set button listeners
+		// set button listeners
 		buttonScore.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -96,15 +96,15 @@ public class GeneralFragment extends SherlockFragment implements
 				context.getTabHost().setCurrentTabByTag("alarms");
 			}
 		});
-		//set images (currently just fake icons)
+		// set images (currently just fake icons)
 		ImageView imageUser = (ImageView) getActivity().findViewById(
 				R.id.fragment_general_image);
 		imageUser.setImageDrawable(getResources().getDrawable(
 				R.drawable.ic_menu_friendslist));
-		//show the list
+		// show the list
 		view.findViewById(R.id.fragment_general_scroll).setVisibility(
 				View.VISIBLE);
-		//hide progress bar
+		// hide progress bar
 		view.findViewById(R.id.fragment_general_progress_bar).setVisibility(
 				View.GONE);
 	}

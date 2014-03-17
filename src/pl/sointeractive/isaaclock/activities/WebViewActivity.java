@@ -22,6 +22,8 @@ import android.webkit.WebViewClient;
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewActivity extends Activity {
 
+	private static final String TAG = "WebViewActivity";
+	
 	private WebView webView;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,22 +32,22 @@ public class WebViewActivity extends Activity {
 
 		webView = (WebView) findViewById(R.id.webview);
 		webView.setBackgroundColor(Color.BLACK);
-		webView.setWebViewClient(new WebViewClient() {
-			@Override
-			public boolean shouldOverrideUrlLoading(WebView view, String url) {
-				Log.d("WebView", "Redirect: " + url);
-				boolean shouldOverride = false;
-				if (url.startsWith("https://")) {
-					// do something
-				}
-				return shouldOverride;
-			}
-		});
+		webView.setWebViewClient(new CustomWebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
-		// webView.loadUrl("https://ac.isaacloud.com");
-		// webView.loadUrl("https://oauthdev.isaacloud.com/gamification/"+
-		// Settings.memberId + "/application/" + Settings.appId+ "/login");
-		webView.loadUrl("https://oauthdev.isaacloud.com/login");
+		webView.loadUrl(Settings.loginUrl);
+	}
+	
+	private class CustomWebViewClient extends WebViewClient {
+	    
+	    @Override
+		public boolean shouldOverrideUrlLoading(WebView view, String url) {
+			Log.d(TAG, "Redirect: " + url);
+			boolean shouldOverride = false;
+			if (url.startsWith("https://")) {
+				// do something
+			}
+			return shouldOverride;
+		}
 	}
 
 }

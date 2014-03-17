@@ -26,6 +26,8 @@ import android.util.Log;
  */
 public class AlarmService extends Service {
 
+	private static final String TAG = "AlarmService";
+	
 	final static int RequestCode = 1;
 	int snoozeCounter;
 
@@ -40,7 +42,7 @@ public class AlarmService extends Service {
 	 */
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.d("AlarmService", "onStartCommand");
+		Log.d(TAG, "onStartCommand");
 		// get snooze counter
 		Bundle extras = intent.getExtras();
 		if (extras != null) {
@@ -97,7 +99,7 @@ public class AlarmService extends Service {
 			c.set(Calendar.SECOND, 0);
 			c.set(Calendar.MILLISECOND, 0);
 			long alarmTime = c.getTimeInMillis();
-			Log.d("setAlarm", "Alarm set to: " + c.getTime().toString());
+			Log.d(TAG, "Alarm set to: " + c.getTime().toString());
 			alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
 
 		}

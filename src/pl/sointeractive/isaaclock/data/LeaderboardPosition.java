@@ -29,11 +29,13 @@ public class LeaderboardPosition {
 		String lastName = json.getString("lastName");
 		this.setUserName(firstName + " " + lastName);
 		userScore=0;
-		//scroll through users gained achievements and increase score accordingly
-		JSONArray data = json.getJSONArray("gainedAchievements");
-		for(int i=0; i<data.length(); i++){
-			userScore += data.getJSONObject(i).getInt("amount");
-		}
+		//get leaderboards
+		JSONArray leaderboards = json.getJSONArray("leaderboards");
+		//get user data within the first leaderboard
+		JSONObject data = leaderboards.getJSONObject(0);
+		//extract user data
+		this.userScore = data.getInt("score");
+		this.position = data.getInt("index");
 		//if the logged in user is found, mark his score in UserData
 		if(this.userId == userId){
 			UserData userData = App.loadUserData();

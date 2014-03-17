@@ -44,9 +44,12 @@ import com.actionbarsherlock.view.MenuItem;
  * 
  */
 public class UserActivity extends SherlockFragmentActivity {
+	
+	private static final String TAG = "UserActivity";
+	private static final int RESULT_SETTINGS = 1;
+	
 	private TabHost mTabHost;
 	private static TabManager mTabManager;
-	private static final int RESULT_SETTINGS = 1;
 
 	/**
 	 * Method used on activity creation. Here the tabs are initiated, but not
@@ -137,7 +140,7 @@ public class UserActivity extends SherlockFragmentActivity {
 	 * Save user preferences to the UserData object.
 	 */
 	private void saveSettings() {
-		Log.d("UserActivity", "saveSettings()");
+		Log.d(TAG, "saveSettings()");
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		UserData userData = App.loadUserData();
@@ -246,14 +249,14 @@ public class UserActivity extends SherlockFragmentActivity {
 		}
 
 		public void refreshTab(String tabId) {
-			Log.d("UserActivityTabs", " refreshTab, tabId: " + tabId);
+			Log.d(TAG, " refreshTab, tabId: " + tabId);
 			TabInfo newTab = mTabs.get(tabId);
-			Log.d("UserActivityTabs", "newTab.tag: " + newTab.tag);
+			Log.d(TAG, "newTab.tag: " + newTab.tag);
 			FragmentTransaction ft = mActivity.getSupportFragmentManager()
 					.beginTransaction();
 			if (mLastTab != null) {
 				if (mLastTab.fragment != null) {
-					Log.d("UserActivityTabs", " refreshTab, detach ");
+					Log.d(TAG, " refreshTab, detach ");
 					ft.detach(mLastTab.fragment);
 				}
 			}
@@ -261,10 +264,10 @@ public class UserActivity extends SherlockFragmentActivity {
 				if (newTab.fragment == null) {
 					newTab.fragment = Fragment.instantiate(mActivity,
 							newTab.clss.getName(), newTab.args);
-					Log.d("UserActivityTabs", " refreshTab, add ");
+					Log.d(TAG, " refreshTab, add ");
 					ft.add(mContainerId, newTab.fragment, newTab.tag);
 				} else {
-					Log.d("UserActivityTabs", " refreshTab, attach ");
+					Log.d(TAG, " refreshTab, attach ");
 					ft.attach(newTab.fragment);
 				}
 			}
@@ -275,9 +278,9 @@ public class UserActivity extends SherlockFragmentActivity {
 
 		@Override
 		public void onTabChanged(String tabId) {
-			Log.d("UserActivityTabs", "onTabChanged, tabId: " + tabId);
+			Log.d(TAG, "onTabChanged, tabId: " + tabId);
 			TabInfo newTab = mTabs.get(tabId);
-			Log.d("UserActivityTabs", "newTab.tag: " + newTab.tag);
+			Log.d(TAG, "newTab.tag: " + newTab.tag);
 			FragmentTransaction ft = mActivity.getSupportFragmentManager()
 					.beginTransaction();
 			if (mLastTab != null) {
@@ -316,7 +319,7 @@ public class UserActivity extends SherlockFragmentActivity {
 
 		@Override
 		protected Object doInBackground(Object... params) {
-			Log.d("PostEventTask", "doInBackground()");
+			Log.d(TAG, "doInBackground()");
 			JSONObject jsonBody = new JSONObject();
 			JSONObject body = new JSONObject();
 			try {
@@ -345,12 +348,12 @@ public class UserActivity extends SherlockFragmentActivity {
 		}
 
 		protected void onPostExecute(Object result) {
-			Log.d("PostEventTask", "onPostExecute()");
+			Log.d(TAG, "onPostExecute()");
 			if (isError) {
-				Log.d("PostEventTask", "onPostExecute() - error detected");
+				Log.d(TAG, "onPostExecute() - error detected");
 			}
 			if (response != null) {
-				Log.d("PostEventTask", "onPostExecute() - response: "
+				Log.d(TAG, "onPostExecute() - response: "
 						+ response.toString());
 			}
 		}

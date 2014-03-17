@@ -17,6 +17,8 @@ import android.util.Log;
  */
 public class SnoozeReceiver extends BroadcastReceiver {
 
+	private static final String TAG = "SnoozeReceiver";
+
 	Context context;
 	int snoozeCounter;
 
@@ -28,13 +30,13 @@ public class SnoozeReceiver extends BroadcastReceiver {
 		if (extras != null) {
 			snoozeCounter = extras.getInt("SNOOZE_COUNTER");
 		}
-		
+
 		Intent newIntent = new Intent(context, AlarmActivity.class);
 		newIntent.putExtra("SNOOZE_COUNTER", snoozeCounter);
 		newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(newIntent);
 
-		Log.e("AlarmReceiver", "ALARM RECEIVED!!!");
+		Log.e(TAG, "ALARM RECEIVED!!!");
 	}
 
 }

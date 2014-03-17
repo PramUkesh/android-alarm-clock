@@ -33,6 +33,8 @@ import android.widget.Toast;
  */
 public class RegisterActivity extends Activity {
 
+	private static final String TAG = "RegisterActivity";
+	
 	private Button buttonRegister;
 	private EditText textEmail, textPassword, textPasswordRepeat,
 			textFirstName, textLastName;
@@ -51,8 +53,12 @@ public class RegisterActivity extends Activity {
 		textPasswordRepeat = (EditText) findViewById(R.id.text_edit_password_repeat);
 		textFirstName = (EditText) findViewById(R.id.text_edit_first_name);
 		textLastName = (EditText) findViewById(R.id.text_edit_last_name);
-		// set button listener
 		buttonRegister = (Button) findViewById(R.id.button_register);
+		// set button listener
+		setButtonListeners();
+	}
+
+	private void setButtonListeners() {
 		buttonRegister.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -61,8 +67,8 @@ public class RegisterActivity extends Activity {
 				String email = textEmail.getEditableText().toString();
 				String firstName = textFirstName.getEditableText().toString();
 				String lastName = textLastName.getEditableText().toString();
-				if (pw.length() > 5 && email.length() > 0
-						&& firstName.length() > 0 && lastName.length() > 0) {
+				if (email.length() > 0 && firstName.length() > 0
+						&& lastName.length() > 0) {
 					if (pw.equals(pw2)) {
 						if (pw.matches("^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%\\.]).{6,15})$")) {
 							new RegisterTask().execute();
@@ -86,7 +92,6 @@ public class RegisterActivity extends Activity {
 
 			}
 		});
-
 	}
 
 	@Override
@@ -101,8 +106,8 @@ public class RegisterActivity extends Activity {
 
 	/**
 	 * This AsyncTask is used to communicate with the API. It posts a request to
-	 * create a new user and checks for errors. After a successful
-	 * registration a new UserActivity is started.
+	 * create a new user and checks for errors. After a successful registration
+	 * a new UserActivity is started.
 	 * 
 	 * @author Mateusz Renes
 	 * 
@@ -113,16 +118,19 @@ public class RegisterActivity extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			Log.d("RegisterTask", "onPreExecute()");
+			Log.d(TAG, "onPreExecute()");
+			// lock screen orientation
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+			// show progress dialog
 			dialog = ProgressDialog.show(context, "Registering account",
 					"Please wait");
 		}
 
 		@Override
 		protected Object doInBackground(Object... params) {
-			Log.d("RegisterTask", "doInBackground()");
+			Log.d(TAG, "doInBackground()");
 			JSONObject jsonBody = new JSONObject();
+			// generate json
 			try {
 				jsonBody.put("email", textEmail.getEditableText().toString());
 				jsonBody.put("password", textPassword.getEditableText()
@@ -137,6 +145,7 @@ public class RegisterActivity extends Activity {
 			}
 			UserData userData = App.loadUserData();
 			HttpResponse response = null;
+			// send request and retrieve response
 			try {
 				response = App.getWrapper().postAdminUser(jsonBody, null);
 				JSONObject json = response.getJSONObject();
@@ -146,19 +155,6 @@ public class RegisterActivity extends Activity {
 				userData.setEmail(json.getString("email"));
 				App.saveUserData(userData);
 				success = true;
-				/*
-				// achievement for logging into isaaclock for the first time
-				JSONObject jsonBody2 = new JSONObject();
-				JSONObject body = new JSONObject();
-				body.put("action", "create_account");
-				jsonBody2.put("body", body);
-				jsonBody2.put("priority", "PRIORITY_HIGH");
-				jsonBody2.put("sourceId", 1);
-				jsonBody2.put("subjectId", userData.getUserId());
-				jsonBody2.put("subjectType", "USER");
-				jsonBody2.put("type", "NORMAL");
-				response = App.getWrapper().postQueuesEvent(jsonBody2, null);
-				*/
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (JSONException e) {
@@ -169,7 +165,7 @@ public class RegisterActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(Object result) {
-			Log.d("RegisterTask", "onPostExecute()");
+			Log.d(TAG, "onPostExecute()");
 			dialog.dismiss();
 			if (success) {
 				Intent intent = new Intent(context, UserActivity.class);

@@ -39,6 +39,8 @@ import android.widget.Toast;
  * 
  */
 public class LoginActivity extends Activity {
+	
+	private static final String TAG = "LoginActivity";
 
 	private Button buttonLogin, buttonNewUser, buttonExit;
 	private EditText textEmail, textPassword;
@@ -80,7 +82,6 @@ public class LoginActivity extends Activity {
 		buttonLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				/*
 				if (checkbox.isChecked()) {
 					loginData.setRemembered(true);
 					loginData.setEmail(textEmail.getEditableText().toString());
@@ -101,14 +102,13 @@ public class LoginActivity extends Activity {
 					userData = App.loadUserData();
 					new LoginTask().execute();
 				}
-				*/
-				testWebView();
+				// testWebView();
 			}
 		});
 		buttonNewUser.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				newUser();
+				registerNewUser();
 			}
 		});
 		buttonExit.setOnClickListener(new OnClickListener() {
@@ -120,9 +120,9 @@ public class LoginActivity extends Activity {
 	}
 
 	/**
-	 * Start RegisterActivity for new account creation
+	 * Start RegisterActivity for new account creation.
 	 */
-	private void newUser() {
+	private void registerNewUser() {
 		Intent intent = new Intent(context, RegisterActivity.class);
 		startActivity(intent);
 	}
@@ -146,8 +146,8 @@ public class LoginActivity extends Activity {
 	 */
 	public void initializeWrapper() {
 		Map<String, String> config = new HashMap<String, String>();
-		config.put("clientId", Settings.memberId);
-		config.put("secret", Settings.appSecret);
+		config.put("memberId", Settings.memberId);
+		config.put("appSecret", Settings.appSecret);
 		App.setWrapper(new FakeWrapper(App.getInstance()
 				.getApplicationContext(), Settings.baseUrl, Settings.oauthUrl,
 				Settings.version, config));
@@ -155,7 +155,7 @@ public class LoginActivity extends Activity {
 
 	/**
 	 * AsyncTask used for logging in. A different login method will be used in
-	 * the future.
+	 * the future release of the app.
 	 * 
 	 * @author Mateusz Renes
 	 * 
@@ -166,7 +166,8 @@ public class LoginActivity extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			Log.d("LoginTask", "onPreExecute()");
+			Log.d(TAG, "onPreExecute()");
+			// lock screen orientation and show progress dialog
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 			dialog = ProgressDialog.show(context, "Logging in", "Please wait");
 		}
@@ -177,21 +178,17 @@ public class LoginActivity extends Activity {
 			 * THIS IS A TEMPORARY SOLUTION. A proper login flow through a
 			 * website will be enabled after testing
 			 */
-			Log.d("LoginTask", "doInBackground()");
+			Log.d(TAG, "doInBackground()");
 			// connect here
 			try {
 				String email = textEmail.getEditableText().toString();
 				Map<String, Object> param = new HashMap<String, Object>();
 				param.put("limit", 1000);
 				HttpResponse response = App.getWrapper().getAdminUsers(param);
-				Log.d("RESPONSE", response.toString());
+				Log.d(TAG, response.toString());
 				JSONArray array = response.getJSONArray();
 				for (int i = 0; i < array.length(); i++) {
 					JSONObject json = (JSONObject) array.get(i);
-					Log.d("LoginFlow",
-							"Compare: " + email + " with " + json.get("email")
-									+ " - Result "
-									+ email.equals(json.get("email")));
 					if (email.equals(json.get("email"))) {
 						String userFirstName = json.getString("firstName");
 						String userLastName = json.getString("lastName");
@@ -222,8 +219,10 @@ public class LoginActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(Object result) {
-			Log.d("LoginTask", "onPostExecute()");
+			Log.d(TAG, "onPostExecute()");
+			// dismiss progress dialog
 			dialog.dismiss();
+			// if the user was found, start new activity, if not, show error message
 			if (success) {
 				Intent intent = new Intent(context, UserActivity.class);
 				startActivity(intent);
@@ -231,6 +230,7 @@ public class LoginActivity extends Activity {
 				Toast.makeText(context, R.string.error_login, Toast.LENGTH_LONG)
 						.show();
 			}
+			// unlock screen orientation
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 		}
 

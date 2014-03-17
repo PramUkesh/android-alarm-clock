@@ -16,6 +16,10 @@
     <string name="image_desc">Image desc</string>
     <string name="score_no_data">No info available</string>
     
+    <!-- Progress dialog -->
+    <string name="dialog_title">Loading</string>
+    <string name="dialog_message">Please wait</string>
+     
     <!-- Error messages -->
     <string name="error_no_connection">An unknown error has occurred. Please try again.</string>
     <string name="error_empty">Email and/or password is empty. Please fill in all fields.</string>

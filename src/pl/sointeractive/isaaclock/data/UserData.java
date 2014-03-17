@@ -30,6 +30,7 @@ public class UserData implements Serializable {
 			"Fri", "Sat", "Sun" };
 
 	public UserData() {
+		// set default user data
 		alarmList = new ArrayList<Alarm>();
 		alarmList.add(new Alarm(dayArray[0], 0, 0, false));
 		alarmList.add(new Alarm(dayArray[1], 0, 0, false));
@@ -72,7 +73,7 @@ public class UserData implements Serializable {
 	}
 
 	/**
-	 * Returns readable info on the alarms.
+	 * Returns readable info of the alarms.
 	 * 
 	 * @return
 	 */
@@ -86,21 +87,21 @@ public class UserData implements Serializable {
 
 	/**
 	 * Returns a String representation of the next active alarm. If there is no
-	 * active alarm detected, the returned String will show this.
+	 * active alarm detected, the returned String will show an appropriate
+	 * message.
 	 * 
 	 * @return
 	 */
 	public String getNextAlarmTime() {
 		String nextAlarmTime = App.getInstance().getString(
 				R.string.alarm_not_set);
-		Calendar c = Calendar.getInstance();
-		c.setFirstDayOfWeek(Calendar.MONDAY);
 		Alarm firstActiveAlarm = null;
-
+		//get current time 
+		Calendar c = Calendar.getInstance();
 		int currentDayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 1;
 		int currentHour = c.get(Calendar.HOUR_OF_DAY);
 		int currentMinute = c.get(Calendar.MINUTE);
-
+		// search alarms
 		for (Alarm a : alarmList) {
 			if (a.isActive()) {
 				if (firstActiveAlarm == null) {
@@ -137,14 +138,13 @@ public class UserData implements Serializable {
 	 */
 	public AlarmInfo getNextAlarmInfo() {
 		AlarmInfo nextAlarmInfo = new AlarmInfo();
-		Calendar c = Calendar.getInstance();
-		// c.setFirstDayOfWeek(Calendar.MONDAY);
 		Alarm firstActiveAlarm = null;
-
+		//get current time
+		Calendar c = Calendar.getInstance();
 		int currentDayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 		int currentHour = c.get(Calendar.HOUR_OF_DAY);
 		int currentMinute = c.get(Calendar.MINUTE);
-
+		// search alarms
 		for (Alarm a : alarmList) {
 			if (a.isActive()) {
 				int alarmDayOfWeek = a.getDayOfWeekInt();

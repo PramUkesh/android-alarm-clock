@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,11 +33,11 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockListFragment;
 
 /**
- * Fragment class for Achievements. Used in the UserActivity an shown in its
- * corresponding Tab. It extends SherlockListFragment, which is a ABS library
- * version of the Android ListFragment class. For detailed information on how the
- * ListFragment handles its data viewing, please check the class documentation
- * provided by Google.
+ * Fragment class for displaying Achievements. Used in the UserActivity and
+ * shown in its corresponding Tab. It extends SherlockListFragment, which is a
+ * ABS library version of the Android ListFragment class. For detailed
+ * information on how the ListFragment handles its data viewing, please check
+ * the class documentation provided by Google.
  * 
  * @author Mateusz Renes
  * 
@@ -78,7 +77,6 @@ public class AchievementsFragment extends SherlockListFragment implements
 	public void onLoadFinished(Loader<List<Achievement>> arg0,
 			List<Achievement> data) {
 		adapter.setData(data);
-		System.out.println("DataListFragment.onLoadFinished");
 		// The list should now be shown.
 		if (isResumed()) {
 			setListShown(true);
@@ -105,7 +103,6 @@ public class AchievementsFragment extends SherlockListFragment implements
 
 		@Override
 		public List<Achievement> loadInBackground() {
-			System.out.println("DataListLoader.loadInBackground");
 			userData = App.loadUserData();
 			List<Achievement> entries = new ArrayList<Achievement>();
 			try {
@@ -116,7 +113,6 @@ public class AchievementsFragment extends SherlockListFragment implements
 						.getAdminUserAchievements(userData.getUserId(), param);
 				JSONArray arrayUser = responseUser.getJSONArray();
 				for (int i = 0; i < arrayUser.length(); i++) {
-					Log.d("AchievementDownload", "user achievement +");
 					JSONObject json = (JSONObject) arrayUser.get(i);
 					idList.put(json.getInt("achievement"),
 							json.getInt("amount"));
@@ -215,10 +211,8 @@ public class AchievementsFragment extends SherlockListFragment implements
 		@Override
 		protected void onReset() {
 			super.onReset();
-
 			// Ensure the loader is stopped
 			onStopLoading();
-
 			// At this point we can release the resources associated with 'apps'
 			// if needed.
 			if (mModels != null) {
@@ -247,7 +241,6 @@ public class AchievementsFragment extends SherlockListFragment implements
 
 		public void setData(List<Achievement> data) {
 			clear();
-			// array = (ArrayList<Achievement>) data;
 			if (data != null) {
 				for (Achievement appEntry : data) {
 					add(appEntry);
@@ -266,7 +259,6 @@ public class AchievementsFragment extends SherlockListFragment implements
 				view = convertView;
 			}
 			Achievement achievement = getItem(position);
-			Log.d("AchievementAdapter", achievement.print());
 			TextView textLabel = (TextView) view
 					.findViewById(R.id.fragment_achievement_text_label);
 			TextView textDesc = (TextView) view

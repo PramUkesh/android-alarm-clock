@@ -36,7 +36,7 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockListFragment;
 
 /**
- * Fragment class for the Leaderboard. Used in the UserActivity an shown in its
+ * Fragment class for displaying the Leaderboard. Used in the UserActivity and shown in its
  * corresponding Tab. It extends SherlockListFragment, which is a ABS library
  * version of the Android ListFragment class. For detailed information on how the
  * ListFragment handles its data viewing, please check the class documentation

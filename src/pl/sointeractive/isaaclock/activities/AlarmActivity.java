@@ -32,7 +32,7 @@ import android.widget.Button;
 
 /**
  * This Activity is started when an the AlarmReceiver or SnoozeReceiver detects
- * a valid intent. It allows the use to turn off the alarm or put on next
+ * a valid intent. It allows the use to turn off the alarm or turn on next
  * snooze.
  * 
  * @author Mateusz Renes
@@ -41,7 +41,8 @@ import android.widget.Button;
 public class AlarmActivity extends Activity {
 
 	private final static int RequestCode = 1;
-
+	private static final String TAG = "AlarmActivity";
+	
 	private MediaPlayer mp;
 	private Vibrator vibrator;
 	private int snoozeCounter;
@@ -60,7 +61,7 @@ public class AlarmActivity extends Activity {
 		if (extras != null) {
 			snoozeCounter = extras.getInt("SNOOZE_COUNTER");
 		}
-		Log.d("AlarmReceiver", "onCreate() - snoozeCounter = " + snoozeCounter);
+		Log.d(TAG, "onCreate() - snoozeCounter = " + snoozeCounter);
 		// set button listeners
 		Button buttonOff = (Button) findViewById(R.id.button_alarm_off);
 		buttonOff.setOnClickListener(new OnClickListener() {
@@ -87,7 +88,7 @@ public class AlarmActivity extends Activity {
 	 */
 	private void alarmOff() {
 		new StopAlarm().execute();
-		Log.d("AlarmReceiver", "alarmOff() - snoozeCounter = " + snoozeCounter);
+		Log.d(TAG, "alarmOff() - snoozeCounter = " + snoozeCounter);
 		new PostEventTask().execute();
 		snoozeCounter = 0;
 		resetAlarmService();
@@ -101,12 +102,13 @@ public class AlarmActivity extends Activity {
 	private void alarmSnooze() {
 		new StopAlarm().execute();
 		snoozeCounter++;
-		Log.d("AlarmReceiver", "alarmSnooze() - snoozeCounter = "
+		Log.d(TAG, "alarmSnooze() - snoozeCounter = "
 				+ snoozeCounter);
-
+		// setup next snooze alarm time
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.MINUTE, Settings.snoozeTimeInMinutes);
-
+		long nextSnoozeTime = c.getTimeInMillis();
+		// set new snooze alarm
 		Intent intent = new Intent(getApplicationContext(),
 				SnoozeReceiver.class);
 		intent.putExtra("SNOOZE_COUNTER", snoozeCounter);
@@ -115,8 +117,7 @@ public class AlarmActivity extends Activity {
 				PendingIntent.FLAG_UPDATE_CURRENT);
 		AlarmManager alarmManager = (AlarmManager) getApplicationContext()
 				.getSystemService(Context.ALARM_SERVICE);
-		long nextSnoozeTime = c.getTimeInMillis();
-		Log.d("setAlarm", "Snooze set to: " + c.getTime().toString());
+		Log.d(TAG, "Snooze set to: " + c.getTime().toString());
 		alarmManager
 				.set(AlarmManager.RTC_WAKEUP, nextSnoozeTime, pendingIntent);
 		finish();
@@ -127,7 +128,7 @@ public class AlarmActivity extends Activity {
 	 * (new alarm date and time).
 	 */
 	private void resetAlarmService() {
-		Log.d("AlarmReceiver", "restart AlarmService");
+		Log.d(TAG, "restart AlarmService");
 		Intent intent = new Intent(getApplicationContext(), AlarmService.class);
 		stopService(intent);
 		startService(intent);
@@ -155,7 +156,7 @@ public class AlarmActivity extends Activity {
 			vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 			long[] pattern = { 1000, 1000 };
 			vibrator.vibrate(pattern, 0);
-			Log.d("AsyncTask", "IsPlaying: " + mp.isPlaying());
+			Log.d(TAG, "Is playing: " + mp.isPlaying());
 			return null;
 		}
 	}
@@ -190,7 +191,7 @@ public class AlarmActivity extends Activity {
 
 		@Override
 		protected Object doInBackground(Object... params) {
-			Log.d("PostEventTask", "doInBackground()");
+			Log.d(TAG, "doInBackground()");
 			JSONObject jsonBody = new JSONObject();
 			JSONObject body = new JSONObject();
 			// create the json body post the request
@@ -221,13 +222,13 @@ public class AlarmActivity extends Activity {
 		}
 
 		protected void onPostExecute(Object result) {
-			Log.d("PostEventTask", "onPostExecute()");
+			Log.d(TAG, "onPostExecute()");
 			// check if an error has occured
 			if (isError) {
-				Log.d("PostEventTask", "onPostExecute() - error detected");
+				Log.d(TAG, "onPostExecute() - error detected");
 			}
 			if (response != null) {
-				Log.d("PostEventTask", "onPostExecute() - response: "
+				Log.d(TAG, "onPostExecute() - response: "
 						+ response.toString());
 			}
 		}

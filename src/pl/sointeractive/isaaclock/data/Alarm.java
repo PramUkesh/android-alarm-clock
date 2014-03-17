@@ -24,8 +24,9 @@ public class Alarm implements Serializable {
 	}
 
 	/**
-	 * Get a readable time interpretation. The returned String differs base don
-	 * what time display option is currently enabled by the user.
+	 * Get a readable interpretation of the alarm time. The returned String
+	 * differs based on what time display option is currently enabled by the
+	 * user.
 	 * 
 	 * @return
 	 */

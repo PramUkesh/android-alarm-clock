@@ -17,12 +17,14 @@ import android.util.Log;
  */
 public class AlarmReceiver extends BroadcastReceiver {
 
+	private static final String TAG = "AlarmReceiver";
+	
 	Context context;
 	int snoozeCounter;
 
 	@Override
 	public void onReceive(final Context context, Intent intent) {
-		Log.d("AlarmReceiver", "ALARM RECEIVED!!!");
+		Log.d(TAG, "Alarm received!");
 		this.context = context;
 		//set bundle with snooze counter
 		Bundle extras = intent.getExtras();
