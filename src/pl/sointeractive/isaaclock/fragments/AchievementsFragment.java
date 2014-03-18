@@ -16,6 +16,7 @@ import pl.sointeractive.isaaclock.data.Achievement;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.UserData;
 import pl.sointeractive.isaacloud.connection.HttpResponse;
+import pl.sointeractive.isaacloud.exceptions.IsaaCloudConnectionException;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
@@ -109,8 +110,7 @@ public class AchievementsFragment extends SherlockListFragment implements
 				Map<Integer, Integer> idList = new HashMap<Integer, Integer>();
 				Map<String, Object> param = new HashMap<String, Object>();
 				param.put("limit", 1000);
-				HttpResponse responseUser = App.getWrapper()
-						.getAdminUserAchievements(userData.getUserId(), param);
+				HttpResponse responseUser = App.getWrapper().getAdminUserAchievements(userData.getUserId(), param);
 				JSONArray arrayUser = responseUser.getJSONArray();
 				for (int i = 0; i < arrayUser.length(); i++) {
 					JSONObject json = (JSONObject) arrayUser.get(i);
@@ -131,9 +131,11 @@ public class AchievementsFragment extends SherlockListFragment implements
 						entries.add(new Achievement(json, false));
 					}
 				}
+			}  catch (JSONException e) {
+				e.printStackTrace();
+			} catch (IsaaCloudConnectionException e) {
+				e.printStackTrace();
 			} catch (IOException e1) {
-				e1.printStackTrace();
-			} catch (JSONException e1) {
 				e1.printStackTrace();
 			}
 			return entries;

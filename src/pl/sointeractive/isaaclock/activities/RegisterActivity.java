@@ -9,6 +9,7 @@ import pl.sointeractive.isaaclock.R;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.UserData;
 import pl.sointeractive.isaacloud.connection.HttpResponse;
+import pl.sointeractive.isaacloud.exceptions.IsaaCloudConnectionException;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -155,11 +156,13 @@ public class RegisterActivity extends Activity {
 				userData.setEmail(json.getString("email"));
 				App.saveUserData(userData);
 				success = true;
-			} catch (IOException e) {
-				e.printStackTrace();
 			} catch (JSONException e) {
 				e.printStackTrace();
-			}
+			} catch (IsaaCloudConnectionException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
 			return null;
 		}
 

@@ -15,6 +15,7 @@ import pl.sointeractive.isaaclock.data.Alarm;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.UserData;
 import pl.sointeractive.isaacloud.connection.HttpResponse;
+import pl.sointeractive.isaacloud.exceptions.IsaaCloudConnectionException;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -46,7 +47,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
  * 
  */
 public class AlarmsFragment extends SherlockListFragment {
-	
+
 	private static final String TAG = "AlarmsFragment";
 
 	UserActivity context;
@@ -219,10 +220,10 @@ public class AlarmsFragment extends SherlockListFragment {
 			// send request
 			try {
 				response = App.getWrapper().postQueuesEvent(jsonBody, null);
-			} catch (IOException e) {
+			} catch (IsaaCloudConnectionException e) {
 				isError = true;
 				e.printStackTrace();
-			} catch (JSONException e) {
+			} catch (IOException e) {
 				isError = true;
 				e.printStackTrace();
 			}
@@ -236,8 +237,7 @@ public class AlarmsFragment extends SherlockListFragment {
 				Log.d(TAG, "onPostExecute() - error detected");
 			}
 			if (response != null) {
-				Log.d(TAG, "onPostExecute() - response: "
-						+ response.toString());
+				Log.d(TAG, "onPostExecute() - response: " + response.toString());
 			}
 		}
 

@@ -123,8 +123,6 @@ public class GeneralFragment extends SherlockFragment implements
 		@Override
 		public UserData loadInBackground() {
 			System.out.println("DataListLoader.loadInBackground");
-			// App.saveUserData(userData);
-			// userData =
 			userData = App.loadUserData();
 			return userData;
 		}

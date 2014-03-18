@@ -16,6 +16,7 @@ import pl.sointeractive.isaaclock.fragments.GeneralFragment;
 import pl.sointeractive.isaaclock.fragments.LeaderboardFragment;
 import pl.sointeractive.isaaclock.fragments.NotificationsFragment;
 import pl.sointeractive.isaacloud.connection.HttpResponse;
+import pl.sointeractive.isaacloud.exceptions.IsaaCloudConnectionException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -117,7 +118,6 @@ public class UserActivity extends SherlockFragmentActivity {
 	}
 
 	public void logout() {
-		App.resetUserData();
 		this.finish();
 	}
 
@@ -337,10 +337,9 @@ public class UserActivity extends SherlockFragmentActivity {
 
 			try {
 				response = App.getWrapper().postQueuesEvent(jsonBody, null);
-			} catch (IOException e) {
-				isError = true;
+			}  catch (IsaaCloudConnectionException e) {
 				e.printStackTrace();
-			} catch (JSONException e) {
+			} catch (IOException e) {
 				isError = true;
 				e.printStackTrace();
 			}

@@ -13,6 +13,7 @@ import pl.sointeractive.isaaclock.config.Settings;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.UserData;
 import pl.sointeractive.isaacloud.connection.HttpResponse;
+import pl.sointeractive.isaacloud.exceptions.IsaaCloudConnectionException;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -42,7 +43,7 @@ public class AlarmActivity extends Activity {
 
 	private final static int RequestCode = 1;
 	private static final String TAG = "AlarmActivity";
-	
+
 	private MediaPlayer mp;
 	private Vibrator vibrator;
 	private int snoozeCounter;
@@ -102,8 +103,7 @@ public class AlarmActivity extends Activity {
 	private void alarmSnooze() {
 		new StopAlarm().execute();
 		snoozeCounter++;
-		Log.d(TAG, "alarmSnooze() - snoozeCounter = "
-				+ snoozeCounter);
+		Log.d(TAG, "alarmSnooze() - snoozeCounter = " + snoozeCounter);
 		// setup next snooze alarm time
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.MINUTE, Settings.snoozeTimeInMinutes);
@@ -207,14 +207,12 @@ public class AlarmActivity extends Activity {
 				isError = true;
 				e1.printStackTrace();
 			}
-
 			try {
 				// send request and wait for response
 				response = App.getWrapper().postQueuesEvent(jsonBody, null);
-			} catch (IOException e) {
-				isError = true;
+			} catch (IsaaCloudConnectionException e) {
 				e.printStackTrace();
-			} catch (JSONException e) {
+			} catch (IOException e) {
 				isError = true;
 				e.printStackTrace();
 			}
@@ -228,8 +226,7 @@ public class AlarmActivity extends Activity {
 				Log.d(TAG, "onPostExecute() - error detected");
 			}
 			if (response != null) {
-				Log.d(TAG, "onPostExecute() - response: "
-						+ response.toString());
+				Log.d(TAG, "onPostExecute() - response: " + response.toString());
 			}
 		}
 

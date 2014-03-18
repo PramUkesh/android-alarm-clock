@@ -20,6 +20,7 @@ import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.LeaderboardPosition;
 import pl.sointeractive.isaaclock.data.UserData;
 import pl.sointeractive.isaacloud.connection.HttpResponse;
+import pl.sointeractive.isaacloud.exceptions.IsaaCloudConnectionException;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -36,11 +37,11 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockListFragment;
 
 /**
- * Fragment class for displaying the Leaderboard. Used in the UserActivity and shown in its
- * corresponding Tab. It extends SherlockListFragment, which is a ABS library
- * version of the Android ListFragment class. For detailed information on how the
- * ListFragment handles its data viewing, please check the class documentation
- * provided by Google.
+ * Fragment class for displaying the Leaderboard. Used in the UserActivity and
+ * shown in its corresponding Tab. It extends SherlockListFragment, which is a
+ * ABS library version of the Android ListFragment class. For detailed
+ * information on how the ListFragment handles its data viewing, please check
+ * the class documentation provided by Google.
  * 
  * @author Mateusz Renes
  * 
@@ -124,9 +125,9 @@ public class LeaderboardFragment extends SherlockListFragment implements
 			try {
 				App.getWrapper().getAdminLeaderboardRecalculate(
 						Settings.leaderboardId, null);
-			} catch (IOException e) {
+			} catch (IsaaCloudConnectionException e) {
 				e.printStackTrace();
-			} catch (JSONException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			// get leaderboard
@@ -137,16 +138,17 @@ public class LeaderboardFragment extends SherlockListFragment implements
 				param.put("limit", "1000");
 				HttpResponse response = App.getWrapper().getCacheLeaderboard(
 						Settings.leaderboardId, param);
-
 				JSONArray array = response.getJSONArray();
 				for (int i = 0; i < array.length(); i++) {
 					entries.add(0,
 							new LeaderboardPosition((JSONObject) array.get(i),
 									userId));
 				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			} catch (IsaaCloudConnectionException e) {
+				e.printStackTrace();
 			} catch (IOException e1) {
-				e1.printStackTrace();
-			} catch (JSONException e1) {
 				e1.printStackTrace();
 			}
 			// sort leaderboard based on position

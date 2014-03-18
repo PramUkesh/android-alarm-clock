@@ -15,6 +15,7 @@ import pl.sointeractive.isaaclock.activities.UserActivity;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.Notification;
 import pl.sointeractive.isaacloud.connection.HttpResponse;
+import pl.sointeractive.isaacloud.exceptions.IsaaCloudConnectionException;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -30,11 +31,11 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockListFragment;
 
 /**
- * Fragment class for displaying Notifications. Used in the UserActivity and shown in its
- * corresponding Tab. It extends SherlockListFragment, which is a ABS library
- * version of the Android ListFragment class. For detailed information on how
- * the ListFragment handles its data viewing, please check the class
- * documentation provided by Google.
+ * Fragment class for displaying Notifications. Used in the UserActivity and
+ * shown in its corresponding Tab. It extends SherlockListFragment, which is a
+ * ABS library version of the Android ListFragment class. For detailed
+ * information on how the ListFragment handles its data viewing, please check
+ * the class documentation provided by Google.
  * 
  * @author Mateusz Renes
  * 
@@ -109,9 +110,11 @@ public class NotificationsFragment extends SherlockListFragment implements
 				for (int i = 0; i < array.length(); i++) {
 					entries.add(new Notification((JSONObject) array.get(i)));
 				}
-			} catch (IOException e1) {
-				e1.printStackTrace();
 			} catch (JSONException e1) {
+				e1.printStackTrace();
+			} catch (IsaaCloudConnectionException e) {
+				e.printStackTrace();
+			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 			return entries;

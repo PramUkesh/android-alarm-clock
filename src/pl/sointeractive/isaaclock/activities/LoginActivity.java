@@ -15,6 +15,7 @@ import pl.sointeractive.isaaclock.data.LoginData;
 import pl.sointeractive.isaaclock.data.UserData;
 import pl.sointeractive.isaacloud.FakeWrapper;
 import pl.sointeractive.isaacloud.connection.HttpResponse;
+import pl.sointeractive.isaacloud.exceptions.IsaaCloudConnectionException;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -39,7 +40,7 @@ import android.widget.Toast;
  * 
  */
 public class LoginActivity extends Activity {
-	
+
 	private static final String TAG = "LoginActivity";
 
 	private Button buttonLogin, buttonNewUser, buttonExit;
@@ -176,7 +177,7 @@ public class LoginActivity extends Activity {
 		protected Object doInBackground(Object... params) {
 			/*
 			 * THIS IS A TEMPORARY SOLUTION. A proper login flow through a
-			 * website will be enabled after testing
+			 * website will be enabled at later date.
 			 */
 			Log.d(TAG, "doInBackground()");
 			// connect here
@@ -206,11 +207,11 @@ public class LoginActivity extends Activity {
 						success = true;
 					}
 				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IsaaCloudConnectionException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
@@ -222,7 +223,8 @@ public class LoginActivity extends Activity {
 			Log.d(TAG, "onPostExecute()");
 			// dismiss progress dialog
 			dialog.dismiss();
-			// if the user was found, start new activity, if not, show error message
+			// if the user was found, start new activity, if not, show error
+			// message
 			if (success) {
 				Intent intent = new Intent(context, UserActivity.class);
 				startActivity(intent);
