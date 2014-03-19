@@ -28,6 +28,7 @@ proguard/
 *.iws
 .idea/
 
+
 # App Settings (for security reasons)
 /src/pl/sointeractive/isaaclock/config/Settings.java
 
