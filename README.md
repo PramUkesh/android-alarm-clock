@@ -58,6 +58,7 @@ Launching IsaaClock
 In order to run the application on an Android device or emulator, right-click the project name in your workspace and choose Run As/Android Application. 
 Next, choose your target device.
 
-
-
+You may also export the IsaaClock .apk file. In Eclipse click File/Export/Android/Export Android Application. Follow the export procedure as described in the wizard. 
+Please note that you may need to setup your own keystore and key before you can proceed with the export. After the export is successful, store the created .apk file 
+on your device and install it using the default Android installer. 
 
