@@ -147,7 +147,7 @@ public class LoginActivity extends Activity {
 	 */
 	public void initializeWrapper() {
 		Map<String, String> config = new HashMap<String, String>();
-		config.put("memberId", Settings.memberId);
+		config.put("gamificationId", Settings.gamificationId);
 		config.put("appSecret", Settings.appSecret);
 		App.setWrapper(new FakeWrapper(App.getInstance()
 				.getApplicationContext(), Settings.baseUrl, Settings.oauthUrl,

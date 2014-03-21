@@ -10,7 +10,7 @@ package pl.sointeractive.isaaclock.config;
 public class Settings {
 
 	// connection
-	public static final String memberId = "12";
+	public static final String gamificationId = "12";
 	public static final String appId = "29";
 	public static final String appSecret = "be3af94692dd29ecbde034e160c932d1";
 
