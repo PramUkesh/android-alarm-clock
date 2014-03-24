@@ -22,7 +22,7 @@ stand-alone version of the SDK. This guide covers the latter. If you choose to d
 <li> Go to Help / Eclipse Marketplace and search for "Android Developer Tools for Eclipse" and download the plugin.
 <li> Make sure you have the right perspective open. Go to Window/Open perspective/Other  and choose "Java".
 <li> Launch Android SDK Manager from the Eclipse toolbar and download "Tools", "Extras" and the latest version of the Android API.
-<li> Download ActionBarCherlock support library from  http://actionbarsherlock.com/download.html and import the project to your Eclipse workspace.
+<li> Download ActionBarSherlock support library from  http://actionbarsherlock.com/download.html and import the project to your Eclipse workspace.
 <li> Download IsaaCloud Android SDK from https://github.com/isaacloud/android-sdk and import the project to your Eclipse workspace.
 <li> Download the IsaaClock project and import the project to your Eclipse workspace.
 <li> Make sure the IsaaClock build paths are correctly set. Right-click the project in your workspace and choose Properties/Java Build Path. 

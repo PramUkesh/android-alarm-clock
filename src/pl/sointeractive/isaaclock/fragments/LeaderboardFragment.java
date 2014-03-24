@@ -117,11 +117,14 @@ public class LeaderboardFragment extends SherlockListFragment implements
 			userData = App.loadUserData();
 			int userId = userData.getUserId();
 			// recalculate loeaderboard
-			// THIS STEP SHOULD NOT BE NECCESSARY. The API should recalculate
-			// the leaderboard automatically, based on the "cron" parameter
-			// defined during leaderboard creation. But for the purpose of this
-			// example we will manually recalculate the leaderboard, in order to
-			// display changes in positions immediately.
+			/*
+			 * THIS STEP SHOULD NOT BE NECCESSARY. The API should recalculate
+			 * the leaderboard periodically, based on the "cron" parameter
+			 * defined during leaderboard creation in the Account Center. But
+			 * for the purpose of this example we will manually recalculate the
+			 * leaderboard, in order to display changes in positions
+			 * immediately.
+			 */
 			try {
 				App.getWrapper().getAdminLeaderboardRecalculate(
 						Settings.leaderboardId, null);
