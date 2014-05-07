@@ -45,10 +45,10 @@ import com.actionbarsherlock.view.MenuItem;
  * 
  */
 public class UserActivity extends SherlockFragmentActivity {
-	
+
 	private static final String TAG = "UserActivity";
 	private static final int RESULT_SETTINGS = 1;
-	
+
 	private TabHost mTabHost;
 	private static TabManager mTabManager;
 
@@ -320,27 +320,18 @@ public class UserActivity extends SherlockFragmentActivity {
 		@Override
 		protected Object doInBackground(Object... params) {
 			Log.d(TAG, "doInBackground()");
-			JSONObject jsonBody = new JSONObject();
-			JSONObject body = new JSONObject();
 			try {
+				JSONObject body = new JSONObject();
 				body.put("action", "create_account");
-				jsonBody.put("body", body);
-				jsonBody.put("priority", "PRIORITY_HIGH");
-				jsonBody.put("sourceId", 1);
-				jsonBody.put("subjectId", userData.getUserId());
-				jsonBody.put("subjectType", "USER");
-				jsonBody.put("type", "NORMAL");
-			} catch (JSONException e1) {
-				isError = true;
-				e1.printStackTrace();
-			}
-
-			try {
-				response = App.getWrapper().postQueuesEvent(jsonBody, null);
-			}  catch (IsaaCloudConnectionException e) {
+				response = App.getConnector().event(userData.getUserId(),
+						"USER", "PRIORITY_HIGH", 1, "NORMAL", body);
+			} catch (IsaaCloudConnectionException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				isError = true;
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return null;
@@ -352,8 +343,7 @@ public class UserActivity extends SherlockFragmentActivity {
 				Log.d(TAG, "onPostExecute() - error detected");
 			}
 			if (response != null) {
-				Log.d(TAG, "onPostExecute() - response: "
-						+ response.toString());
+				Log.d(TAG, "onPostExecute() - response: " + response.toString());
 			}
 		}
 

@@ -107,22 +107,22 @@ public class AchievementsFragment extends SherlockListFragment implements
 			userData = App.loadUserData();
 			List<Achievement> entries = new ArrayList<Achievement>();
 			try {
-				Map<Integer, Integer> idList = new HashMap<Integer, Integer>();
-				Map<String, Object> param = new HashMap<String, Object>();
-				param.put("limit", 1000);
-				HttpResponse responseUser = App.getWrapper().getAdminUserAchievements(userData.getUserId(), param);
+				List<Integer> idList = new ArrayList<Integer>();
+				HttpResponse responseUser = App
+						.getConnector()
+						.path("/cache/users/" + userData.getUserId()
+								+ "/achievements").withLimit(1000).get();
 				JSONArray arrayUser = responseUser.getJSONArray();
 				for (int i = 0; i < arrayUser.length(); i++) {
 					JSONObject json = (JSONObject) arrayUser.get(i);
-					idList.put(json.getInt("achievement"),
-							json.getInt("amount"));
+					idList.add(json.getInt("id"));
 				}
-				HttpResponse responseGeneral = App.getWrapper()
-						.getAdminAchievements(param);
+				HttpResponse responseGeneral = App.getConnector()
+						.path("/cache/achievements").withLimit(1000).get();
 				JSONArray arrayGeneral = responseGeneral.getJSONArray();
 				for (int i = 0; i < arrayGeneral.length(); i++) {
 					JSONObject json = (JSONObject) arrayGeneral.get(i);
-					if (idList.containsKey(json.getInt("id"))) {
+					if (idList.contains(json.getInt("id"))) {
 						entries.add(
 								0,
 								new Achievement(json, true, idList.get(json
@@ -131,7 +131,7 @@ public class AchievementsFragment extends SherlockListFragment implements
 						entries.add(new Achievement(json, false));
 					}
 				}
-			}  catch (JSONException e) {
+			} catch (JSONException e) {
 				e.printStackTrace();
 			} catch (IsaaCloudConnectionException e) {
 				e.printStackTrace();

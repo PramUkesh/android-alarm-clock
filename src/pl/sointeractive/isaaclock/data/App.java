@@ -1,7 +1,10 @@
 package pl.sointeractive.isaaclock.data;
 
-import pl.sointeractive.isaacloud.FakeWrapper;
+import pl.sointeractive.isaacloud.Isaacloud;
 import android.app.Application;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 /**
  * This class represents the running application. It is used mainly for static
@@ -15,7 +18,7 @@ public class App extends Application {
 
 	private static FileManager fileManager;
 	private static App obj;
-	private static FakeWrapper wrapper;
+	private static Isaacloud connector;
 
 	@Override
 	public void onCreate() {
@@ -49,12 +52,22 @@ public class App extends Application {
 		fileManager.resetUserData(obj);
 	}
 
-	public static FakeWrapper getWrapper() {
-		return wrapper;
+	public static Isaacloud getConnector() {
+		return connector;
 	}
 
-	public static void setWrapper(FakeWrapper wrapper) {
-		App.wrapper = wrapper;
+	public static void setConnector(Isaacloud connector) {
+		App.connector = connector;
+	}
+	
+	public static boolean isOnline() {
+	    ConnectivityManager cm =
+	        (ConnectivityManager) obj.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+	        return true;
+	    }
+	    return false;
 	}
 
 }

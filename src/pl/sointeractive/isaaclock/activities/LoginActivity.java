@@ -13,8 +13,9 @@ import pl.sointeractive.isaaclock.config.Settings;
 import pl.sointeractive.isaaclock.data.App;
 import pl.sointeractive.isaaclock.data.LoginData;
 import pl.sointeractive.isaaclock.data.UserData;
-import pl.sointeractive.isaacloud.FakeWrapper;
+import pl.sointeractive.isaacloud.Isaacloud;
 import pl.sointeractive.isaacloud.connection.HttpResponse;
+import pl.sointeractive.isaacloud.exceptions.InvalidConfigException;
 import pl.sointeractive.isaacloud.exceptions.IsaaCloudConnectionException;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -103,7 +104,6 @@ public class LoginActivity extends Activity {
 					userData = App.loadUserData();
 					new LoginTask().execute();
 				}
-				// testWebView();
 			}
 		});
 		buttonNewUser.setOnClickListener(new OnClickListener() {
@@ -149,9 +149,12 @@ public class LoginActivity extends Activity {
 		Map<String, String> config = new HashMap<String, String>();
 		config.put("gamificationId", Settings.gamificationId);
 		config.put("appSecret", Settings.appSecret);
-		App.setWrapper(new FakeWrapper(App.getInstance()
-				.getApplicationContext(), Settings.baseUrl, Settings.oauthUrl,
-				Settings.version, config));
+		try {
+			App.setConnector(new Isaacloud(config));
+		} catch (InvalidConfigException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -183,9 +186,8 @@ public class LoginActivity extends Activity {
 			// connect here
 			try {
 				String email = textEmail.getEditableText().toString();
-				Map<String, Object> param = new HashMap<String, Object>();
-				param.put("limit", 1000);
-				HttpResponse response = App.getWrapper().getAdminUsers(param);
+				HttpResponse response = App.getConnector().path("/admin/users")
+						.withLimit(1000).get();
 				Log.d(TAG, response.toString());
 				JSONArray array = response.getJSONArray();
 				for (int i = 0; i < array.length(); i++) {
@@ -214,7 +216,6 @@ public class LoginActivity extends Activity {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 			return null;
 		}
 

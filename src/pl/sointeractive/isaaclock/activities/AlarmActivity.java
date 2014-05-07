@@ -192,28 +192,19 @@ public class AlarmActivity extends Activity {
 		@Override
 		protected Object doInBackground(Object... params) {
 			Log.d(TAG, "doInBackground()");
-			JSONObject jsonBody = new JSONObject();
-			JSONObject body = new JSONObject();
 			// create the json body post the request
 			try {
-				body.put("wake_up", "woken_up");
-				jsonBody.put("body", body);
-				jsonBody.put("priority", "PRIORITY_HIGH");
-				jsonBody.put("sourceId", 1);
-				jsonBody.put("subjectId", userData.getUserId());
-				jsonBody.put("subjectType", "USER");
-				jsonBody.put("type", "NORMAL");
-			} catch (JSONException e1) {
-				isError = true;
-				e1.printStackTrace();
-			}
-			try {
 				// send request and wait for response
-				response = App.getWrapper().postQueuesEvent(jsonBody, null);
+				JSONObject body = new JSONObject();
+				body.put("wake_up", "woken_up");
+				response = App.getConnector().event(userData.getUserId(), "USER", "PRIORITY_HIGH", 1, "NORMAL", body);
 			} catch (IsaaCloudConnectionException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				isError = true;
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return null;

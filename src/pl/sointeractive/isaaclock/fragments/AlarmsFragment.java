@@ -202,29 +202,19 @@ public class AlarmsFragment extends SherlockListFragment {
 		@Override
 		protected Object doInBackground(Object... params) {
 			Log.d(TAG, "doInBackground()");
-			JSONObject jsonBody = new JSONObject();
-			JSONObject body = new JSONObject();
-			// create request body
-			try {
-				body.put("action", "set_alarm");
-				jsonBody.put("body", body);
-				jsonBody.put("priority", "PRIORITY_HIGH");
-				jsonBody.put("sourceId", 1);
-				jsonBody.put("subjectId", userData.getUserId());
-				jsonBody.put("subjectType", "USER");
-				jsonBody.put("type", "NORMAL");
-			} catch (JSONException e1) {
-				isError = true;
-				e1.printStackTrace();
-			}
 			// send request
 			try {
-				response = App.getWrapper().postQueuesEvent(jsonBody, null);
+				JSONObject body = new JSONObject();
+				body.put("action", "set_alarm");
+				response = App.getConnector().event(userData.getUserId(), "USER", "PRIORITY_HIGH", 1, "NORMAL", body);
 			} catch (IsaaCloudConnectionException e) {
 				isError = true;
 				e.printStackTrace();
 			} catch (IOException e) {
 				isError = true;
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return null;

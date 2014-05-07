@@ -35,7 +35,7 @@ import android.widget.Toast;
 public class RegisterActivity extends Activity {
 
 	private static final String TAG = "RegisterActivity";
-	
+
 	private Button buttonRegister;
 	private EditText textEmail, textPassword, textPasswordRepeat,
 			textFirstName, textLastName;
@@ -148,7 +148,8 @@ public class RegisterActivity extends Activity {
 			HttpResponse response = null;
 			// send request and retrieve response
 			try {
-				response = App.getWrapper().postAdminUser(jsonBody, null);
+				response = App.getConnector().path("/admin/users")
+						.post(jsonBody);
 				JSONObject json = response.getJSONObject();
 				userData.setUserId(json.getInt("id"));
 				userData.setName(json.getString("firstName") + " "
@@ -162,7 +163,7 @@ public class RegisterActivity extends Activity {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
-			} 
+			}
 			return null;
 		}
 

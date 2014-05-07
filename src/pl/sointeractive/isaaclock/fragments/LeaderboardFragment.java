@@ -116,6 +116,7 @@ public class LeaderboardFragment extends SherlockListFragment implements
 			System.out.println("DataListLoader.loadInBackground");
 			userData = App.loadUserData();
 			int userId = userData.getUserId();
+			List<LeaderboardPosition> entries = new ArrayList<LeaderboardPosition>();
 			// recalculate loeaderboard
 			/*
 			 * THIS STEP SHOULD NOT BE NECCESSARY. The API should recalculate
@@ -126,21 +127,22 @@ public class LeaderboardFragment extends SherlockListFragment implements
 			 * immediately.
 			 */
 			try {
-				App.getWrapper().getAdminLeaderboardRecalculate(
-						Settings.leaderboardId, null);
+				App.getConnector()
+						.path("/admin/leaderboards/" + Settings.leaderboardId
+								+ "/recalculate").get();
 			} catch (IsaaCloudConnectionException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			// get leaderboard
-			List<LeaderboardPosition> entries = new ArrayList<LeaderboardPosition>();
 			try {
-				Map<String, Object> param = new HashMap<String, Object>();
-				param.put("fields", "firstName,lastName,gainedAchievements");
-				param.put("limit", "1000");
-				HttpResponse response = App.getWrapper().getCacheLeaderboard(
-						Settings.leaderboardId, param);
+				HttpResponse response = App
+						.getConnector()
+						.path("/cache/leaderboards/" + Settings.leaderboardId)
+						.withLimit(1000)
+						.withFields("firstName", "lastName",
+								"gainedAchievements").get();
 				JSONArray array = response.getJSONArray();
 				for (int i = 0; i < array.length(); i++) {
 					entries.add(0,
@@ -149,10 +151,13 @@ public class LeaderboardFragment extends SherlockListFragment implements
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
+				return entries;
 			} catch (IsaaCloudConnectionException e) {
 				e.printStackTrace();
+				return entries;
 			} catch (IOException e1) {
 				e1.printStackTrace();
+				return entries;
 			}
 			// sort leaderboard based on position
 			Collections.sort(entries, new Comparator<LeaderboardPosition>() {

@@ -102,10 +102,8 @@ public class NotificationsFragment extends SherlockListFragment implements
 			System.out.println("DataListLoader.loadInBackground");
 			List<Notification> entries = new ArrayList<Notification>();
 			try {
-				Map<String, Object> param = new HashMap<String, Object>();
-				param.put("limit", 1000);
-				HttpResponse response = App.getWrapper()
-						.getQueuesNotifications(param);
+				HttpResponse response = App.getConnector()
+						.path("/queues/notifications").withLimit(1000).get();
 				JSONArray array = response.getJSONArray();
 				for (int i = 0; i < array.length(); i++) {
 					entries.add(new Notification((JSONObject) array.get(i)));

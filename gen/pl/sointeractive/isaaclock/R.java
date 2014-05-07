@@ -1202,40 +1202,40 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abs__shareactionprovider_share_with_application=0x7f06000b;
-        public static final int activity_alarm_button_off=0x7f060045;
-        public static final int activity_alarm_button_snooze=0x7f060046;
+        public static final int activity_alarm_button_off=0x7f060046;
+        public static final int activity_alarm_button_snooze=0x7f060047;
         /**  AlarmActivity 
          */
-        public static final int activity_alarm_prompt=0x7f060044;
-        public static final int activity_login_button_exit=0x7f060031;
-        public static final int activity_login_button_login=0x7f06002f;
-        public static final int activity_login_button_new_user=0x7f060030;
-        public static final int activity_login_checkbox_prompt=0x7f060034;
+        public static final int activity_alarm_prompt=0x7f060045;
+        public static final int activity_login_button_exit=0x7f060032;
+        public static final int activity_login_button_login=0x7f060030;
+        public static final int activity_login_button_new_user=0x7f060031;
+        public static final int activity_login_checkbox_prompt=0x7f060035;
         /**  LoginActivity 
          */
-        public static final int activity_login_text_hint_email=0x7f06002d;
-        public static final int activity_login_text_hint_password=0x7f06002e;
-        public static final int activity_login_text_login_prompt=0x7f060032;
-        public static final int activity_login_text_no_account_prompt=0x7f060033;
-        public static final int activity_register_button_register=0x7f06003a;
-        public static final int activity_register_empty_fields=0x7f06003d;
-        public static final int activity_register_passwords_dont_match=0x7f06003c;
+        public static final int activity_login_text_hint_email=0x7f06002e;
+        public static final int activity_login_text_hint_password=0x7f06002f;
+        public static final int activity_login_text_login_prompt=0x7f060033;
+        public static final int activity_login_text_no_account_prompt=0x7f060034;
+        public static final int activity_register_button_register=0x7f06003b;
+        public static final int activity_register_empty_fields=0x7f06003e;
+        public static final int activity_register_passwords_dont_match=0x7f06003d;
         /**  RegisterActivity 
          */
-        public static final int activity_register_text_hint_email=0x7f060035;
-        public static final int activity_register_text_hint_first_name=0x7f060038;
-        public static final int activity_register_text_hint_last_name=0x7f060039;
-        public static final int activity_register_text_hint_password=0x7f060036;
-        public static final int activity_register_text_hint_password_repeat=0x7f060037;
-        public static final int activity_register_text_register_prompt=0x7f06003b;
-        public static final int activity_user_menu_logout=0x7f060043;
-        public static final int activity_user_tab_name_achievements=0x7f060040;
-        public static final int activity_user_tab_name_alarms=0x7f06003f;
+        public static final int activity_register_text_hint_email=0x7f060036;
+        public static final int activity_register_text_hint_first_name=0x7f060039;
+        public static final int activity_register_text_hint_last_name=0x7f06003a;
+        public static final int activity_register_text_hint_password=0x7f060037;
+        public static final int activity_register_text_hint_password_repeat=0x7f060038;
+        public static final int activity_register_text_register_prompt=0x7f06003c;
+        public static final int activity_user_menu_logout=0x7f060044;
+        public static final int activity_user_tab_name_achievements=0x7f060041;
+        public static final int activity_user_tab_name_alarms=0x7f060040;
         /**  UserActivity 
          */
-        public static final int activity_user_tab_name_general=0x7f06003e;
-        public static final int activity_user_tab_name_leaderboard=0x7f060041;
-        public static final int activity_user_tab_name_notifications=0x7f060042;
+        public static final int activity_user_tab_name_general=0x7f06003f;
+        public static final int activity_user_tab_name_leaderboard=0x7f060042;
+        public static final int activity_user_tab_name_notifications=0x7f060043;
         public static final int alarm_not_set=0x7f060019;
         public static final int alert_dialog_ok=0x7f060003;
         public static final int alert_dialog_text=0x7f060002;
@@ -1261,57 +1261,58 @@ containing a value of this type.
         /**  Error messages 
          */
         public static final int error_no_connection=0x7f06001e;
+        public static final int error_not_online=0x7f060023;
         public static final int error_password=0x7f060020;
         public static final int error_register=0x7f060022;
-        public static final int fragment_achievements_default_desc=0x7f060056;
-        public static final int fragment_achievements_default_name=0x7f060055;
-        public static final int fragment_achievements_empty=0x7f060057;
+        public static final int fragment_achievements_default_desc=0x7f060057;
+        public static final int fragment_achievements_default_name=0x7f060056;
+        public static final int fragment_achievements_empty=0x7f060058;
         /**  AchievementsFragment 
          */
-        public static final int fragment_achievements_fragment_name=0x7f060054;
-        public static final int fragment_alarms_button_add=0x7f06004f;
-        public static final int fragment_alarms_dialog_button_cancel=0x7f060051;
-        public static final int fragment_alarms_dialog_option_change_time=0x7f060052;
-        public static final int fragment_alarms_dialog_option_deactivate=0x7f060053;
-        public static final int fragment_alarms_dialog_title=0x7f060050;
+        public static final int fragment_achievements_fragment_name=0x7f060055;
+        public static final int fragment_alarms_button_add=0x7f060050;
+        public static final int fragment_alarms_dialog_button_cancel=0x7f060052;
+        public static final int fragment_alarms_dialog_option_change_time=0x7f060053;
+        public static final int fragment_alarms_dialog_option_deactivate=0x7f060054;
+        public static final int fragment_alarms_dialog_title=0x7f060051;
         /**  AlarmsFragment 
          */
-        public static final int fragment_alarms_fragment_name=0x7f06004b;
-        public static final int fragment_alarms_image_desc=0x7f06004e;
-        public static final int fragment_alarms_item_default_day=0x7f06004c;
-        public static final int fragment_alarms_item_default_time=0x7f06004d;
-        public static final int fragment_general_button_show_alarms=0x7f06004a;
-        public static final int fragment_general_button_show_score=0x7f060049;
-        public static final int fragment_general_next_alarm_prompt=0x7f060048;
+        public static final int fragment_alarms_fragment_name=0x7f06004c;
+        public static final int fragment_alarms_image_desc=0x7f06004f;
+        public static final int fragment_alarms_item_default_day=0x7f06004d;
+        public static final int fragment_alarms_item_default_time=0x7f06004e;
+        public static final int fragment_general_button_show_alarms=0x7f06004b;
+        public static final int fragment_general_button_show_score=0x7f06004a;
+        public static final int fragment_general_next_alarm_prompt=0x7f060049;
         /**  GeneralFragment 
          */
-        public static final int fragment_general_user_score_prompt=0x7f060047;
-        public static final int fragment_leaderboard_empty=0x7f060059;
+        public static final int fragment_general_user_score_prompt=0x7f060048;
+        public static final int fragment_leaderboard_empty=0x7f06005a;
         /**  LeaderboardFragment 
          */
-        public static final int fragment_leaderboard_fragment_name=0x7f060058;
-        public static final int fragment_notifications_empty=0x7f06005b;
+        public static final int fragment_leaderboard_fragment_name=0x7f060059;
+        public static final int fragment_notifications_empty=0x7f06005c;
         /**  NotificationsFragment 
          */
-        public static final int fragment_notifications_fragment_name=0x7f06005a;
+        public static final int fragment_notifications_fragment_name=0x7f06005b;
         public static final int image_desc=0x7f06001a;
-        public static final int menu_logout=0x7f060026;
+        public static final int menu_logout=0x7f060027;
         /**  Menus 
          */
-        public static final int menu_settings=0x7f060025;
+        public static final int menu_settings=0x7f060026;
         /**  Preferences 
          */
-        public static final int pref_category_display=0x7f060027;
-        public static final int pref_category_sound=0x7f060028;
-        public static final int pref_option_24h_time=0x7f060029;
-        public static final int pref_option_set_alarm_sound=0x7f06002b;
-        public static final int pref_option_summary_24h_time=0x7f06002a;
-        public static final int pref_option_summary_set_alarm_sound=0x7f06002c;
+        public static final int pref_category_display=0x7f060028;
+        public static final int pref_category_sound=0x7f060029;
+        public static final int pref_option_24h_time=0x7f06002a;
+        public static final int pref_option_set_alarm_sound=0x7f06002c;
+        public static final int pref_option_summary_24h_time=0x7f06002b;
+        public static final int pref_option_summary_set_alarm_sound=0x7f06002d;
         public static final int score_no_data=0x7f06001b;
-        public static final int service_note_message=0x7f060024;
+        public static final int service_note_message=0x7f060025;
         /**  AlarmService 
          */
-        public static final int service_note_title=0x7f060023;
+        public static final int service_note_title=0x7f060024;
         public static final int time_not_set=0x7f060018;
     }
     public static final class style {
