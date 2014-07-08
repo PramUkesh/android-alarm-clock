@@ -31,13 +31,15 @@ Set IsaaClock/src and IsaaClock/gen as build paths.
 
 Account setup
 =============
-The IsaaClock application relies on gamification mechanisms created on individual IsaaCloud accounts. Two things are required for establishing 
-connection between the application and the account: a gamification ID (which is the individual ID number of your gamification) and an application secret 
-(which is a unique ID of the application created in your account). Both of these values need to be stored in the Settings.java class located in the 
-src/pl/sointeractive/isaaclock/config package.
+The IsaaClock application relies on gamification mechanisms created on individual IsaaCloud accounts. Two things are required for establishing connection between the application and the account:
+<ol>
+<li> Instance ID, which is the individual ID number of your gamification
+<li> Application secret, which is a unique ID of the application created in your account.
+</ol>
 
-By default, these values are set to a sample gamification and application. This sample account implements simple games and achievements 
-that reward the user for setting alarms and waking up. Feel free to experiment with IsaaClock using the default IDs before creating your own account 
+Both of these values can be found in your IsaaCloud Account Center, in the "Dashboard" tab, "Application" list, "Tokens" column. Both of these values need to be stored in the Settings.java class located in the src/pl/sointeractive/isaaclock/config package.
+
+By default, these values are set to a sample gamification profile. This sample account implements simple games and achievements that reward the user for setting alarms and waking up. Feel free to experiment with IsaaClock using the default IDs before creating your own account 
 and implementing your own games. 
  
 If you wish to create your own games, it is necessary to setup an IsaaCloud account. Visit https://isaacloud.com to log into your account or 
