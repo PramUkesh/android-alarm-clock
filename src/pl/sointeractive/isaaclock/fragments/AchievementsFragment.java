@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,25 +108,26 @@ public class AchievementsFragment extends SherlockListFragment implements
 			userData = App.loadUserData();
 			List<Achievement> entries = new ArrayList<Achievement>();
 			try {
-				List<Integer> idList = new ArrayList<Integer>();
+				HashMap<Integer, Integer> idMap = new HashMap<Integer, Integer>();
 				HttpResponse responseUser = App
 						.getConnector()
-						.path("/cache/users/" + userData.getUserId()
-								+ "/achievements").withLimit(1000).get();
+						.path("/admin/users/" + userData.getUserId()
+								+ "/gainedachievements").withLimit(1000).get();
 				JSONArray arrayUser = responseUser.getJSONArray();
 				for (int i = 0; i < arrayUser.length(); i++) {
 					JSONObject json = (JSONObject) arrayUser.get(i);
-					idList.add(json.getInt("id"));
+					idMap.put(json.getInt("achievement"), json.getInt("amount"));
 				}
 				HttpResponse responseGeneral = App.getConnector()
 						.path("/cache/achievements").withLimit(1000).get();
 				JSONArray arrayGeneral = responseGeneral.getJSONArray();
+				Log.d("TEST", arrayGeneral.toString(3));
 				for (int i = 0; i < arrayGeneral.length(); i++) {
 					JSONObject json = (JSONObject) arrayGeneral.get(i);
-					if (idList.contains(json.getInt("id"))) {
+					if (idMap.containsKey(json.getInt("id"))) {
 						entries.add(
 								0,
-								new Achievement(json, true, idList.get(json
+								new Achievement(json, true, idMap.get(json
 										.getInt("id"))));
 					} else {
 						entries.add(new Achievement(json, false));

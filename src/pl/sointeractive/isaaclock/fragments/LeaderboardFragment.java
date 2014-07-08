@@ -139,7 +139,7 @@ public class LeaderboardFragment extends SherlockListFragment implements
 			try {
 				HttpResponse response = App
 						.getConnector()
-						.path("/cache/leaderboards/" + Settings.leaderboardId)
+						.path("/cache/leaderboards/" + Settings.leaderboardId + "/users")
 						.withLimit(1000)
 						.withFields("firstName", "lastName",
 								"gainedAchievements").get();

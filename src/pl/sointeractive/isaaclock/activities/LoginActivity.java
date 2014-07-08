@@ -61,7 +61,7 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_login);
 		context = this;
 		// create a new wrapper instance for API connection
-		initializeWrapper();
+		initializeConnector();
 		// find relevant views
 		buttonExit = (Button) findViewById(R.id.button_exit);
 		buttonNewUser = (Button) findViewById(R.id.button_new_user);
@@ -145,9 +145,9 @@ public class LoginActivity extends Activity {
 	/**
 	 * Create new wrapper instance for communicating with IsaaClock API.
 	 */
-	public void initializeWrapper() {
+	public void initializeConnector() {
 		Map<String, String> config = new HashMap<String, String>();
-		config.put("gamificationId", Settings.gamificationId);
+		config.put("instanceId", Settings.instanceId);
 		config.put("appSecret", Settings.appSecret);
 		try {
 			App.setConnector(new Isaacloud(config));

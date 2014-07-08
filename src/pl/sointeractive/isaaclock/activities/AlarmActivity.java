@@ -197,7 +197,8 @@ public class AlarmActivity extends Activity {
 				// send request and wait for response
 				JSONObject body = new JSONObject();
 				body.put("wake_up", "woken_up");
-				response = App.getConnector().event(userData.getUserId(), "USER", "PRIORITY_HIGH", 1, "NORMAL", body);
+				response = App.getConnector().event(userData.getUserId(),
+						"USER", "PRIORITY_HIGH", 1, "NORMAL", body);
 			} catch (IsaaCloudConnectionException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
