@@ -27,7 +27,7 @@ import android.util.Log;
 public class AlarmService extends Service {
 
 	private static final String TAG = "AlarmService";
-	
+
 	final static int RequestCode = 1;
 	int snoozeCounter;
 
@@ -61,7 +61,7 @@ public class AlarmService extends Service {
 		noteBuilder.setContentTitle(getString(R.string.service_note_title));
 		noteBuilder.setContentText(getString(R.string.service_note_message)
 				+ "\n" + nextAlarmString);
-		Notification note = noteBuilder.build();
+		Notification note = noteBuilder.getNotification();
 		// start service
 		startForeground(1, note);
 		return START_NOT_STICKY;
